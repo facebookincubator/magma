@@ -32,6 +32,9 @@ type GatewayEpcConfigs struct {
 	// Min Length: 5
 	DNSSecondary string `json:"dns_secondary,omitempty"`
 
+	// True if 5G Standalone(SA) should be enable
+	EnableConvergedCore *bool `json:"enable_converged_core,omitempty"`
+
 	// ip block
 	// Required: true
 	// Max Length: 49
