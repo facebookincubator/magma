@@ -167,7 +167,7 @@ int ngap_amf_handle_initial_ue_message(
     TBCD_TO_PLMN_T(
         &ie->value.choice.UserLocationInformation.choice
              .userLocationInformationNR.tAI.pLMNIdentity,
-        &(tai.plmn));
+        &tai.plmn);
     NGAP_FIND_PROTOCOLIE_BY_ID(
         Ngap_InitialUEMessage_IEs_t, ie, container,
         Ngap_ProtocolIE_ID_id_UserLocationInformation, true);
