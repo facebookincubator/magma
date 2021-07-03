@@ -194,6 +194,8 @@ export const HEALTHY_STATUS = 'HEALTHY';
 
 export const UNHEALTHY_STATUS = 'UNHEALTHY';
 
+export const UNAVAILABLE_SERVICE = 'N/A';
+
 export default function isGatewayHealthy({status}: lte_gateway) {
   if (status != null) {
     const checkin = status.checkin_time;
