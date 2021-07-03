@@ -54,7 +54,6 @@ export default function GatewayDetailStatus({refresh}: {refresh: boolean}) {
   const health = refreshCtx.health || {};
   const gwInfo = fegGateways[gatewayId] || {};
   let checkInTime;
-
   if (
     gwInfo.status &&
     gwInfo.status.checkin_time !== undefined &&

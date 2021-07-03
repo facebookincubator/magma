@@ -14,6 +14,8 @@
  * @format
  */
 
+import type {federation_gateway} from '@fbcnms/magma-api';
+
 import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
 import AutorefreshCheckbox from '../../components/AutorefreshCheckbox';
 import CardTitleRow from '../../components/layout/CardTitleRow';
@@ -22,11 +24,13 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import EventsTable from '../../views/events/EventsTable';
 import FEGGatewayContext from '../../components/context/FEGGatewayContext';
 import FEGGatewayDetailStatus from './FEGGatewayDetailStatus';
+import FEGGatewayDetailSubscribers from './FEGGatewayDetailSubscribers';
 import FEGGatewaySummary from './FEGGatewaySummary';
 import GraphicEqIcon from '@material-ui/icons/GraphicEq';
 import Grid from '@material-ui/core/Grid';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
+import PeopleIcon from '@material-ui/icons/People';
 import React from 'react';
 import SettingsIcon from '@material-ui/icons/Settings';
 import TopBar from '../../components/TopBar';
@@ -41,6 +45,11 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(5),
   },
 }));
+
+export type FEGGatewayDetailType = {
+  gwInfo: federation_gateway,
+  refresh: boolean,
+};
 
 /**
  * Returns the gateway detail page of the federation network.
@@ -108,6 +117,7 @@ function FEGGatewayOverview() {
   const gwCtx = useContext(FEGGatewayContext);
   const gwInfo = gwCtx.state[gatewayId];
   const [refresh, setRefresh] = useState(true);
+  const [refreshSubscribers, setRefreshSubscribers] = useState(false);
 
   const filter = (refresh: boolean, setRefresh) => {
     return (
@@ -146,6 +156,17 @@ function FEGGatewayOverview() {
                 filter={() => filter(refresh, setRefresh)}
               />
               <FEGGatewayDetailStatus refresh={refresh} />
+            </Grid>
+            <Grid item>
+              <CardTitleRow
+                icon={PeopleIcon}
+                label="Managed Subscribers"
+                filter={() => filter(refreshSubscribers, setRefreshSubscribers)}
+              />
+              <FEGGatewayDetailSubscribers
+                gwInfo={gwInfo}
+                refresh={refreshSubscribers}
+              />
             </Grid>
           </Grid>
         </Grid>
