@@ -22,6 +22,8 @@ import CardTitleRow from '../../components/layout/CardTitleRow';
 import CellWifiIcon from '@material-ui/icons/CellWifi';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import EventsTable from '../../views/events/EventsTable';
+import FEGClusterStatus from '../equipment/FEGClusterStatus';
+import FEGGatewayConnectionStatus from './FEGGatewayConnectionStatus';
 import FEGGatewayContext from '../../components/context/FEGGatewayContext';
 import FEGGatewayDetailStatus from './FEGGatewayDetailStatus';
 import FEGGatewayDetailSubscribers from './FEGGatewayDetailSubscribers';
@@ -156,6 +158,13 @@ function FEGGatewayOverview() {
                 filter={() => filter(refresh, setRefresh)}
               />
               <FEGGatewayDetailStatus refresh={refresh} />
+            </Grid>
+            <Grid item>
+              <CardTitleRow icon={GraphicEqIcon} label="Connection Status" />
+              <FEGGatewayConnectionStatus />
+            </Grid>
+            <Grid item>
+              <FEGClusterStatus />
             </Grid>
             <Grid item>
               <CardTitleRow

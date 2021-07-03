@@ -22,6 +22,7 @@ import type {
   mutable_cellular_gateway_pool,
   network_dns_config,
   network_id,
+  service_status_health,
 } from '@fbcnms/magma-api';
 
 import MagmaV1API from '@fbcnms/magma-api/client/WebClient';
@@ -182,6 +183,9 @@ type GatewayStatusPayload = {
 
 export type FederationGatewayHealthStatus = {
   status: string,
+  service_status: {
+    [string]: service_status_health,
+  },
 };
 
 const GATEWAY_KEEPALIVE_TIMEOUT_MS = 1000 * 5 * 60;
@@ -193,6 +197,14 @@ export const UNHEALTHY_GATEWAY = 'Bad';
 export const HEALTHY_STATUS = 'HEALTHY';
 
 export const UNHEALTHY_STATUS = 'UNHEALTHY';
+
+export const AVAILABLE_STATUS = 'AVAILABLE';
+
+export const HEALTHY_SERVICE = 'Up';
+
+export const UNHEALTHY_SERVICE = 'Down';
+
+export const UNENABLED_SERVICE = 'Not Enabled';
 
 export const UNAVAILABLE_SERVICE = 'N/A';
 
@@ -229,7 +241,10 @@ export async function getFederationGatewayHealthStatus(
         gatewayId,
       },
     );
-    return {status: gwHealthStatus.status};
+    return {
+      status: gwHealthStatus.status,
+      service_status: gwHealthStatus.service_status || {},
+    };
   } catch (e) {
     enqueueSnackbar?.(
       'failed fetching health status information for federation gateway with id ' +
@@ -238,7 +253,7 @@ export async function getFederationGatewayHealthStatus(
         variant: 'error',
       },
     );
-    return {status: ''};
+    return {status: '', service_status: {}};
   }
 }
 
