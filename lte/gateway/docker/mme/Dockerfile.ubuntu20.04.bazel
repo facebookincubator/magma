@@ -1,0 +1,76 @@
+################################################################
+# Builder Image (can also be used as developer's image)
+################################################################
+FROM ubuntu:focal as mme_builder
+
+ARG GIT_PROXY
+ARG FEATURES=mme_oai
+ENV MAGMA_ROOT=/magma
+ENV BUILD_TYPE=Debug
+ENV C_BUILD=/build/c
+ENV TZ=Europe/Paris
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN mkdir -p $C_BUILD
+
+RUN echo "Install general purpouse packages" && \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        apt-transport-https \
+        apt-utils \
+        autoconf \
+        autoconf automake \
+        automake \
+        build-essential \
+        ca-certificates \
+        clang-11 \
+        clang-format-7 \
+        clang-format-11 \
+        clang-tidy-11 \
+        curl \
+        g++ \
+        g++-9 \
+        gcc-9 \
+        lcov \
+        git \
+        gnupg \
+        golang \
+        libclang-11-dev \
+        libgmp3-dev \
+        libpcap-dev \
+        libssl-dev \
+        libtins-dev \
+        libtool \
+        make \
+        ninja-build \
+        perl \
+        pkg-config \
+        python2.7 \
+        redis-server \
+        ruby \
+        rubygems \
+        ruby-dev \
+        software-properties-common \
+        tzdata \
+        unzip \
+        vim \
+        wget && \
+        gem install fpm 
+
+RUN ["/bin/bash", "-c", "if [[ -v GIT_PROXY ]]; then git config --global http.proxy $GIT_PROXY; fi"]
+
+##### Clean up MAGMA_ROOT so others don't accidentally use it.
+# E.g. in CI environments access to repo should occur through docker volume from the parent OS.
+# Further, some environments assume specific mount points for the source code (e.g. GitHub Actions).
+RUN rm -rf $MAGMA_ROOT
+
+# TODO: Move this up, but for now leverage cache and iterate at bottom
+RUN cd /usr/sbin/ && \
+    wget https://github.com/bazelbuild/bazelisk/releases/download/v1.6.1/bazelisk-linux-amd64 && \
+    chmod +x bazelisk-linux-amd64 && \
+    ln -s /usr/sbin/bazelisk-linux-amd64 /usr/sbin/bazel
+
+# Install buildifier to format bazel files
+RUN go get github.com/bazelbuild/buildtools/buildifier && \
+    export PATH="/root/go/bin:$PATH"

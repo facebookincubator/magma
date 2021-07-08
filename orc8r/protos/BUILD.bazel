@@ -1,0 +1,37 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@rules_proto_grpc//cpp:defs.bzl", "cpp_grpc_library")
+load("@rules_proto_grpc//cpp:defs.bzl", "cpp_proto_library")
+
+# Doing this now to save time, but is this OK in practice?
+package(default_visibility = ["//visibility:public"])
+
+cpp_proto_library(
+    name = "common_cpp_proto",
+    protos = [":common_proto"],
+)
+
+cpp_grpc_library(
+    name = "common_cpp_grpc",
+    protos = [":common_proto"],
+)
+
+proto_library(
+    name = "common_proto",
+    srcs = ["common.proto"],
+)
+
+cpp_proto_library(
+    name = "redis_cpp_proto",
+    protos = [":redis_proto"],
+)
+
+cpp_grpc_library(
+    name = "redis_cpp_grpc",
+    protos = [":redis_proto"],
+)
+
+proto_library(
+    name = "redis_proto",
+    srcs = ["redis.proto"],
+)

@@ -10,9 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "includes/PolicyLoader.h"
-#include <glog/logging.h>             // for COMPACT_GOOGLE_LOG_INFO, LogMes
-#include <yaml-cpp/yaml.h>            // IWYU pragma: keep
+#include "PolicyLoader.h"
 #include <chrono>                     // for seconds
 #include <cpp_redis/core/client.hpp>  // for client, client::connect_state
 #include <cpp_redis/misc/error.hpp>   // for redis_error
@@ -22,14 +20,44 @@
 #include <string>                     // for string, char_traits, operator<<
 #include <thread>                     // for sleep_for
 #include "ObjectMap.h"                // for SUCCESS
-#include "includes/RedisMap.hpp"      // for RedisMap
-#include "includes/Serializers.h"     // for get_proto_deserializer, get_pro
+#include "RedisMap.hpp"               // for RedisMap
+#include "Serializers.h"              // for get_proto_deserializer, get_pro
+
+#if BAZEL
+#include "orc8r/gateway/c/common/config/includes/ServiceConfigLoader.h"  // for ServiceConfigLoader
+#else
 #include "includes/ServiceConfigLoader.h"  // for ServiceConfigLoader
-#include "lte/protos/policydb.pb.h"        // for PolicyRule
-#include "magma_logging.h"                 // for MLOG, MERROR, MDEBUG, MINFO
+#endif
+
+#include "lte/protos/policydb.pb.h"  // for PolicyRule
+#include "magma_logging.h"           // for MLOG, MERROR, MDEBUG, MINFO
 
 namespace magma {
+using namespace cpp_redis;
 
+// This is needed because for BAZEL build, I've upgraded cpp-redis to latest
+// release
+#if BAZEL
+bool try_redis_connect(cpp_redis::client& client) {
+  ServiceConfigLoader loader;
+  auto config = loader.load_service_config("redis");
+  auto port   = config["port"].as<uint32_t>();
+  auto addr   = config["bind"].as<std::string>();
+  try {
+    client.connect(
+        addr, port,
+        [](const std::string& host, std::size_t port, connect_state status) {
+          if (status == connect_state::dropped) {
+            MLOG(MERROR) << "Client disconnected from " << host << ":" << port;
+          }
+        });
+    return client.is_connected();
+  } catch (const cpp_redis::redis_error& e) {
+    MLOG(MERROR) << "Could not connect to redis: " << e.what();
+    return false;
+  }
+}
+#else
 bool try_redis_connect(cpp_redis::client& client) {
   ServiceConfigLoader loader;
   auto config = loader.load_service_config("redis");
@@ -50,6 +78,7 @@ bool try_redis_connect(cpp_redis::client& client) {
     return false;
   }
 }
+#endif
 
 bool do_loop(
     cpp_redis::client& client, RedisMap<PolicyRule>& policy_map,

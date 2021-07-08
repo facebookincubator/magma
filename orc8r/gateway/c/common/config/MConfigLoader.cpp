@@ -16,8 +16,19 @@
 #include <google/protobuf/util/json_util.h>  // for JsonStringToMessage
 #include <cstdlib>                           // for getenv
 #include <fstream>                           // for operator<<, char_traits
-#include <json.hpp>                          // for basic_json<>::iterator
-#include "magma_logging.h"                   // for MLOG
+
+#if BAZEL
+#include "nlohmann/json.hpp"  // for basic_json<>::iterator
+#else
+#include <json.hpp>  // for basic_json<>::iterator
+#endif
+
+#if BAZEL
+#include "orc8r/gateway/c/common/logging/magma_logging.h"  // for MLOG
+#else
+#include "magma_logging.h"  // for MLOG
+#endif
+
 namespace google {
 namespace protobuf {
 class Message;
