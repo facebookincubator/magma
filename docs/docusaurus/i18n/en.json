@@ -106,6 +106,9 @@
       "howtos/thanos": {
         "title": "Thanos"
       },
+      "howtos/troubleshooting/agw_healthcheck": {
+        "title": "Perform Access Gateway health check"
+      },
       "howtos/troubleshooting/agw_unable_to_checkin": {
         "title": "Access Gateway Unable to Check-in to Orchestrator"
       },
