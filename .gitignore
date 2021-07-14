@@ -76,9 +76,6 @@ orc8r/cloud/helm/**/.secrets/
 # Certs for accessing the cloud
 .certs
 
-# CMake debug files
-lte/gateway/c/session_manager/cmake-build-debug/
-
 # Log files
 *.log
 
