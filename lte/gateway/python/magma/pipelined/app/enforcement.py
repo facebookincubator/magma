@@ -151,7 +151,9 @@ class EnforcementController(PolicyMixin, RestartMixin, MagmaController):
 
         return {self.tbl_num: [msg]}
 
-    def _get_rule_match_flow_msgs(self, imsi, msisdn: bytes, uplink_tunnel: int, ip_addr, apn_ambr, rule, version):
+    def _get_rule_match_flow_msgs(self, imsi, msisdn: bytes, uplink_tunnel: int,
+                                  ip_addr, apn_ambr, rule, version,
+                                  local_f_teid_ng=0):
         """
         Get flow msgs to get stats for a particular rule. Flows will match on
         IMSI, cookie (the rule num), in/out direction
@@ -165,15 +167,17 @@ class EnforcementController(PolicyMixin, RestartMixin, MagmaController):
         """
         rule_num = self._rule_mapper.get_or_create_rule_num(rule.id)
         priority = Utils.get_of_priority(rule.priority)
-
         flow_adds = []
         for flow in rule.flow_list:
             try:
+                if local_f_teid_ng:
+                    version = self._session_rule_version_mapper.\
+                                   get_version(imsi, ip_addr, rule.id)
                 flow_adds.extend(self._get_classify_rule_flow_msgs(
                     imsi, msisdn, uplink_tunnel, ip_addr, apn_ambr, flow, rule_num, priority,
                     rule.qos, rule.hard_timeout, rule.id, rule.app_name,
                     rule.app_service_type, self.next_main_table,
-                    version, self._qos_mgr, self._enforcement_stats_tbl, rule.he.urls))
+                    version, self._qos_mgr, self._enforcement_stats_tbl, rule.he.urls, local_f_teid_ng))
 
             except FlowMatchError as err:  # invalid match
                 self.logger.error(
@@ -182,7 +186,8 @@ class EnforcementController(PolicyMixin, RestartMixin, MagmaController):
                 raise err
         return flow_adds
 
-    def _install_flow_for_rule(self, imsi, msisdn: bytes, uplink_tunnel: int, ip_addr, apn_ambr, rule, version):
+    def _install_flow_for_rule(self, imsi, msisdn: bytes, uplink_tunnel: int, ip_addr, apn_ambr, rule, version,
+                               local_f_teid_ng: int):
         """
         Install a flow to get stats for a particular rule. Flows will match on
         IMSI, cookie (the rule num), in/out direction
@@ -204,7 +209,8 @@ class EnforcementController(PolicyMixin, RestartMixin, MagmaController):
 
         flow_adds = []
         try:
-            flow_adds = self._get_rule_match_flow_msgs(imsi, msisdn, uplink_tunnel, ip_addr, apn_ambr, rule, version)
+            flow_adds = self._get_rule_match_flow_msgs(imsi, msisdn, uplink_tunnel, ip_addr, apn_ambr, rule,
+                                                       version, local_f_teid_ng)
         except FlowMatchError:
             return RuleModResult.FAILURE
 
@@ -287,6 +293,7 @@ class EnforcementController(PolicyMixin, RestartMixin, MagmaController):
                                                                imsi)
         self._qos_mgr.remove_subscriber_qos(imsi)
         self._remove_he_flows(ip_addr)
+
 
     def deactivate_rules(self, imsi, ip_addr, rule_ids):
         """

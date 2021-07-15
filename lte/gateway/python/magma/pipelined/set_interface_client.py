@@ -44,7 +44,7 @@ def send_periodic_session_update(upf_session_config_state: UPFSessionConfigState
     Make RPC call to send periodic messages to smf about sessions state.
     """
     try:
-        setinterface_stub.SetUPFSessionsConfig(upf_session_config_state)
+        setinterface_stub.SetUPFSessionsConfig(upf_session_config_state, DEFAULT_GRPC_TIMEOUT)
         return True
     except grpc.RpcError as err:
         logging.error(

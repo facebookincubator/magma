@@ -12,8 +12,7 @@ limitations under the License.
 """
 import json
 import threading
-from collections import namedtuple
-
+from collections import namedtuple, OrderedDict
 from lte.protos.mobilityd_pb2 import IPAddress
 from magma.common.redis.client import get_default_client
 from magma.common.redis.containers import RedisFlatDict, RedisHashDict
@@ -85,7 +84,8 @@ class SessionRuleToVersionMapper:
     """
 
     def __init__(self):
-        self._version_by_imsi_and_rule = {}
+        self._version_by_imsi_and_rule = RuleVersionDict()
+        self._ng_version_by_teid = OrderedDict()
         self._lock = threading.Lock()  # write lock
 
     def _save_version_unsafe(self, imsi: str, ip_addr: str, rule_id: str,
@@ -159,6 +159,23 @@ class SessionRuleToVersionMapper:
                 return
             if cur_version == version:
                 del self._version_by_imsi_and_rule[key]
+    # Update the rule version for all the existing and new rules
+    def ng_update_rules_version(self, local_f_teid_ng: int, session_version: int):
+        """
+        Increment the version number for a given subscriber for 5G subscriber
+        """
+        with self._lock:
+            self._ng_version_by_teid [local_f_teid_ng] = session_version
+
+    def get_ng_version_by_session_teid(self, local_f_teid_ng: int) -> int:
+        """
+        Returns the version number given a subscriber.
+        """
+        with self._lock:
+            version = self._ng_version_by_teid.get(local_f_teid_ng)
+            if version is None:
+                version = 0
+        return version
 
     def _get_json_key(self, imsi: str, ip_addr: str, rule_id: str):
         return json.dumps(SubscriberRuleKey('imsi_rule', imsi, ip_addr,
@@ -217,6 +234,26 @@ class RuleVersionDict(RedisFlatDict):
         serde = RedisSerde(self._DICT_HASH, get_json_serializer(),
                            get_json_deserializer())
         super().__init__(client, serde, writethrough=True)
+
+    def __missing__(self, key):
+        """Instead of throwing a key error, return None when key not found"""
+        return None
+
+
+class UsageDeltaDict(RedisHashDict):
+    """
+    UsageDeltaDict uses the RedisHashDict collection to store a mapping of
+    subscriber+rule_id+ip to rule usage.
+    Setting and deleting items in the dictionary syncs with Redis automatically
+    """
+    _DICT_HASH = "pipelined:last_usage_delta"
+
+    def __init__(self):
+        client = get_default_client()
+        super().__init__(
+            client,
+            self._DICT_HASH,
+            get_json_serializer(), get_json_deserializer())
 
     def __missing__(self, key):
         """Instead of throwing a key error, return None when key not found"""

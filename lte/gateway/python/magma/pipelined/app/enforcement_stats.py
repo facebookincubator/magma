@@ -11,7 +11,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 import os
-from collections import defaultdict
+from collections import defaultdict, namedtuple
 from datetime import datetime, timedelta
 
 from lte.protos.pipelined_pb2 import RuleModResult
@@ -30,6 +30,7 @@ from magma.pipelined.openflow.magma_match import MagmaMatch
 from magma.pipelined.openflow.messages import MessageHub, MsgChannel
 from magma.pipelined.openflow.registers import (DIRECTION_REG, IMSI_REG,
                                                 RULE_VERSION_REG, SCRATCH_REGS,
+                                                NG_SESSION_ID_REG, REG_ZERO_VAL,
                                                 Direction)
 from magma.pipelined.policy_converters import (get_eth_type,
                                                get_ue_ip_match_args,
@@ -42,6 +43,10 @@ from ryu.lib import hub
 from ryu.ofproto.ofproto_v1_4 import OFPMPF_REPLY_MORE
 import ryu.app.ofctl.api as ofctl_api
 from ryu.app.ofctl.exception import (InvalidDatapath, OFError, UnexpectedMultiReply)
+
+from magma.pipelined.ng_manager.session_state_manager import SessionStateManager
+from lte.protos.session_manager_pb2 import (
+     UPFSessionState)
 
 ETH_FRAME_SIZE_BYTES = 14
 
@@ -65,6 +70,10 @@ class EnforcementStatsController(PolicyMixin, RestartMixin, MagmaController):
     INIT_SLEEP_TIME = 3
     MAX_DELAY_INTERVALS = 20
 
+    ng_config = namedtuple(
+            'ng_config',
+            ['ng_service_enabled', 'sessiond_setinterface'],
+    )
     _CONTEXTS = {
         'dpset': dpset.DPSet,
     }
@@ -97,6 +106,17 @@ class EnforcementStatsController(PolicyMixin, RestartMixin, MagmaController):
         if self._print_grpc_payload is None:
             self._print_grpc_payload = \
                 kwargs['config'].get('magma_print_grpc_payload', False)
+        self.ng_config=self._get_ng_config(kwargs['config'], kwargs['rpc_stubs'])
+
+    def _get_ng_config(self, config_dict, rpc_stub_dict):
+        ng_service_enabled = False
+        ng_flag = config_dict.get('5G_feature_set', None)
+        if ng_flag:
+            ng_service_enabled = ng_flag['enable']
+
+        sessiond_setinterface = rpc_stub_dict.get('sessiond_setinterface')
+
+        return self.ng_config(ng_service_enabled=ng_service_enabled, sessiond_setinterface=sessiond_setinterface)
 
     def delete_all_flows(self, datapath):
         flows.delete_all_flows_from_table(datapath, self.tbl_num)
@@ -146,7 +166,8 @@ class EnforcementStatsController(PolicyMixin, RestartMixin, MagmaController):
         if self._clean_restart:
             self.delete_all_flows(datapath)
 
-    def _install_flow_for_rule(self, imsi, msisdn: bytes, uplink_tunnel: int, ip_addr, apn_ambr, rule, version):
+    def _install_flow_for_rule(self, imsi, msisdn: bytes, uplink_tunnel: int, ip_addr, apn_ambr, rule, version,
+                               local_f_teid_ng: int):
         """
         Install a flow to get stats for a particular rule. Flows will match on
         IMSI, cookie (the rule num), in/out direction
@@ -163,8 +184,12 @@ class EnforcementStatsController(PolicyMixin, RestartMixin, MagmaController):
                 "Failed to install rule %s for subscriber %s: %s",
                 rule.id, imsi, err)
             return RuleModResult.FAILURE
+        if local_f_teid_ng:
+            version = self._session_rule_version_mapper.get_version(imsi, ip_addr, rule.id)
 
-        msgs = self._get_rule_match_flow_msgs(imsi, msisdn, uplink_tunnel, ip_addr, apn_ambr, rule, version)
+        msgs = self._get_rule_match_flow_msgs(imsi, msisdn, uplink_tunnel,
+                                              ip_addr, apn_ambr, rule, version,
+                                              local_f_teid_ng)
 
         try:
             chan = self._msg_hub.send(msgs, self._datapath)
@@ -191,7 +216,7 @@ class EnforcementStatsController(PolicyMixin, RestartMixin, MagmaController):
         self._msg_hub.handle_error(ev)
 
     # pylint: disable=protected-access,unused-argument
-    def _get_rule_match_flow_msgs(self, imsi, _, __, ip_addr, ambr, rule, version):
+    def _get_rule_match_flow_msgs(self, imsi, _, __, ip_addr, ambr, rule, version, local_f_teid_ng=0):
         """
         Returns flow add messages used for rule matching.
         """
@@ -200,9 +225,11 @@ class EnforcementStatsController(PolicyMixin, RestartMixin, MagmaController):
             'Installing flow for %s with rule num %s (version %s)', imsi,
             rule_num, version)
         inbound_rule_match = _generate_rule_match(imsi, ip_addr, rule_num,
-                                                  version, Direction.IN)
+                                                  version, Direction.IN,
+                                                  local_f_teid_ng)
         outbound_rule_match = _generate_rule_match(imsi, ip_addr, rule_num,
-                                                   version, Direction.OUT)
+                                                   version, Direction.OUT,
+                                                   local_f_teid_ng)
 
         flow_actions = [flow.action for flow in rule.flow_list]
         msgs = []
@@ -260,10 +287,12 @@ class EnforcementStatsController(PolicyMixin, RestartMixin, MagmaController):
             ])
         return msgs
 
-    def _get_default_flow_msgs_for_subscriber(self, imsi, ip_addr):
-        match_in = _generate_rule_match(imsi, ip_addr, 0, 0, Direction.IN)
+
+    def _get_default_flow_msgs_for_subscriber(self, imsi, ip_addr, local_f_teid_ng=0):
+        match_in = _generate_rule_match(imsi, ip_addr, 0, 0,
+                                        Direction.IN, local_f_teid_ng)
         match_out = _generate_rule_match(imsi, ip_addr, 0, 0,
-                                              Direction.OUT)
+                                         Direction.OUT, local_f_teid_ng)
 
         return [
             flows.get_add_drop_flow_msg(self._datapath, self.tbl_num, match_in,
@@ -274,7 +303,8 @@ class EnforcementStatsController(PolicyMixin, RestartMixin, MagmaController):
     def _install_redirect_flow(self, imsi, ip_addr, rule, version):
         pass
 
-    def _install_default_flow_for_subscriber(self, imsi, ip_addr):
+
+    def _install_default_flow_for_subscriber(self, imsi, ip_addr, local_f_teid_ng):
         """
         Add a low priority flow to drop a subscriber's traffic.
         
@@ -282,7 +312,7 @@ class EnforcementStatsController(PolicyMixin, RestartMixin, MagmaController):
             imsi (string): subscriber id
             ip_addr (string): subscriber ip_addr
         """
-        msgs = self._get_default_flow_msgs_for_subscriber(imsi, ip_addr)
+        msgs = self._get_default_flow_msgs_for_subscriber(imsi, ip_addr, local_f_teid_ng)
         if msgs:
             chan = self._msg_hub.send(msgs, self._datapath)
             self._wait_for_responses(chan, len(msgs))
@@ -390,14 +420,20 @@ class EnforcementStatsController(PolicyMixin, RestartMixin, MagmaController):
 
         # This is done primarily for CWF integration tests, TODO rm
         self.total_usage = current_usage
+        #Report only if their is no change in version
+        if self.ng_config.ng_service_enabled == True:
+            self._prepare_session_config_report(stats_msgs)
 
-    def deactivate_default_flow(self, imsi, ip_addr):
+
+    def deactivate_default_flow(self, imsi, ip_addr, local_f_teid_ng=0):
         if self._datapath is None:
             self.logger.error('Datapath not initialized')
             return
 
-        match_in = _generate_rule_match(imsi, ip_addr, 0, 0, Direction.IN)
-        match_out = _generate_rule_match(imsi, ip_addr, 0, 0, Direction.OUT)
+        match_in = _generate_rule_match(imsi, ip_addr, 0, 0,
+                                        Direction.IN, local_f_teid_ng)
+        match_out = _generate_rule_match(imsi, ip_addr, 0, 0,
+                                         Direction.OUT, local_f_teid_ng)
 
         flows.delete_flow(self._datapath, self.tbl_num, match_in)
         flows.delete_flow(self._datapath, self.tbl_num, match_out)
@@ -599,20 +635,49 @@ class EnforcementStatsController(PolicyMixin, RestartMixin, MagmaController):
             self.logger.error("Could not obtain rule records due to either InvalidDatapath, OFError or UnexpectedMultiReply")
             return RuleRecordTable()
 
-def _generate_rule_match(imsi, ip_addr, rule_num, version, direction):
+    def _prepare_session_config_report(self, stats_msgs):
+        session_config_dict={}
+
+        for flow_stats in stats_msgs:
+            for stat in flow_stats:
+                if stat.table_id != self.tbl_num:
+                    return
+
+                local_f_teid_ng = _get_ng_local_f_id(stat)
+                if not local_f_teid_ng or local_f_teid_ng == REG_ZERO_VAL:
+                    continue
+                #Already present
+                if local_f_teid_ng in session_config_dict:
+                    continue
+
+                sid = _get_sid(stat)
+                if not sid:
+                    continue
+
+                rule_version = _get_version(stat)
+                session_config_dict.update ({local_f_teid_ng:
+                                             UPFSessionState(subscriber_id=sid,
+                                                             session_version=rule_version,
+                                                             local_f_teid=local_f_teid_ng)})
+
+        #Send Session messages
+        SessionStateManager.report_session_config_state(session_config_dict,
+                                                        self.ng_config.sessiond_setinterface)
+
+def _generate_rule_match(imsi, ip_addr, rule_num, version, direction, local_f_teid_ng = 0):
     """
     Return a MagmaMatch that matches on the rule num and the version.
     """
     ip_match = get_ue_ip_match_args(ip_addr, direction)
     return MagmaMatch(imsi=encode_imsi(imsi), eth_type=get_eth_type(ip_addr),
                       direction=direction, rule_num=rule_num,
-                      rule_version=version, **ip_match)
+                      rule_version=version, local_f_teid_ng=local_f_teid_ng,
+                      **ip_match)
 
 def _get_sid(flow):
     if IMSI_REG not in flow.match:
         return None
     return decode_imsi(flow.match[IMSI_REG])
-
 
 def _get_ipv4(flow):
     if DIRECTION_REG not in flow.match:
@@ -625,7 +690,6 @@ def _get_ipv4(flow):
         return None
     return flow.match[ip_register]
 
-
 def _get_ipv6(flow):
     if DIRECTION_REG not in flow.match:
         return None
@@ -637,25 +701,26 @@ def _get_ipv6(flow):
         return None
     return flow.match[ip_register]
 
-
 def _get_version(flow):
     if RULE_VERSION_REG not in flow.match:
         return None
     return flow.match[RULE_VERSION_REG]
-
 
 def _get_downlink_byte_count(flow_stat):
     total_bytes = flow_stat.byte_count
     packet_count = flow_stat.packet_count
     return total_bytes - ETH_FRAME_SIZE_BYTES * packet_count
 
-
 def _get_policy_type(match):
     if SCRATCH_REGS[1] not in match:
         return None
     return match[SCRATCH_REGS[1]]
 
-
 def get_adjusted_delta(begin, end):
     # Add on a bit of time to compensate for grpc
     return (end - begin + timedelta(milliseconds=150)).total_seconds()
+
+def _get_ng_local_f_id(flow):
+    if NG_SESSION_ID_REG not in flow.match:
+        return None
+    return flow.match[NG_SESSION_ID_REG]
