@@ -15,11 +15,18 @@
  */
 'use strict';
 import {FetchEnodebs, FetchGateways} from '../../state/lte/EquipmentState';
+import {
+  FetchFegGateways,
+  getActiveFegGatewayId,
+  getFegGatewaysHealthStatus,
+} from '../../state/feg/EquipmentState';
 import {FetchSubscriberState} from '../../state/lte/SubscriberState';
 import {useContext, useEffect, useRef, useState} from 'react';
 import type {EnqueueSnackbarOptions} from 'notistack';
 
 export const REFRESH_INTERVAL = 30000;
+
+export const FEG_GATEWAY = 'feg_gateway';
 
 type Props = {
   context: typeof React.Context,
@@ -35,13 +42,24 @@ type Props = {
   lastRefreshTime?: string,
 };
 
-type refreshType = 'subscriber' | 'gateway' | 'enodeb';
+type refreshType = 'subscriber' | 'gateway' | 'feg_gateway' | 'enodeb';
 
 export function useRefreshingContext(props: Props) {
   const ctx = useContext(props.context);
-  const [state, setState] = useState(
-    props.type === 'subscriber' ? {sessionState: ctx.sessionState} : ctx.state,
-  );
+  const initState = () => {
+    if (props.type === 'feg_gateway') {
+      // return federation gateways, their health status and the active federation gateway id
+      return {
+        fegGateways: ctx?.state,
+        health: ctx?.health,
+        activeFegGatewayId: ctx?.activeFegGatewayId,
+      };
+    } else if (props.type === 'subscriber') {
+      return {sessionState: ctx.sessionState};
+    }
+    return ctx.state;
+  };
+  const [state, setState] = useState(initState());
 
   const [autoRefreshTime, setAutoRefreshTime] = useState(props.lastRefreshTime);
   async function fetchState(props: FetchProps) {
@@ -81,6 +99,11 @@ export function useRefreshingContext(props: Props) {
       } else if (props.type === 'enodeb') {
         // $FlowIgnore
         newState = {...ctx.state, [id]: state.enbInfo?.[id]};
+      } else if (props.type === 'feg_gateway') {
+        newState = {
+          // $FlowIgnore
+          fegGateways: {...ctx.fegGateways, [id]: state?.fegGateways?.[id]},
+        };
       } else {
         newState = {...ctx.state, [id]: state?.[id]};
       }
@@ -88,6 +111,8 @@ export function useRefreshingContext(props: Props) {
     if (props.type === 'subscriber') {
       // update subscriber session state
       return ctx.setState(null, null, null, newState);
+    } else if (props.type === 'feg_gateway') {
+      return ctx.setState(null, null, newState?.fegGateways || {});
     }
     return ctx.setState(null, null, newState);
   }
@@ -164,6 +189,23 @@ async function fetchRefreshState(props: FetchProps) {
     });
 
     return gateways;
+  } else if (type === 'feg_gateway') {
+    const fegGateways = await FetchFegGateways({
+      id: id,
+      networkId,
+      enqueueSnackbar,
+    });
+    const health = await getFegGatewaysHealthStatus(
+      networkId,
+      fegGateways || {},
+      enqueueSnackbar,
+    );
+    const activeFegGatewayId = await getActiveFegGatewayId(
+      networkId,
+      fegGateways || {},
+      enqueueSnackbar,
+    );
+    return {fegGateways, health, activeFegGatewayId};
   } else {
     const enodebs = await FetchEnodebs({
       id: id,
