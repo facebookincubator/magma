@@ -29,6 +29,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import FEGGatewayContext from '../context/FEGGatewayContext';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -36,7 +37,7 @@ import KeyValueFields from '@fbcnms/magmalte/app/components/KeyValueFields';
 import LoadingFillerBackdrop from '@fbcnms/ui/components/LoadingFillerBackdrop';
 import MagmaV1API from '@fbcnms/magma-api/client/WebClient';
 import MenuItem from '@material-ui/core/MenuItem';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Select from '@material-ui/core/Select';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
@@ -65,10 +66,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+export type TabOption = 'general' | 'gx' | 'gy' | 'swx' | 's6a' | 'csfb';
+
 type Props = {|
   onClose: () => void,
   onSave: federation_gateway => void,
   editingGateway?: federation_gateway,
+  tabOption?: TabOption,
 |};
 
 type SCTPValues = {
@@ -99,6 +103,15 @@ type DiameterValues = {
   product_name: string,
   protocol: $PropertyType<diameter_client_configs, 'protocol'>,
   disable_dest_host: boolean,
+};
+
+export const TAB_OPTIONS = {
+  GENERAL: 'general',
+  GX: 'gx',
+  GY: 'gy',
+  SWX: 'swx',
+  S6A: 's6a',
+  CSFB: 'csfb',
 };
 
 function getDiameterConfigs(cfg: DiameterValues): gx {
@@ -146,8 +159,11 @@ export default function FEGGatewayDialog(props: Props) {
   const {match} = useRouter();
   const enqueueSnackbar = useEnqueueSnackbar();
 
-  const {editingGateway} = props;
-  const [tab, setTab] = useState(editingGateway ? 'gx' : 'general');
+  const ctx = useContext(FEGGatewayContext);
+  const {editingGateway, tabOption} = props;
+  const [tab, setTab] = useState(
+    editingGateway ? tabOption ?? 'gx' : 'general',
+  );
   const [generalFields, setGeneralFields] = useState(EMPTY_GATEWAY_FIELDS);
   const [gx, setGx] = useState<DiameterValues>(
     getDiameterServerConfig(editingGateway?.federation?.gx?.server),
@@ -209,30 +225,28 @@ export default function FEGGatewayDialog(props: Props) {
   const onSave = async () => {
     try {
       if (editingGateway) {
-        await MagmaV1API.putFegByNetworkIdGatewaysByGatewayIdFederation({
-          networkId: networkID,
-          gatewayId: editingGateway.id,
-          config: getFederationConfigs(),
-        });
+        const editedGateway = {
+          ...editingGateway,
+          federation: getFederationConfigs(),
+        };
+        await ctx.setState(editingGateway.id, editedGateway);
       } else {
-        await MagmaV1API.postFegByNetworkIdGateways({
-          networkId: networkID,
-          gateway: {
-            device: {
-              hardware_id: generalFields.hardwareID,
-              key: {
-                key: generalFields.challengeKey,
-                key_type: 'SOFTWARE_ECDSA_SHA256', // default key type should be ECDSA (do not use ECHO for prod)
-              },
+        const newGateway = {
+          device: {
+            hardware_id: generalFields.hardwareID,
+            key: {
+              key: generalFields.challengeKey,
+              key_type: 'SOFTWARE_ECDSA_SHA256', // default key type should be ECDSA (do not use ECHO for prod)
             },
-            federation: getFederationConfigs(),
-            magmad: MAGMAD_DEFAULT_CONFIGS,
-            id: generalFields.gatewayID,
-            description: generalFields.description,
-            name: generalFields.name,
-            tier: generalFields.tier,
           },
-        });
+          federation: getFederationConfigs(),
+          magmad: MAGMAD_DEFAULT_CONFIGS,
+          id: generalFields.gatewayID,
+          description: generalFields.description,
+          name: generalFields.name,
+          tier: generalFields.tier,
+        };
+        await ctx.setState(newGateway.id, newGateway);
       }
 
       const gateway = await MagmaV1API.getFegByNetworkIdGatewaysByGatewayId({
@@ -371,6 +385,7 @@ function SCTPFields(props: {values: SCTPValues, onChange: SCTPValues => void}) {
         value={values.server_address}
         onChange={onChange('server_address')}
         placeholder="example.magma.com:5555"
+        inputProps={{'data-testid': 'serverAddress'}}
       />
       <TextField
         label="Local Address"
@@ -378,6 +393,7 @@ function SCTPFields(props: {values: SCTPValues, onChange: SCTPValues => void}) {
         value={values.local_address}
         onChange={onChange('local_address')}
         placeholder="example.magma.com:5555"
+        inputProps={{'data-testid': 'localAddress'}}
       />
     </>
   );
@@ -404,6 +420,7 @@ function DiameterFields(props: {
         value={values.address}
         onChange={onChange('address')}
         placeholder="example.magma.com:5555"
+        inputProps={{'data-testid': 'address'}}
       />
       <TextField
         label="Destination Host"
@@ -411,6 +428,7 @@ function DiameterFields(props: {
         value={values.dest_host}
         onChange={onChange('dest_host')}
         placeholder="magma-fedgw.magma.com"
+        inputProps={{'data-testid': 'destinationHost'}}
       />
       <TextField
         label="Dest Realm"
@@ -418,6 +436,7 @@ function DiameterFields(props: {
         value={values.dest_realm}
         onChange={onChange('dest_realm')}
         placeholder="magma.com"
+        inputProps={{'data-testid': 'destRealm'}}
       />
       <TextField
         label="Host"
@@ -425,6 +444,7 @@ function DiameterFields(props: {
         value={values.host}
         onChange={onChange('host')}
         placeholder="magma.com"
+        inputProps={{'data-testid': 'host'}}
       />
       <TextField
         label="Realm"
@@ -432,6 +452,7 @@ function DiameterFields(props: {
         value={values.realm}
         onChange={onChange('realm')}
         placeholder="realm"
+        inputProps={{'data-testid': 'realm'}}
       />
       <TextField
         label="Local Address"
@@ -439,6 +460,7 @@ function DiameterFields(props: {
         value={values.local_address}
         onChange={onChange('local_address')}
         placeholder=":56789"
+        inputProps={{'data-testid': 'localAddress'}}
       />
       <TextField
         label="Product Name"
@@ -446,11 +468,12 @@ function DiameterFields(props: {
         value={values.product_name}
         onChange={onChange('product_name')}
         placeholder="Magma"
+        inputProps={{'data-testid': 'productName'}}
       />
       <FormControl className={classes.input}>
         <InputLabel htmlFor="protocol">Protocol</InputLabel>
         <Select
-          inputProps={{id: 'protocol'}}
+          inputProps={{id: 'protocol', 'data-testid': 'protocol'}}
           value={values.protocol}
           onChange={({target}) => {
             switch (target.value) {
@@ -478,6 +501,7 @@ function DiameterFields(props: {
               props.onChange({...values, disable_dest_host: target.checked})
             }
             color="primary"
+            inputProps={{'data-testid': 'disableDestinationHost'}}
           />
         }
         label="Disable Destination Host"
