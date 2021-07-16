@@ -13,37 +13,30 @@
  * @flow strict-local
  * @format
  */
+
 import type {DataRows} from '../../components/DataGrid';
-import type {lte_gateway, promql_return_object} from '@fbcnms/magma-api';
 
 import DataGrid from '../../components/DataGrid';
-import GatewayContext from '../../components/context/GatewayContext';
+import FEGGatewayContext from '../../components/context/FEGGatewayContext';
 import MagmaV1API from '@fbcnms/magma-api/client/WebClient';
 import React from 'react';
-import isGatewayHealthy from '../../components/GatewayUtils';
 import nullthrows from '@fbcnms/util/nullthrows';
 import useMagmaAPI from '@fbcnms/ui/magma/useMagmaAPI';
 
+import {HEALTHY_STATUS, UNHEALTHY_STATUS} from '../../components/GatewayUtils';
+import {getLatency} from './EquipmentGatewayKPIs';
 import {useContext} from 'react';
 import {useRouter} from '@fbcnms/ui/hooks';
 
-export function getLatency(
-  resp: ?promql_return_object,
-  fn: (...args: Array<number>) => number,
-) {
-  const respArr = resp?.data?.result
-    ?.map(item => {
-      return parseFloat(item?.value?.[1]);
-    })
-    .filter(Boolean);
-  return respArr && respArr.length ? fn(...respArr).toFixed(2) : 0;
-}
-
-export default function EquipmentGatewayKPIs() {
+/**
+ * Displays the maximum latency, minimum latency, average latency,
+ * total federation gateway count, healthy federation gateway count,
+ * and the percentage of healthy federation gateways.
+ */
+export default function FEGEquipmentGatewayKPIs() {
   const {match} = useRouter();
-  const ctx = useContext(GatewayContext);
-  const lteGateways = ctx.state;
-
+  const ctx = useContext(FEGGatewayContext);
+  const fegGatewaysHealthStatus = ctx.health;
   const networkId: string = nullthrows(match.params.networkId);
   const timeRange = '3h';
   const {response: maxResponse} = useMagmaAPI(
@@ -72,13 +65,11 @@ export default function EquipmentGatewayKPIs() {
 
   const maxLatency = getLatency(maxResponse, Math.max);
   const minLatency = getLatency(minResponse, Math.min);
-
   const avgLatencyArr = avgResponse?.data?.result
     ?.map(item => {
       return parseFloat(item?.value?.[1]);
     })
     .filter(Boolean);
-
   let avgLatency = 0;
   if (avgLatencyArr && avgLatencyArr.length) {
     const sum = avgLatencyArr.reduce(function (a, b) {
@@ -87,15 +78,15 @@ export default function EquipmentGatewayKPIs() {
     avgLatency = sum / avgLatencyArr.length;
     avgLatency = avgLatency.toFixed(2);
   }
-
-  let upCount = 0;
-  let downCount = 0;
-  Object.keys(lteGateways)
-    .map((gwId: string) => lteGateways[gwId])
-    .filter((g: lte_gateway) => g.cellular && g.id)
-    .map((gateway: lte_gateway) => {
-      isGatewayHealthy(gateway) ? upCount++ : downCount++;
-    });
+  const fegGatewayCount = Object.keys(ctx.state).filter(Boolean).length;
+  const upCount = Object.keys(fegGatewaysHealthStatus).filter(
+    fegGatewayId =>
+      fegGatewaysHealthStatus[fegGatewayId].status === HEALTHY_STATUS,
+  ).length;
+  const downCount = Object.keys(fegGatewaysHealthStatus).filter(
+    fegGatewayId =>
+      fegGatewaysHealthStatus[fegGatewayId].status === UNHEALTHY_STATUS,
+  ).length;
   let pctHealthyGw = 0;
   if (upCount > 0 && upCount + downCount > 0) {
     pctHealthyGw = ((upCount * 100) / (upCount + downCount)).toFixed(2);
@@ -125,11 +116,22 @@ export default function EquipmentGatewayKPIs() {
           'Avg ping latency(for host 8.8.8.8) observed across all gateways',
       },
       {
+        category: 'Federation Gateway Count',
+        value: fegGatewayCount,
+        tooltip: 'Total number of federation gateways',
+      },
+      {
+        category: 'Healthy Federation Gateway Count',
+        value: upCount,
+        tooltip: 'Total number of healthy federation gateways',
+      },
+      {
         category: '% Healthy Gateways',
         value: pctHealthyGw,
-        tooltip: '% of gateways which have checked in within last 5 minutes',
+        tooltip: '% of gateways which are healthy',
       },
     ],
   ];
+
   return <DataGrid data={kpiData} />;
 }
