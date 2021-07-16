@@ -14,12 +14,18 @@
  * @format
  */
 
+import type {EnqueueSnackbarOptions} from 'notistack';
 import type {
   gateway_he_config,
+  gateway_id,
   lte_gateway,
   mutable_cellular_gateway_pool,
   network_dns_config,
+  network_id,
+  service_status_health,
 } from '@fbcnms/magma-api';
+
+import MagmaV1API from '@fbcnms/magma-api/client/WebClient';
 
 export const toString = (input: ?number | ?string): string => {
   return input !== null && input !== undefined ? input + '' : '';
@@ -175,11 +181,32 @@ type GatewayStatusPayload = {
   kernel_versions_installed?: Array<string>,
 };
 
+export type FederationGatewayHealthStatus = {
+  status: string,
+  service_status: {
+    [string]: service_status_health,
+  },
+};
+
 const GATEWAY_KEEPALIVE_TIMEOUT_MS = 1000 * 5 * 60;
 
 export const HEALTHY_GATEWAY = 'Good';
 
 export const UNHEALTHY_GATEWAY = 'Bad';
+
+export const HEALTHY_STATUS = 'HEALTHY';
+
+export const UNHEALTHY_STATUS = 'UNHEALTHY';
+
+export const AVAILABLE_STATUS = 'AVAILABLE';
+
+export const HEALTHY_SERVICE = 'Up';
+
+export const UNHEALTHY_SERVICE = 'Down';
+
+export const UNENABLED_SERVICE = 'Not Enabled';
+
+export const UNAVAILABLE_SERVICE = 'N/A';
 
 export default function isGatewayHealthy({status}: lte_gateway) {
   if (status != null) {
@@ -189,6 +216,45 @@ export default function isGatewayHealthy({status}: lte_gateway) {
     }
   }
   return false;
+}
+
+/**
+ * Returns health status of the federation gateway.
+ *
+ * @param {network_id} networkId: Id of the federation network.
+ * @param {gateway_id} gatewayId: Id of the gateway
+ * @param {(msg, cfg,) => ?(string | number),} enqueueSnackbar Snackbar to display error
+ * @returns the health status of the gateway or an empty string for an error.
+ */
+export async function getFederationGatewayHealthStatus(
+  networkId: network_id,
+  gatewayId: gateway_id,
+  enqueueSnackbar?: (
+    msg: string,
+    cfg: EnqueueSnackbarOptions,
+  ) => ?(string | number),
+) {
+  try {
+    const gwHealthStatus = await MagmaV1API.getFegByNetworkIdGatewaysByGatewayIdHealthStatus(
+      {
+        networkId,
+        gatewayId,
+      },
+    );
+    return {
+      status: gwHealthStatus.status,
+      service_status: gwHealthStatus.service_status || {},
+    };
+  } catch (e) {
+    enqueueSnackbar?.(
+      'failed fetching health status information for federation gateway with id ' +
+        gatewayId,
+      {
+        variant: 'error',
+      },
+    );
+    return {status: '', service_status: {}};
+  }
 }
 
 export const DynamicServices = Object.freeze({
