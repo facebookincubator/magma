@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetWifiReader is a Reader for the GetWifi structure.
@@ -47,7 +46,7 @@ func NewGetWifiOK() *GetWifiOK {
 	return &GetWifiOK{}
 }
 
-/*GetWifiOK handles this case with default header values.
+/* GetWifiOK describes a response with status code 200, with default header values.
 
 List of Wifi network IDs
 */
@@ -58,7 +57,6 @@ type GetWifiOK struct {
 func (o *GetWifiOK) Error() string {
 	return fmt.Sprintf("[GET /wifi][%d] getWifiOK  %+v", 200, o.Payload)
 }
-
 func (o *GetWifiOK) GetPayload() []string {
 	return o.Payload
 }
@@ -80,7 +78,7 @@ func NewGetWifiDefault(code int) *GetWifiDefault {
 	}
 }
 
-/*GetWifiDefault handles this case with default header values.
+/* GetWifiDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -98,7 +96,6 @@ func (o *GetWifiDefault) Code() int {
 func (o *GetWifiDefault) Error() string {
 	return fmt.Sprintf("[GET /wifi][%d] GetWifi default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetWifiDefault) GetPayload() *models.Error {
 	return o.Payload
 }

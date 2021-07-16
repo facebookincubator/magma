@@ -13,75 +13,90 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
-// NewPutWifiNetworkIDGatewaysGatewayIDMagmadParams creates a new PutWifiNetworkIDGatewaysGatewayIDMagmadParams object
-// with the default values initialized.
+// NewPutWifiNetworkIDGatewaysGatewayIDMagmadParams creates a new PutWifiNetworkIDGatewaysGatewayIDMagmadParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewPutWifiNetworkIDGatewaysGatewayIDMagmadParams() *PutWifiNetworkIDGatewaysGatewayIDMagmadParams {
-	var ()
 	return &PutWifiNetworkIDGatewaysGatewayIDMagmadParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewPutWifiNetworkIDGatewaysGatewayIDMagmadParamsWithTimeout creates a new PutWifiNetworkIDGatewaysGatewayIDMagmadParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewPutWifiNetworkIDGatewaysGatewayIDMagmadParamsWithTimeout(timeout time.Duration) *PutWifiNetworkIDGatewaysGatewayIDMagmadParams {
-	var ()
 	return &PutWifiNetworkIDGatewaysGatewayIDMagmadParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewPutWifiNetworkIDGatewaysGatewayIDMagmadParamsWithContext creates a new PutWifiNetworkIDGatewaysGatewayIDMagmadParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewPutWifiNetworkIDGatewaysGatewayIDMagmadParamsWithContext(ctx context.Context) *PutWifiNetworkIDGatewaysGatewayIDMagmadParams {
-	var ()
 	return &PutWifiNetworkIDGatewaysGatewayIDMagmadParams{
-
 		Context: ctx,
 	}
 }
 
 // NewPutWifiNetworkIDGatewaysGatewayIDMagmadParamsWithHTTPClient creates a new PutWifiNetworkIDGatewaysGatewayIDMagmadParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewPutWifiNetworkIDGatewaysGatewayIDMagmadParamsWithHTTPClient(client *http.Client) *PutWifiNetworkIDGatewaysGatewayIDMagmadParams {
-	var ()
 	return &PutWifiNetworkIDGatewaysGatewayIDMagmadParams{
 		HTTPClient: client,
 	}
 }
 
-/*PutWifiNetworkIDGatewaysGatewayIDMagmadParams contains all the parameters to send to the API endpoint
-for the put wifi network ID gateways gateway ID magmad operation typically these are written to a http.Request
+/* PutWifiNetworkIDGatewaysGatewayIDMagmadParams contains all the parameters to send to the API endpoint
+   for the put wifi network ID gateways gateway ID magmad operation.
+
+   Typically these are written to a http.Request.
 */
 type PutWifiNetworkIDGatewaysGatewayIDMagmadParams struct {
 
-	/*GatewayID
-	  Gateway ID
+	/* GatewayID.
 
+	   Gateway ID
 	*/
 	GatewayID string
-	/*Magmad
-	  New magmad configuration
 
+	/* Magmad.
+
+	   New magmad configuration
 	*/
 	Magmad *models.MagmadGatewayConfigs
-	/*NetworkID
-	  Network ID
 
+	/* NetworkID.
+
+	   Network ID
 	*/
 	NetworkID string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the put wifi network ID gateways gateway ID magmad params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PutWifiNetworkIDGatewaysGatewayIDMagmadParams) WithDefaults() *PutWifiNetworkIDGatewaysGatewayIDMagmadParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the put wifi network ID gateways gateway ID magmad params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PutWifiNetworkIDGatewaysGatewayIDMagmadParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the put wifi network ID gateways gateway ID magmad params
@@ -162,7 +177,6 @@ func (o *PutWifiNetworkIDGatewaysGatewayIDMagmadParams) WriteToRequest(r runtime
 	if err := r.SetPathParam("gateway_id", o.GatewayID); err != nil {
 		return err
 	}
-
 	if o.Magmad != nil {
 		if err := r.SetBodyParam(o.Magmad); err != nil {
 			return err

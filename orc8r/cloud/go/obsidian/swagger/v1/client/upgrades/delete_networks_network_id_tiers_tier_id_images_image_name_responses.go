@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // DeleteNetworksNetworkIDTiersTierIDImagesImageNameReader is a Reader for the DeleteNetworksNetworkIDTiersTierIDImagesImageName structure.
@@ -47,7 +46,7 @@ func NewDeleteNetworksNetworkIDTiersTierIDImagesImageNameNoContent() *DeleteNetw
 	return &DeleteNetworksNetworkIDTiersTierIDImagesImageNameNoContent{}
 }
 
-/*DeleteNetworksNetworkIDTiersTierIDImagesImageNameNoContent handles this case with default header values.
+/* DeleteNetworksNetworkIDTiersTierIDImagesImageNameNoContent describes a response with status code 204, with default header values.
 
 Success
 */
@@ -70,7 +69,7 @@ func NewDeleteNetworksNetworkIDTiersTierIDImagesImageNameDefault(code int) *Dele
 	}
 }
 
-/*DeleteNetworksNetworkIDTiersTierIDImagesImageNameDefault handles this case with default header values.
+/* DeleteNetworksNetworkIDTiersTierIDImagesImageNameDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *DeleteNetworksNetworkIDTiersTierIDImagesImageNameDefault) Code() int {
 func (o *DeleteNetworksNetworkIDTiersTierIDImagesImageNameDefault) Error() string {
 	return fmt.Sprintf("[DELETE /networks/{network_id}/tiers/{tier_id}/images/{image_name}][%d] DeleteNetworksNetworkIDTiersTierIDImagesImageName default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *DeleteNetworksNetworkIDTiersTierIDImagesImageNameDefault) GetPayload() *models.Error {
 	return o.Payload
 }

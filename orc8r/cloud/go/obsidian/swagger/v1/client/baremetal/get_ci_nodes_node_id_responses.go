@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetCiNodesNodeIDReader is a Reader for the GetCiNodesNodeID structure.
@@ -47,7 +46,7 @@ func NewGetCiNodesNodeIDOK() *GetCiNodesNodeIDOK {
 	return &GetCiNodesNodeIDOK{}
 }
 
-/*GetCiNodesNodeIDOK handles this case with default header values.
+/* GetCiNodesNodeIDOK describes a response with status code 200, with default header values.
 
 The requested node
 */
@@ -58,7 +57,6 @@ type GetCiNodesNodeIDOK struct {
 func (o *GetCiNodesNodeIDOK) Error() string {
 	return fmt.Sprintf("[GET /ci/nodes/{node_id}][%d] getCiNodesNodeIdOK  %+v", 200, o.Payload)
 }
-
 func (o *GetCiNodesNodeIDOK) GetPayload() *models.CiNode {
 	return o.Payload
 }
@@ -82,7 +80,7 @@ func NewGetCiNodesNodeIDDefault(code int) *GetCiNodesNodeIDDefault {
 	}
 }
 
-/*GetCiNodesNodeIDDefault handles this case with default header values.
+/* GetCiNodesNodeIDDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -100,7 +98,6 @@ func (o *GetCiNodesNodeIDDefault) Code() int {
 func (o *GetCiNodesNodeIDDefault) Error() string {
 	return fmt.Sprintf("[GET /ci/nodes/{node_id}][%d] GetCiNodesNodeID default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetCiNodesNodeIDDefault) GetPayload() *models.Error {
 	return o.Payload
 }

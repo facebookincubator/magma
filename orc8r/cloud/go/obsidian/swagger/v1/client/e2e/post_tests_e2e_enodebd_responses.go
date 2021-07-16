@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PostTestsE2eEnodebdReader is a Reader for the PostTestsE2eEnodebd structure.
@@ -47,7 +46,7 @@ func NewPostTestsE2eEnodebdCreated() *PostTestsE2eEnodebdCreated {
 	return &PostTestsE2eEnodebdCreated{}
 }
 
-/*PostTestsE2eEnodebdCreated handles this case with default header values.
+/* PostTestsE2eEnodebdCreated describes a response with status code 201, with default header values.
 
 Created
 */
@@ -70,7 +69,7 @@ func NewPostTestsE2eEnodebdDefault(code int) *PostTestsE2eEnodebdDefault {
 	}
 }
 
-/*PostTestsE2eEnodebdDefault handles this case with default header values.
+/* PostTestsE2eEnodebdDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *PostTestsE2eEnodebdDefault) Code() int {
 func (o *PostTestsE2eEnodebdDefault) Error() string {
 	return fmt.Sprintf("[POST /tests/e2e/enodebd][%d] PostTestsE2eEnodebd default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PostTestsE2eEnodebdDefault) GetPayload() *models.Error {
 	return o.Payload
 }

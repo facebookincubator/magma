@@ -13,75 +13,90 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
-// NewPutWifiNetworkIDMeshesMeshIDConfigParams creates a new PutWifiNetworkIDMeshesMeshIDConfigParams object
-// with the default values initialized.
+// NewPutWifiNetworkIDMeshesMeshIDConfigParams creates a new PutWifiNetworkIDMeshesMeshIDConfigParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewPutWifiNetworkIDMeshesMeshIDConfigParams() *PutWifiNetworkIDMeshesMeshIDConfigParams {
-	var ()
 	return &PutWifiNetworkIDMeshesMeshIDConfigParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewPutWifiNetworkIDMeshesMeshIDConfigParamsWithTimeout creates a new PutWifiNetworkIDMeshesMeshIDConfigParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewPutWifiNetworkIDMeshesMeshIDConfigParamsWithTimeout(timeout time.Duration) *PutWifiNetworkIDMeshesMeshIDConfigParams {
-	var ()
 	return &PutWifiNetworkIDMeshesMeshIDConfigParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewPutWifiNetworkIDMeshesMeshIDConfigParamsWithContext creates a new PutWifiNetworkIDMeshesMeshIDConfigParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewPutWifiNetworkIDMeshesMeshIDConfigParamsWithContext(ctx context.Context) *PutWifiNetworkIDMeshesMeshIDConfigParams {
-	var ()
 	return &PutWifiNetworkIDMeshesMeshIDConfigParams{
-
 		Context: ctx,
 	}
 }
 
 // NewPutWifiNetworkIDMeshesMeshIDConfigParamsWithHTTPClient creates a new PutWifiNetworkIDMeshesMeshIDConfigParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewPutWifiNetworkIDMeshesMeshIDConfigParamsWithHTTPClient(client *http.Client) *PutWifiNetworkIDMeshesMeshIDConfigParams {
-	var ()
 	return &PutWifiNetworkIDMeshesMeshIDConfigParams{
 		HTTPClient: client,
 	}
 }
 
-/*PutWifiNetworkIDMeshesMeshIDConfigParams contains all the parameters to send to the API endpoint
-for the put wifi network ID meshes mesh ID config operation typically these are written to a http.Request
+/* PutWifiNetworkIDMeshesMeshIDConfigParams contains all the parameters to send to the API endpoint
+   for the put wifi network ID meshes mesh ID config operation.
+
+   Typically these are written to a http.Request.
 */
 type PutWifiNetworkIDMeshesMeshIDConfigParams struct {
 
-	/*MeshID
-	  Mesh ID
+	/* MeshID.
 
+	   Mesh ID
 	*/
 	MeshID string
-	/*MeshWifiConfigs
-	  The updated wifi configs of the mesh
 
+	/* MeshWifiConfigs.
+
+	   The updated wifi configs of the mesh
 	*/
 	MeshWifiConfigs *models.MeshWifiConfigs
-	/*NetworkID
-	  Network ID
 
+	/* NetworkID.
+
+	   Network ID
 	*/
 	NetworkID string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the put wifi network ID meshes mesh ID config params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PutWifiNetworkIDMeshesMeshIDConfigParams) WithDefaults() *PutWifiNetworkIDMeshesMeshIDConfigParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the put wifi network ID meshes mesh ID config params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PutWifiNetworkIDMeshesMeshIDConfigParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the put wifi network ID meshes mesh ID config params
@@ -162,7 +177,6 @@ func (o *PutWifiNetworkIDMeshesMeshIDConfigParams) WriteToRequest(r runtime.Clie
 	if err := r.SetPathParam("mesh_id", o.MeshID); err != nil {
 		return err
 	}
-
 	if o.MeshWifiConfigs != nil {
 		if err := r.SetBodyParam(o.MeshWifiConfigs); err != nil {
 			return err

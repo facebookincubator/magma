@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetTenantsTenantIDReader is a Reader for the GetTenantsTenantID structure.
@@ -47,7 +46,7 @@ func NewGetTenantsTenantIDOK() *GetTenantsTenantIDOK {
 	return &GetTenantsTenantIDOK{}
 }
 
-/*GetTenantsTenantIDOK handles this case with default header values.
+/* GetTenantsTenantIDOK describes a response with status code 200, with default header values.
 
 Requested Tenant Information
 */
@@ -58,7 +57,6 @@ type GetTenantsTenantIDOK struct {
 func (o *GetTenantsTenantIDOK) Error() string {
 	return fmt.Sprintf("[GET /tenants/{tenant_id}][%d] getTenantsTenantIdOK  %+v", 200, o.Payload)
 }
-
 func (o *GetTenantsTenantIDOK) GetPayload() *models.Tenant {
 	return o.Payload
 }
@@ -82,7 +80,7 @@ func NewGetTenantsTenantIDDefault(code int) *GetTenantsTenantIDDefault {
 	}
 }
 
-/*GetTenantsTenantIDDefault handles this case with default header values.
+/* GetTenantsTenantIDDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -100,7 +98,6 @@ func (o *GetTenantsTenantIDDefault) Code() int {
 func (o *GetTenantsTenantIDDefault) Error() string {
 	return fmt.Sprintf("[GET /tenants/{tenant_id}][%d] GetTenantsTenantID default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetTenantsTenantIDDefault) GetPayload() *models.Error {
 	return o.Payload
 }

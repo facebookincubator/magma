@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetTenantsTenantIDMetricsSeriesReader is a Reader for the GetTenantsTenantIDMetricsSeries structure.
@@ -47,7 +46,7 @@ func NewGetTenantsTenantIDMetricsSeriesOK() *GetTenantsTenantIDMetricsSeriesOK {
 	return &GetTenantsTenantIDMetricsSeriesOK{}
 }
 
-/*GetTenantsTenantIDMetricsSeriesOK handles this case with default header values.
+/* GetTenantsTenantIDMetricsSeriesOK describes a response with status code 200, with default header values.
 
 List of metric names
 */
@@ -58,7 +57,6 @@ type GetTenantsTenantIDMetricsSeriesOK struct {
 func (o *GetTenantsTenantIDMetricsSeriesOK) Error() string {
 	return fmt.Sprintf("[GET /tenants/{tenant_id}/metrics/series][%d] getTenantsTenantIdMetricsSeriesOK  %+v", 200, o.Payload)
 }
-
 func (o *GetTenantsTenantIDMetricsSeriesOK) GetPayload() []models.PrometheusLabelset {
 	return o.Payload
 }
@@ -80,7 +78,7 @@ func NewGetTenantsTenantIDMetricsSeriesDefault(code int) *GetTenantsTenantIDMetr
 	}
 }
 
-/*GetTenantsTenantIDMetricsSeriesDefault handles this case with default header values.
+/* GetTenantsTenantIDMetricsSeriesDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -98,7 +96,6 @@ func (o *GetTenantsTenantIDMetricsSeriesDefault) Code() int {
 func (o *GetTenantsTenantIDMetricsSeriesDefault) Error() string {
 	return fmt.Sprintf("[GET /tenants/{tenant_id}/metrics/series][%d] GetTenantsTenantIDMetricsSeries default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetTenantsTenantIDMetricsSeriesDefault) GetPayload() *models.Error {
 	return o.Payload
 }

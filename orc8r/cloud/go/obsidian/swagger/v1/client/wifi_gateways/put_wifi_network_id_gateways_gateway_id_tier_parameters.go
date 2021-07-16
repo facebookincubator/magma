@@ -13,72 +13,87 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
-// NewPutWifiNetworkIDGatewaysGatewayIDTierParams creates a new PutWifiNetworkIDGatewaysGatewayIDTierParams object
-// with the default values initialized.
+// NewPutWifiNetworkIDGatewaysGatewayIDTierParams creates a new PutWifiNetworkIDGatewaysGatewayIDTierParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewPutWifiNetworkIDGatewaysGatewayIDTierParams() *PutWifiNetworkIDGatewaysGatewayIDTierParams {
-	var ()
 	return &PutWifiNetworkIDGatewaysGatewayIDTierParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewPutWifiNetworkIDGatewaysGatewayIDTierParamsWithTimeout creates a new PutWifiNetworkIDGatewaysGatewayIDTierParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewPutWifiNetworkIDGatewaysGatewayIDTierParamsWithTimeout(timeout time.Duration) *PutWifiNetworkIDGatewaysGatewayIDTierParams {
-	var ()
 	return &PutWifiNetworkIDGatewaysGatewayIDTierParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewPutWifiNetworkIDGatewaysGatewayIDTierParamsWithContext creates a new PutWifiNetworkIDGatewaysGatewayIDTierParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewPutWifiNetworkIDGatewaysGatewayIDTierParamsWithContext(ctx context.Context) *PutWifiNetworkIDGatewaysGatewayIDTierParams {
-	var ()
 	return &PutWifiNetworkIDGatewaysGatewayIDTierParams{
-
 		Context: ctx,
 	}
 }
 
 // NewPutWifiNetworkIDGatewaysGatewayIDTierParamsWithHTTPClient creates a new PutWifiNetworkIDGatewaysGatewayIDTierParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewPutWifiNetworkIDGatewaysGatewayIDTierParamsWithHTTPClient(client *http.Client) *PutWifiNetworkIDGatewaysGatewayIDTierParams {
-	var ()
 	return &PutWifiNetworkIDGatewaysGatewayIDTierParams{
 		HTTPClient: client,
 	}
 }
 
-/*PutWifiNetworkIDGatewaysGatewayIDTierParams contains all the parameters to send to the API endpoint
-for the put wifi network ID gateways gateway ID tier operation typically these are written to a http.Request
+/* PutWifiNetworkIDGatewaysGatewayIDTierParams contains all the parameters to send to the API endpoint
+   for the put wifi network ID gateways gateway ID tier operation.
+
+   Typically these are written to a http.Request.
 */
 type PutWifiNetworkIDGatewaysGatewayIDTierParams struct {
 
-	/*GatewayID
-	  Gateway ID
+	/* GatewayID.
 
+	   Gateway ID
 	*/
 	GatewayID string
-	/*NetworkID
-	  Network ID
 
+	/* NetworkID.
+
+	   Network ID
 	*/
 	NetworkID string
-	/*TierID*/
+
+	// TierID.
 	TierID models.TierID
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the put wifi network ID gateways gateway ID tier params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PutWifiNetworkIDGatewaysGatewayIDTierParams) WithDefaults() *PutWifiNetworkIDGatewaysGatewayIDTierParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the put wifi network ID gateways gateway ID tier params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PutWifiNetworkIDGatewaysGatewayIDTierParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the put wifi network ID gateways gateway ID tier params
@@ -164,7 +179,6 @@ func (o *PutWifiNetworkIDGatewaysGatewayIDTierParams) WriteToRequest(r runtime.C
 	if err := r.SetPathParam("network_id", o.NetworkID); err != nil {
 		return err
 	}
-
 	if err := r.SetBodyParam(o.TierID); err != nil {
 		return err
 	}

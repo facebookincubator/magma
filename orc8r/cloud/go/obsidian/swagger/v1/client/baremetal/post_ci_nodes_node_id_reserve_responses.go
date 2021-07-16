@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PostCiNodesNodeIDReserveReader is a Reader for the PostCiNodesNodeIDReserve structure.
@@ -47,7 +46,7 @@ func NewPostCiNodesNodeIDReserveOK() *PostCiNodesNodeIDReserveOK {
 	return &PostCiNodesNodeIDReserveOK{}
 }
 
-/*PostCiNodesNodeIDReserveOK handles this case with default header values.
+/* PostCiNodesNodeIDReserveOK describes a response with status code 200, with default header values.
 
 Lease for the requested node
 */
@@ -58,7 +57,6 @@ type PostCiNodesNodeIDReserveOK struct {
 func (o *PostCiNodesNodeIDReserveOK) Error() string {
 	return fmt.Sprintf("[POST /ci/nodes/{node_id}/reserve][%d] postCiNodesNodeIdReserveOK  %+v", 200, o.Payload)
 }
-
 func (o *PostCiNodesNodeIDReserveOK) GetPayload() *models.NodeLease {
 	return o.Payload
 }
@@ -82,7 +80,7 @@ func NewPostCiNodesNodeIDReserveDefault(code int) *PostCiNodesNodeIDReserveDefau
 	}
 }
 
-/*PostCiNodesNodeIDReserveDefault handles this case with default header values.
+/* PostCiNodesNodeIDReserveDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -100,7 +98,6 @@ func (o *PostCiNodesNodeIDReserveDefault) Code() int {
 func (o *PostCiNodesNodeIDReserveDefault) Error() string {
 	return fmt.Sprintf("[POST /ci/nodes/{node_id}/reserve][%d] PostCiNodesNodeIDReserve default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PostCiNodesNodeIDReserveDefault) GetPayload() *models.Error {
 	return o.Payload
 }

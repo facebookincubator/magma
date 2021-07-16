@@ -13,70 +13,84 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
-// NewPostWifiNetworkIDMeshesParams creates a new PostWifiNetworkIDMeshesParams object
-// with the default values initialized.
+// NewPostWifiNetworkIDMeshesParams creates a new PostWifiNetworkIDMeshesParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewPostWifiNetworkIDMeshesParams() *PostWifiNetworkIDMeshesParams {
-	var ()
 	return &PostWifiNetworkIDMeshesParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewPostWifiNetworkIDMeshesParamsWithTimeout creates a new PostWifiNetworkIDMeshesParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewPostWifiNetworkIDMeshesParamsWithTimeout(timeout time.Duration) *PostWifiNetworkIDMeshesParams {
-	var ()
 	return &PostWifiNetworkIDMeshesParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewPostWifiNetworkIDMeshesParamsWithContext creates a new PostWifiNetworkIDMeshesParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewPostWifiNetworkIDMeshesParamsWithContext(ctx context.Context) *PostWifiNetworkIDMeshesParams {
-	var ()
 	return &PostWifiNetworkIDMeshesParams{
-
 		Context: ctx,
 	}
 }
 
 // NewPostWifiNetworkIDMeshesParamsWithHTTPClient creates a new PostWifiNetworkIDMeshesParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewPostWifiNetworkIDMeshesParamsWithHTTPClient(client *http.Client) *PostWifiNetworkIDMeshesParams {
-	var ()
 	return &PostWifiNetworkIDMeshesParams{
 		HTTPClient: client,
 	}
 }
 
-/*PostWifiNetworkIDMeshesParams contains all the parameters to send to the API endpoint
-for the post wifi network ID meshes operation typically these are written to a http.Request
+/* PostWifiNetworkIDMeshesParams contains all the parameters to send to the API endpoint
+   for the post wifi network ID meshes operation.
+
+   Typically these are written to a http.Request.
 */
 type PostWifiNetworkIDMeshesParams struct {
 
-	/*NetworkID
-	  Network ID
+	/* NetworkID.
 
+	   Network ID
 	*/
 	NetworkID string
-	/*WifiMesh
-	  Mesh to add to the network
 
+	/* WifiMesh.
+
+	   Mesh to add to the network
 	*/
 	WifiMesh *models.WifiMesh
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the post wifi network ID meshes params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PostWifiNetworkIDMeshesParams) WithDefaults() *PostWifiNetworkIDMeshesParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the post wifi network ID meshes params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PostWifiNetworkIDMeshesParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the post wifi network ID meshes params
@@ -146,7 +160,6 @@ func (o *PostWifiNetworkIDMeshesParams) WriteToRequest(r runtime.ClientRequest, 
 	if err := r.SetPathParam("network_id", o.NetworkID); err != nil {
 		return err
 	}
-
 	if o.WifiMesh != nil {
 		if err := r.SetBodyParam(o.WifiMesh); err != nil {
 			return err

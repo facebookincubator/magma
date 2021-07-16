@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetWifiNetworkIDGatewaysGatewayIDWifiReader is a Reader for the GetWifiNetworkIDGatewaysGatewayIDWifi structure.
@@ -47,7 +46,7 @@ func NewGetWifiNetworkIDGatewaysGatewayIDWifiNoContent() *GetWifiNetworkIDGatewa
 	return &GetWifiNetworkIDGatewaysGatewayIDWifiNoContent{}
 }
 
-/*GetWifiNetworkIDGatewaysGatewayIDWifiNoContent handles this case with default header values.
+/* GetWifiNetworkIDGatewaysGatewayIDWifiNoContent describes a response with status code 204, with default header values.
 
 Wifi configuration
 */
@@ -58,7 +57,6 @@ type GetWifiNetworkIDGatewaysGatewayIDWifiNoContent struct {
 func (o *GetWifiNetworkIDGatewaysGatewayIDWifiNoContent) Error() string {
 	return fmt.Sprintf("[GET /wifi/{network_id}/gateways/{gateway_id}/wifi][%d] getWifiNetworkIdGatewaysGatewayIdWifiNoContent  %+v", 204, o.Payload)
 }
-
 func (o *GetWifiNetworkIDGatewaysGatewayIDWifiNoContent) GetPayload() *models.GatewayWifiConfigs {
 	return o.Payload
 }
@@ -82,7 +80,7 @@ func NewGetWifiNetworkIDGatewaysGatewayIDWifiDefault(code int) *GetWifiNetworkID
 	}
 }
 
-/*GetWifiNetworkIDGatewaysGatewayIDWifiDefault handles this case with default header values.
+/* GetWifiNetworkIDGatewaysGatewayIDWifiDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -100,7 +98,6 @@ func (o *GetWifiNetworkIDGatewaysGatewayIDWifiDefault) Code() int {
 func (o *GetWifiNetworkIDGatewaysGatewayIDWifiDefault) Error() string {
 	return fmt.Sprintf("[GET /wifi/{network_id}/gateways/{gateway_id}/wifi][%d] GetWifiNetworkIDGatewaysGatewayIDWifi default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetWifiNetworkIDGatewaysGatewayIDWifiDefault) GetPayload() *models.Error {
 	return o.Payload
 }

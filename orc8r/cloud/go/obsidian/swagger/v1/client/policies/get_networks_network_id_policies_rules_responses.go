@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetNetworksNetworkIDPoliciesRulesReader is a Reader for the GetNetworksNetworkIDPoliciesRules structure.
@@ -47,7 +46,7 @@ func NewGetNetworksNetworkIDPoliciesRulesOK() *GetNetworksNetworkIDPoliciesRules
 	return &GetNetworksNetworkIDPoliciesRulesOK{}
 }
 
-/*GetNetworksNetworkIDPoliciesRulesOK handles this case with default header values.
+/* GetNetworksNetworkIDPoliciesRulesOK describes a response with status code 200, with default header values.
 
 List all policy rule IDs
 */
@@ -58,7 +57,6 @@ type GetNetworksNetworkIDPoliciesRulesOK struct {
 func (o *GetNetworksNetworkIDPoliciesRulesOK) Error() string {
 	return fmt.Sprintf("[GET /networks/{network_id}/policies/rules][%d] getNetworksNetworkIdPoliciesRulesOK  %+v", 200, o.Payload)
 }
-
 func (o *GetNetworksNetworkIDPoliciesRulesOK) GetPayload() []models.RuleID {
 	return o.Payload
 }
@@ -80,7 +78,7 @@ func NewGetNetworksNetworkIDPoliciesRulesDefault(code int) *GetNetworksNetworkID
 	}
 }
 
-/*GetNetworksNetworkIDPoliciesRulesDefault handles this case with default header values.
+/* GetNetworksNetworkIDPoliciesRulesDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -98,7 +96,6 @@ func (o *GetNetworksNetworkIDPoliciesRulesDefault) Code() int {
 func (o *GetNetworksNetworkIDPoliciesRulesDefault) Error() string {
 	return fmt.Sprintf("[GET /networks/{network_id}/policies/rules][%d] GetNetworksNetworkIDPoliciesRules default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetNetworksNetworkIDPoliciesRulesDefault) GetPayload() *models.Error {
 	return o.Payload
 }

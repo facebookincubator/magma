@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PutTestsE2eEnodebdTestPkReader is a Reader for the PutTestsE2eEnodebdTestPk structure.
@@ -47,7 +46,7 @@ func NewPutTestsE2eEnodebdTestPkNoContent() *PutTestsE2eEnodebdTestPkNoContent {
 	return &PutTestsE2eEnodebdTestPkNoContent{}
 }
 
-/*PutTestsE2eEnodebdTestPkNoContent handles this case with default header values.
+/* PutTestsE2eEnodebdTestPkNoContent describes a response with status code 204, with default header values.
 
 Updated
 */
@@ -70,7 +69,7 @@ func NewPutTestsE2eEnodebdTestPkDefault(code int) *PutTestsE2eEnodebdTestPkDefau
 	}
 }
 
-/*PutTestsE2eEnodebdTestPkDefault handles this case with default header values.
+/* PutTestsE2eEnodebdTestPkDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *PutTestsE2eEnodebdTestPkDefault) Code() int {
 func (o *PutTestsE2eEnodebdTestPkDefault) Error() string {
 	return fmt.Sprintf("[PUT /tests/e2e/enodebd/{test_pk}][%d] PutTestsE2eEnodebdTestPk default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PutTestsE2eEnodebdTestPkDefault) GetPayload() *models.Error {
 	return o.Payload
 }

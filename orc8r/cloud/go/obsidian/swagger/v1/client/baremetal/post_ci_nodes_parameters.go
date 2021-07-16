@@ -13,65 +13,78 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
-// NewPostCiNodesParams creates a new PostCiNodesParams object
-// with the default values initialized.
+// NewPostCiNodesParams creates a new PostCiNodesParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewPostCiNodesParams() *PostCiNodesParams {
-	var ()
 	return &PostCiNodesParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewPostCiNodesParamsWithTimeout creates a new PostCiNodesParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewPostCiNodesParamsWithTimeout(timeout time.Duration) *PostCiNodesParams {
-	var ()
 	return &PostCiNodesParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewPostCiNodesParamsWithContext creates a new PostCiNodesParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewPostCiNodesParamsWithContext(ctx context.Context) *PostCiNodesParams {
-	var ()
 	return &PostCiNodesParams{
-
 		Context: ctx,
 	}
 }
 
 // NewPostCiNodesParamsWithHTTPClient creates a new PostCiNodesParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewPostCiNodesParamsWithHTTPClient(client *http.Client) *PostCiNodesParams {
-	var ()
 	return &PostCiNodesParams{
 		HTTPClient: client,
 	}
 }
 
-/*PostCiNodesParams contains all the parameters to send to the API endpoint
-for the post ci nodes operation typically these are written to a http.Request
+/* PostCiNodesParams contains all the parameters to send to the API endpoint
+   for the post ci nodes operation.
+
+   Typically these are written to a http.Request.
 */
 type PostCiNodesParams struct {
 
-	/*CiNode
-	  CI node to create
+	/* CiNode.
 
+	   CI node to create
 	*/
 	CiNode *models.MutableCiNode
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the post ci nodes params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PostCiNodesParams) WithDefaults() *PostCiNodesParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the post ci nodes params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PostCiNodesParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the post ci nodes params
@@ -125,7 +138,6 @@ func (o *PostCiNodesParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.R
 		return err
 	}
 	var res []error
-
 	if o.CiNode != nil {
 		if err := r.SetBodyParam(o.CiNode); err != nil {
 			return err

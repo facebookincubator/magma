@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // DeleteNetworksNetworkIDRatingGroupsRatingGroupIDReader is a Reader for the DeleteNetworksNetworkIDRatingGroupsRatingGroupID structure.
@@ -47,7 +46,7 @@ func NewDeleteNetworksNetworkIDRatingGroupsRatingGroupIDNoContent() *DeleteNetwo
 	return &DeleteNetworksNetworkIDRatingGroupsRatingGroupIDNoContent{}
 }
 
-/*DeleteNetworksNetworkIDRatingGroupsRatingGroupIDNoContent handles this case with default header values.
+/* DeleteNetworksNetworkIDRatingGroupsRatingGroupIDNoContent describes a response with status code 204, with default header values.
 
 Success
 */
@@ -70,7 +69,7 @@ func NewDeleteNetworksNetworkIDRatingGroupsRatingGroupIDDefault(code int) *Delet
 	}
 }
 
-/*DeleteNetworksNetworkIDRatingGroupsRatingGroupIDDefault handles this case with default header values.
+/* DeleteNetworksNetworkIDRatingGroupsRatingGroupIDDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *DeleteNetworksNetworkIDRatingGroupsRatingGroupIDDefault) Code() int {
 func (o *DeleteNetworksNetworkIDRatingGroupsRatingGroupIDDefault) Error() string {
 	return fmt.Sprintf("[DELETE /networks/{network_id}/rating_groups/{rating_group_id}][%d] DeleteNetworksNetworkIDRatingGroupsRatingGroupID default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *DeleteNetworksNetworkIDRatingGroupsRatingGroupIDDefault) GetPayload() *models.Error {
 	return o.Payload
 }

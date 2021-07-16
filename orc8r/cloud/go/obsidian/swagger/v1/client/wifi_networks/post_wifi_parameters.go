@@ -13,65 +13,78 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
-// NewPostWifiParams creates a new PostWifiParams object
-// with the default values initialized.
+// NewPostWifiParams creates a new PostWifiParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewPostWifiParams() *PostWifiParams {
-	var ()
 	return &PostWifiParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewPostWifiParamsWithTimeout creates a new PostWifiParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewPostWifiParamsWithTimeout(timeout time.Duration) *PostWifiParams {
-	var ()
 	return &PostWifiParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewPostWifiParamsWithContext creates a new PostWifiParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewPostWifiParamsWithContext(ctx context.Context) *PostWifiParams {
-	var ()
 	return &PostWifiParams{
-
 		Context: ctx,
 	}
 }
 
 // NewPostWifiParamsWithHTTPClient creates a new PostWifiParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewPostWifiParamsWithHTTPClient(client *http.Client) *PostWifiParams {
-	var ()
 	return &PostWifiParams{
 		HTTPClient: client,
 	}
 }
 
-/*PostWifiParams contains all the parameters to send to the API endpoint
-for the post wifi operation typically these are written to a http.Request
+/* PostWifiParams contains all the parameters to send to the API endpoint
+   for the post wifi operation.
+
+   Typically these are written to a http.Request.
 */
 type PostWifiParams struct {
 
-	/*WifiNetwork
-	  Configuration of the Wifi network to create
+	/* WifiNetwork.
 
+	   Configuration of the Wifi network to create
 	*/
 	WifiNetwork *models.WifiNetwork
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the post wifi params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PostWifiParams) WithDefaults() *PostWifiParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the post wifi params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PostWifiParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the post wifi params
@@ -125,7 +138,6 @@ func (o *PostWifiParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Regi
 		return err
 	}
 	var res []error
-
 	if o.WifiNetwork != nil {
 		if err := r.SetBodyParam(o.WifiNetwork); err != nil {
 			return err

@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetNetworksNetworkIDGatewaysReader is a Reader for the GetNetworksNetworkIDGateways structure.
@@ -47,7 +46,7 @@ func NewGetNetworksNetworkIDGatewaysOK() *GetNetworksNetworkIDGatewaysOK {
 	return &GetNetworksNetworkIDGatewaysOK{}
 }
 
-/*GetNetworksNetworkIDGatewaysOK handles this case with default header values.
+/* GetNetworksNetworkIDGatewaysOK describes a response with status code 200, with default header values.
 
 Map of all gateways inside the network by gatewayID
 */
@@ -58,7 +57,6 @@ type GetNetworksNetworkIDGatewaysOK struct {
 func (o *GetNetworksNetworkIDGatewaysOK) Error() string {
 	return fmt.Sprintf("[GET /networks/{network_id}/gateways][%d] getNetworksNetworkIdGatewaysOK  %+v", 200, o.Payload)
 }
-
 func (o *GetNetworksNetworkIDGatewaysOK) GetPayload() map[string]models.MagmadGateway {
 	return o.Payload
 }
@@ -80,7 +78,7 @@ func NewGetNetworksNetworkIDGatewaysDefault(code int) *GetNetworksNetworkIDGatew
 	}
 }
 
-/*GetNetworksNetworkIDGatewaysDefault handles this case with default header values.
+/* GetNetworksNetworkIDGatewaysDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -98,7 +96,6 @@ func (o *GetNetworksNetworkIDGatewaysDefault) Code() int {
 func (o *GetNetworksNetworkIDGatewaysDefault) Error() string {
 	return fmt.Sprintf("[GET /networks/{network_id}/gateways][%d] GetNetworksNetworkIDGateways default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetNetworksNetworkIDGatewaysDefault) GetPayload() *models.Error {
 	return o.Payload
 }

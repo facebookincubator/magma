@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PutWifiNetworkIDGatewaysGatewayIDMagmadReader is a Reader for the PutWifiNetworkIDGatewaysGatewayIDMagmad structure.
@@ -47,7 +46,7 @@ func NewPutWifiNetworkIDGatewaysGatewayIDMagmadNoContent() *PutWifiNetworkIDGate
 	return &PutWifiNetworkIDGatewaysGatewayIDMagmadNoContent{}
 }
 
-/*PutWifiNetworkIDGatewaysGatewayIDMagmadNoContent handles this case with default header values.
+/* PutWifiNetworkIDGatewaysGatewayIDMagmadNoContent describes a response with status code 204, with default header values.
 
 Success
 */
@@ -70,7 +69,7 @@ func NewPutWifiNetworkIDGatewaysGatewayIDMagmadDefault(code int) *PutWifiNetwork
 	}
 }
 
-/*PutWifiNetworkIDGatewaysGatewayIDMagmadDefault handles this case with default header values.
+/* PutWifiNetworkIDGatewaysGatewayIDMagmadDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *PutWifiNetworkIDGatewaysGatewayIDMagmadDefault) Code() int {
 func (o *PutWifiNetworkIDGatewaysGatewayIDMagmadDefault) Error() string {
 	return fmt.Sprintf("[PUT /wifi/{network_id}/gateways/{gateway_id}/magmad][%d] PutWifiNetworkIDGatewaysGatewayIDMagmad default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PutWifiNetworkIDGatewaysGatewayIDMagmadDefault) GetPayload() *models.Error {
 	return o.Payload
 }

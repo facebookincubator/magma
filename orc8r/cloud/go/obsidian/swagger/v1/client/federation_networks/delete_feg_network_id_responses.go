@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // DeleteFegNetworkIDReader is a Reader for the DeleteFegNetworkID structure.
@@ -47,7 +46,7 @@ func NewDeleteFegNetworkIDNoContent() *DeleteFegNetworkIDNoContent {
 	return &DeleteFegNetworkIDNoContent{}
 }
 
-/*DeleteFegNetworkIDNoContent handles this case with default header values.
+/* DeleteFegNetworkIDNoContent describes a response with status code 204, with default header values.
 
 Success
 */
@@ -70,7 +69,7 @@ func NewDeleteFegNetworkIDDefault(code int) *DeleteFegNetworkIDDefault {
 	}
 }
 
-/*DeleteFegNetworkIDDefault handles this case with default header values.
+/* DeleteFegNetworkIDDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *DeleteFegNetworkIDDefault) Code() int {
 func (o *DeleteFegNetworkIDDefault) Error() string {
 	return fmt.Sprintf("[DELETE /feg/{network_id}][%d] DeleteFegNetworkID default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *DeleteFegNetworkIDDefault) GetPayload() *models.Error {
 	return o.Payload
 }

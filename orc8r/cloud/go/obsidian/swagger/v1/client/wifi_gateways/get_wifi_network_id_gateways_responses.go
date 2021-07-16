@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetWifiNetworkIDGatewaysReader is a Reader for the GetWifiNetworkIDGateways structure.
@@ -47,7 +46,7 @@ func NewGetWifiNetworkIDGatewaysOK() *GetWifiNetworkIDGatewaysOK {
 	return &GetWifiNetworkIDGatewaysOK{}
 }
 
-/*GetWifiNetworkIDGatewaysOK handles this case with default header values.
+/* GetWifiNetworkIDGatewaysOK describes a response with status code 200, with default header values.
 
 Map of all Wifi gateways inside the network by gatewayID
 */
@@ -58,7 +57,6 @@ type GetWifiNetworkIDGatewaysOK struct {
 func (o *GetWifiNetworkIDGatewaysOK) Error() string {
 	return fmt.Sprintf("[GET /wifi/{network_id}/gateways][%d] getWifiNetworkIdGatewaysOK  %+v", 200, o.Payload)
 }
-
 func (o *GetWifiNetworkIDGatewaysOK) GetPayload() map[string]models.WifiGateway {
 	return o.Payload
 }
@@ -80,7 +78,7 @@ func NewGetWifiNetworkIDGatewaysDefault(code int) *GetWifiNetworkIDGatewaysDefau
 	}
 }
 
-/*GetWifiNetworkIDGatewaysDefault handles this case with default header values.
+/* GetWifiNetworkIDGatewaysDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -98,7 +96,6 @@ func (o *GetWifiNetworkIDGatewaysDefault) Code() int {
 func (o *GetWifiNetworkIDGatewaysDefault) Error() string {
 	return fmt.Sprintf("[GET /wifi/{network_id}/gateways][%d] GetWifiNetworkIDGateways default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetWifiNetworkIDGatewaysDefault) GetPayload() *models.Error {
 	return o.Payload
 }

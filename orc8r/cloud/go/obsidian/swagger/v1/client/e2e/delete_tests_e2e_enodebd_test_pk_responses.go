@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // DeleteTestsE2eEnodebdTestPkReader is a Reader for the DeleteTestsE2eEnodebdTestPk structure.
@@ -47,7 +46,7 @@ func NewDeleteTestsE2eEnodebdTestPkNoContent() *DeleteTestsE2eEnodebdTestPkNoCon
 	return &DeleteTestsE2eEnodebdTestPkNoContent{}
 }
 
-/*DeleteTestsE2eEnodebdTestPkNoContent handles this case with default header values.
+/* DeleteTestsE2eEnodebdTestPkNoContent describes a response with status code 204, with default header values.
 
 Deleted
 */
@@ -70,7 +69,7 @@ func NewDeleteTestsE2eEnodebdTestPkDefault(code int) *DeleteTestsE2eEnodebdTestP
 	}
 }
 
-/*DeleteTestsE2eEnodebdTestPkDefault handles this case with default header values.
+/* DeleteTestsE2eEnodebdTestPkDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *DeleteTestsE2eEnodebdTestPkDefault) Code() int {
 func (o *DeleteTestsE2eEnodebdTestPkDefault) Error() string {
 	return fmt.Sprintf("[DELETE /tests/e2e/enodebd/{test_pk}][%d] DeleteTestsE2eEnodebdTestPk default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *DeleteTestsE2eEnodebdTestPkDefault) GetPayload() *models.Error {
 	return o.Payload
 }

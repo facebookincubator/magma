@@ -13,70 +13,84 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
-// NewPutWifiNetworkIDWifiParams creates a new PutWifiNetworkIDWifiParams object
-// with the default values initialized.
+// NewPutWifiNetworkIDWifiParams creates a new PutWifiNetworkIDWifiParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewPutWifiNetworkIDWifiParams() *PutWifiNetworkIDWifiParams {
-	var ()
 	return &PutWifiNetworkIDWifiParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewPutWifiNetworkIDWifiParamsWithTimeout creates a new PutWifiNetworkIDWifiParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewPutWifiNetworkIDWifiParamsWithTimeout(timeout time.Duration) *PutWifiNetworkIDWifiParams {
-	var ()
 	return &PutWifiNetworkIDWifiParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewPutWifiNetworkIDWifiParamsWithContext creates a new PutWifiNetworkIDWifiParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewPutWifiNetworkIDWifiParamsWithContext(ctx context.Context) *PutWifiNetworkIDWifiParams {
-	var ()
 	return &PutWifiNetworkIDWifiParams{
-
 		Context: ctx,
 	}
 }
 
 // NewPutWifiNetworkIDWifiParamsWithHTTPClient creates a new PutWifiNetworkIDWifiParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewPutWifiNetworkIDWifiParamsWithHTTPClient(client *http.Client) *PutWifiNetworkIDWifiParams {
-	var ()
 	return &PutWifiNetworkIDWifiParams{
 		HTTPClient: client,
 	}
 }
 
-/*PutWifiNetworkIDWifiParams contains all the parameters to send to the API endpoint
-for the put wifi network ID wifi operation typically these are written to a http.Request
+/* PutWifiNetworkIDWifiParams contains all the parameters to send to the API endpoint
+   for the put wifi network ID wifi operation.
+
+   Typically these are written to a http.Request.
 */
 type PutWifiNetworkIDWifiParams struct {
 
-	/*Config
-	  New wifi configuration for the network
+	/* Config.
 
+	   New wifi configuration for the network
 	*/
 	Config *models.NetworkWifiConfigs
-	/*NetworkID
-	  Network ID
 
+	/* NetworkID.
+
+	   Network ID
 	*/
 	NetworkID string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the put wifi network ID wifi params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PutWifiNetworkIDWifiParams) WithDefaults() *PutWifiNetworkIDWifiParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the put wifi network ID wifi params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PutWifiNetworkIDWifiParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the put wifi network ID wifi params
@@ -141,7 +155,6 @@ func (o *PutWifiNetworkIDWifiParams) WriteToRequest(r runtime.ClientRequest, reg
 		return err
 	}
 	var res []error
-
 	if o.Config != nil {
 		if err := r.SetBodyParam(o.Config); err != nil {
 			return err

@@ -13,70 +13,84 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
-// NewPostWifiNetworkIDGatewaysParams creates a new PostWifiNetworkIDGatewaysParams object
-// with the default values initialized.
+// NewPostWifiNetworkIDGatewaysParams creates a new PostWifiNetworkIDGatewaysParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewPostWifiNetworkIDGatewaysParams() *PostWifiNetworkIDGatewaysParams {
-	var ()
 	return &PostWifiNetworkIDGatewaysParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewPostWifiNetworkIDGatewaysParamsWithTimeout creates a new PostWifiNetworkIDGatewaysParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewPostWifiNetworkIDGatewaysParamsWithTimeout(timeout time.Duration) *PostWifiNetworkIDGatewaysParams {
-	var ()
 	return &PostWifiNetworkIDGatewaysParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewPostWifiNetworkIDGatewaysParamsWithContext creates a new PostWifiNetworkIDGatewaysParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewPostWifiNetworkIDGatewaysParamsWithContext(ctx context.Context) *PostWifiNetworkIDGatewaysParams {
-	var ()
 	return &PostWifiNetworkIDGatewaysParams{
-
 		Context: ctx,
 	}
 }
 
 // NewPostWifiNetworkIDGatewaysParamsWithHTTPClient creates a new PostWifiNetworkIDGatewaysParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewPostWifiNetworkIDGatewaysParamsWithHTTPClient(client *http.Client) *PostWifiNetworkIDGatewaysParams {
-	var ()
 	return &PostWifiNetworkIDGatewaysParams{
 		HTTPClient: client,
 	}
 }
 
-/*PostWifiNetworkIDGatewaysParams contains all the parameters to send to the API endpoint
-for the post wifi network ID gateways operation typically these are written to a http.Request
+/* PostWifiNetworkIDGatewaysParams contains all the parameters to send to the API endpoint
+   for the post wifi network ID gateways operation.
+
+   Typically these are written to a http.Request.
 */
 type PostWifiNetworkIDGatewaysParams struct {
 
-	/*Gateway
-	  Full desired configuration of the gateway
+	/* Gateway.
 
+	   Full desired configuration of the gateway
 	*/
 	Gateway *models.MutableWifiGateway
-	/*NetworkID
-	  Network ID
 
+	/* NetworkID.
+
+	   Network ID
 	*/
 	NetworkID string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the post wifi network ID gateways params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PostWifiNetworkIDGatewaysParams) WithDefaults() *PostWifiNetworkIDGatewaysParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the post wifi network ID gateways params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PostWifiNetworkIDGatewaysParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the post wifi network ID gateways params
@@ -141,7 +155,6 @@ func (o *PostWifiNetworkIDGatewaysParams) WriteToRequest(r runtime.ClientRequest
 		return err
 	}
 	var res []error
-
 	if o.Gateway != nil {
 		if err := r.SetBodyParam(o.Gateway); err != nil {
 			return err

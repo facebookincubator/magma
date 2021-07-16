@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PutNetworksNetworkIDNameReader is a Reader for the PutNetworksNetworkIDName structure.
@@ -47,7 +46,7 @@ func NewPutNetworksNetworkIDNameNoContent() *PutNetworksNetworkIDNameNoContent {
 	return &PutNetworksNetworkIDNameNoContent{}
 }
 
-/*PutNetworksNetworkIDNameNoContent handles this case with default header values.
+/* PutNetworksNetworkIDNameNoContent describes a response with status code 204, with default header values.
 
 Success
 */
@@ -70,7 +69,7 @@ func NewPutNetworksNetworkIDNameDefault(code int) *PutNetworksNetworkIDNameDefau
 	}
 }
 
-/*PutNetworksNetworkIDNameDefault handles this case with default header values.
+/* PutNetworksNetworkIDNameDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *PutNetworksNetworkIDNameDefault) Code() int {
 func (o *PutNetworksNetworkIDNameDefault) Error() string {
 	return fmt.Sprintf("[PUT /networks/{network_id}/name][%d] PutNetworksNetworkIDName default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PutNetworksNetworkIDNameDefault) GetPayload() *models.Error {
 	return o.Payload
 }

@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetNetworksReader is a Reader for the GetNetworks structure.
@@ -47,7 +46,7 @@ func NewGetNetworksOK() *GetNetworksOK {
 	return &GetNetworksOK{}
 }
 
-/*GetNetworksOK handles this case with default header values.
+/* GetNetworksOK describes a response with status code 200, with default header values.
 
 List of network IDs
 */
@@ -58,7 +57,6 @@ type GetNetworksOK struct {
 func (o *GetNetworksOK) Error() string {
 	return fmt.Sprintf("[GET /networks][%d] getNetworksOK  %+v", 200, o.Payload)
 }
-
 func (o *GetNetworksOK) GetPayload() []string {
 	return o.Payload
 }
@@ -80,7 +78,7 @@ func NewGetNetworksDefault(code int) *GetNetworksDefault {
 	}
 }
 
-/*GetNetworksDefault handles this case with default header values.
+/* GetNetworksDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -98,7 +96,6 @@ func (o *GetNetworksDefault) Code() int {
 func (o *GetNetworksDefault) Error() string {
 	return fmt.Sprintf("[GET /networks][%d] GetNetworks default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetNetworksDefault) GetPayload() *models.Error {
 	return o.Payload
 }

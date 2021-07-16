@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // DeleteWifiNetworkIDMeshesMeshIDReader is a Reader for the DeleteWifiNetworkIDMeshesMeshID structure.
@@ -47,7 +46,7 @@ func NewDeleteWifiNetworkIDMeshesMeshIDNoContent() *DeleteWifiNetworkIDMeshesMes
 	return &DeleteWifiNetworkIDMeshesMeshIDNoContent{}
 }
 
-/*DeleteWifiNetworkIDMeshesMeshIDNoContent handles this case with default header values.
+/* DeleteWifiNetworkIDMeshesMeshIDNoContent describes a response with status code 204, with default header values.
 
 Success
 */
@@ -70,7 +69,7 @@ func NewDeleteWifiNetworkIDMeshesMeshIDDefault(code int) *DeleteWifiNetworkIDMes
 	}
 }
 
-/*DeleteWifiNetworkIDMeshesMeshIDDefault handles this case with default header values.
+/* DeleteWifiNetworkIDMeshesMeshIDDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *DeleteWifiNetworkIDMeshesMeshIDDefault) Code() int {
 func (o *DeleteWifiNetworkIDMeshesMeshIDDefault) Error() string {
 	return fmt.Sprintf("[DELETE /wifi/{network_id}/meshes/{mesh_id}][%d] DeleteWifiNetworkIDMeshesMeshID default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *DeleteWifiNetworkIDMeshesMeshIDDefault) GetPayload() *models.Error {
 	return o.Payload
 }

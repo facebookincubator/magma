@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetLTENetworkIDMsisdnsReader is a Reader for the GetLTENetworkIDMsisdns structure.
@@ -47,7 +46,7 @@ func NewGetLTENetworkIDMsisdnsOK() *GetLTENetworkIDMsisdnsOK {
 	return &GetLTENetworkIDMsisdnsOK{}
 }
 
-/*GetLTENetworkIDMsisdnsOK handles this case with default header values.
+/* GetLTENetworkIDMsisdnsOK describes a response with status code 200, with default header values.
 
 List of all MSISDNS in the network, mapped to their subscriber ID
 */
@@ -58,7 +57,6 @@ type GetLTENetworkIDMsisdnsOK struct {
 func (o *GetLTENetworkIDMsisdnsOK) Error() string {
 	return fmt.Sprintf("[GET /lte/{network_id}/msisdns][%d] getLteNetworkIdMsisdnsOK  %+v", 200, o.Payload)
 }
-
 func (o *GetLTENetworkIDMsisdnsOK) GetPayload() map[string]models.SubscriberID {
 	return o.Payload
 }
@@ -80,7 +78,7 @@ func NewGetLTENetworkIDMsisdnsDefault(code int) *GetLTENetworkIDMsisdnsDefault {
 	}
 }
 
-/*GetLTENetworkIDMsisdnsDefault handles this case with default header values.
+/* GetLTENetworkIDMsisdnsDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -98,7 +96,6 @@ func (o *GetLTENetworkIDMsisdnsDefault) Code() int {
 func (o *GetLTENetworkIDMsisdnsDefault) Error() string {
 	return fmt.Sprintf("[GET /lte/{network_id}/msisdns][%d] GetLTENetworkIDMsisdns default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetLTENetworkIDMsisdnsDefault) GetPayload() *models.Error {
 	return o.Payload
 }

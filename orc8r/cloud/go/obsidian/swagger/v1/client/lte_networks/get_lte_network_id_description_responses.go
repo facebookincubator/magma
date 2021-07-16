@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetLTENetworkIDDescriptionReader is a Reader for the GetLTENetworkIDDescription structure.
@@ -47,7 +46,7 @@ func NewGetLTENetworkIDDescriptionOK() *GetLTENetworkIDDescriptionOK {
 	return &GetLTENetworkIDDescriptionOK{}
 }
 
-/*GetLTENetworkIDDescriptionOK handles this case with default header values.
+/* GetLTENetworkIDDescriptionOK describes a response with status code 200, with default header values.
 
 Description of the network
 */
@@ -58,7 +57,6 @@ type GetLTENetworkIDDescriptionOK struct {
 func (o *GetLTENetworkIDDescriptionOK) Error() string {
 	return fmt.Sprintf("[GET /lte/{network_id}/description][%d] getLteNetworkIdDescriptionOK  %+v", 200, o.Payload)
 }
-
 func (o *GetLTENetworkIDDescriptionOK) GetPayload() models.NetworkDescription {
 	return o.Payload
 }
@@ -80,7 +78,7 @@ func NewGetLTENetworkIDDescriptionDefault(code int) *GetLTENetworkIDDescriptionD
 	}
 }
 
-/*GetLTENetworkIDDescriptionDefault handles this case with default header values.
+/* GetLTENetworkIDDescriptionDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -98,7 +96,6 @@ func (o *GetLTENetworkIDDescriptionDefault) Code() int {
 func (o *GetLTENetworkIDDescriptionDefault) Error() string {
 	return fmt.Sprintf("[GET /lte/{network_id}/description][%d] GetLTENetworkIDDescription default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetLTENetworkIDDescriptionDefault) GetPayload() *models.Error {
 	return o.Payload
 }

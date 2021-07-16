@@ -7,18 +7,18 @@ package call_tracing
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetNetworksNetworkIDTracingReader is a Reader for the GetNetworksNetworkIDTracing structure.
@@ -52,7 +52,7 @@ func NewGetNetworksNetworkIDTracingOK() *GetNetworksNetworkIDTracingOK {
 	return &GetNetworksNetworkIDTracingOK{}
 }
 
-/*GetNetworksNetworkIDTracingOK handles this case with default header values.
+/* GetNetworksNetworkIDTracingOK describes a response with status code 200, with default header values.
 
 Success
 */
@@ -63,7 +63,6 @@ type GetNetworksNetworkIDTracingOK struct {
 func (o *GetNetworksNetworkIDTracingOK) Error() string {
 	return fmt.Sprintf("[GET /networks/{network_id}/tracing][%d] getNetworksNetworkIdTracingOK  %+v", 200, o.Payload)
 }
-
 func (o *GetNetworksNetworkIDTracingOK) GetPayload() *GetNetworksNetworkIDTracingOKBodyTuple0 {
 	return o.Payload
 }
@@ -87,7 +86,7 @@ func NewGetNetworksNetworkIDTracingDefault(code int) *GetNetworksNetworkIDTracin
 	}
 }
 
-/*GetNetworksNetworkIDTracingDefault handles this case with default header values.
+/* GetNetworksNetworkIDTracingDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -105,7 +104,6 @@ func (o *GetNetworksNetworkIDTracingDefault) Code() int {
 func (o *GetNetworksNetworkIDTracingDefault) Error() string {
 	return fmt.Sprintf("[GET /networks/{network_id}/tracing][%d] GetNetworksNetworkIDTracing default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetNetworksNetworkIDTracingDefault) GetPayload() *models.Error {
 	return o.Payload
 }
@@ -146,7 +144,6 @@ func (o *GetNetworksNetworkIDTracingOKBodyTuple0) UnmarshalJSON(raw []byte) erro
 	}
 
 	// stage 2: hydrates struct members with tuple elements
-
 	if len(stage1) > 0 {
 		var dataP0 models.CallTrace
 		buf = bytes.NewBuffer(stage1[0])
@@ -193,6 +190,34 @@ func (o *GetNetworksNetworkIDTracingOKBodyTuple0) validateP0(formats strfmt.Regi
 
 	if o.P0 != nil {
 		if err := o.P0.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("P0")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this get networks network ID tracing o k body tuple0 based on the context it is used
+func (o *GetNetworksNetworkIDTracingOKBodyTuple0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateP0(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *GetNetworksNetworkIDTracingOKBodyTuple0) contextValidateP0(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.P0 != nil {
+		if err := o.P0.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("P0")
 			}

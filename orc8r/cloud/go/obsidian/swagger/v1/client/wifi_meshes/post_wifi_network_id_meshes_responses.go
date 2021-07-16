@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PostWifiNetworkIDMeshesReader is a Reader for the PostWifiNetworkIDMeshes structure.
@@ -47,7 +46,7 @@ func NewPostWifiNetworkIDMeshesCreated() *PostWifiNetworkIDMeshesCreated {
 	return &PostWifiNetworkIDMeshesCreated{}
 }
 
-/*PostWifiNetworkIDMeshesCreated handles this case with default header values.
+/* PostWifiNetworkIDMeshesCreated describes a response with status code 201, with default header values.
 
 New mesh ID
 */
@@ -58,7 +57,6 @@ type PostWifiNetworkIDMeshesCreated struct {
 func (o *PostWifiNetworkIDMeshesCreated) Error() string {
 	return fmt.Sprintf("[POST /wifi/{network_id}/meshes][%d] postWifiNetworkIdMeshesCreated  %+v", 201, o.Payload)
 }
-
 func (o *PostWifiNetworkIDMeshesCreated) GetPayload() models.MeshID {
 	return o.Payload
 }
@@ -80,7 +78,7 @@ func NewPostWifiNetworkIDMeshesDefault(code int) *PostWifiNetworkIDMeshesDefault
 	}
 }
 
-/*PostWifiNetworkIDMeshesDefault handles this case with default header values.
+/* PostWifiNetworkIDMeshesDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -98,7 +96,6 @@ func (o *PostWifiNetworkIDMeshesDefault) Code() int {
 func (o *PostWifiNetworkIDMeshesDefault) Error() string {
 	return fmt.Sprintf("[POST /wifi/{network_id}/meshes][%d] PostWifiNetworkIDMeshes default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PostWifiNetworkIDMeshesDefault) GetPayload() *models.Error {
 	return o.Payload
 }

@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetCwfNetworkIDSubscribersSubscriberIDDirectoryRecordReader is a Reader for the GetCwfNetworkIDSubscribersSubscriberIDDirectoryRecord structure.
@@ -47,7 +46,7 @@ func NewGetCwfNetworkIDSubscribersSubscriberIDDirectoryRecordOK() *GetCwfNetwork
 	return &GetCwfNetworkIDSubscribersSubscriberIDDirectoryRecordOK{}
 }
 
-/*GetCwfNetworkIDSubscribersSubscriberIDDirectoryRecordOK handles this case with default header values.
+/* GetCwfNetworkIDSubscribersSubscriberIDDirectoryRecordOK describes a response with status code 200, with default header values.
 
 The directory record of a subscriber
 */
@@ -58,7 +57,6 @@ type GetCwfNetworkIDSubscribersSubscriberIDDirectoryRecordOK struct {
 func (o *GetCwfNetworkIDSubscribersSubscriberIDDirectoryRecordOK) Error() string {
 	return fmt.Sprintf("[GET /cwf/{network_id}/subscribers/{subscriber_id}/directory_record][%d] getCwfNetworkIdSubscribersSubscriberIdDirectoryRecordOK  %+v", 200, o.Payload)
 }
-
 func (o *GetCwfNetworkIDSubscribersSubscriberIDDirectoryRecordOK) GetPayload() *models.CwfSubscriberDirectoryRecord {
 	return o.Payload
 }
@@ -82,7 +80,7 @@ func NewGetCwfNetworkIDSubscribersSubscriberIDDirectoryRecordDefault(code int) *
 	}
 }
 
-/*GetCwfNetworkIDSubscribersSubscriberIDDirectoryRecordDefault handles this case with default header values.
+/* GetCwfNetworkIDSubscribersSubscriberIDDirectoryRecordDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -100,7 +98,6 @@ func (o *GetCwfNetworkIDSubscribersSubscriberIDDirectoryRecordDefault) Code() in
 func (o *GetCwfNetworkIDSubscribersSubscriberIDDirectoryRecordDefault) Error() string {
 	return fmt.Sprintf("[GET /cwf/{network_id}/subscribers/{subscriber_id}/directory_record][%d] GetCwfNetworkIDSubscribersSubscriberIDDirectoryRecord default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetCwfNetworkIDSubscribersSubscriberIDDirectoryRecordDefault) GetPayload() *models.Error {
 	return o.Payload
 }

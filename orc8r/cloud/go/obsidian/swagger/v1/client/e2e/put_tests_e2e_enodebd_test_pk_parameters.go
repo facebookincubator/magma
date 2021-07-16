@@ -13,71 +13,87 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
-// NewPutTestsE2eEnodebdTestPkParams creates a new PutTestsE2eEnodebdTestPkParams object
-// with the default values initialized.
+// NewPutTestsE2eEnodebdTestPkParams creates a new PutTestsE2eEnodebdTestPkParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewPutTestsE2eEnodebdTestPkParams() *PutTestsE2eEnodebdTestPkParams {
-	var ()
 	return &PutTestsE2eEnodebdTestPkParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewPutTestsE2eEnodebdTestPkParamsWithTimeout creates a new PutTestsE2eEnodebdTestPkParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewPutTestsE2eEnodebdTestPkParamsWithTimeout(timeout time.Duration) *PutTestsE2eEnodebdTestPkParams {
-	var ()
 	return &PutTestsE2eEnodebdTestPkParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewPutTestsE2eEnodebdTestPkParamsWithContext creates a new PutTestsE2eEnodebdTestPkParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewPutTestsE2eEnodebdTestPkParamsWithContext(ctx context.Context) *PutTestsE2eEnodebdTestPkParams {
-	var ()
 	return &PutTestsE2eEnodebdTestPkParams{
-
 		Context: ctx,
 	}
 }
 
 // NewPutTestsE2eEnodebdTestPkParamsWithHTTPClient creates a new PutTestsE2eEnodebdTestPkParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewPutTestsE2eEnodebdTestPkParamsWithHTTPClient(client *http.Client) *PutTestsE2eEnodebdTestPkParams {
-	var ()
 	return &PutTestsE2eEnodebdTestPkParams{
 		HTTPClient: client,
 	}
 }
 
-/*PutTestsE2eEnodebdTestPkParams contains all the parameters to send to the API endpoint
-for the put tests e2e enodebd test pk operation typically these are written to a http.Request
+/* PutTestsE2eEnodebdTestPkParams contains all the parameters to send to the API endpoint
+   for the put tests e2e enodebd test pk operation.
+
+   Typically these are written to a http.Request.
 */
 type PutTestsE2eEnodebdTestPkParams struct {
 
-	/*Test
-	  Updated test case configuration
+	/* Test.
 
+	   Updated test case configuration
 	*/
 	Test *models.EnodebdTestConfig
-	/*TestPk
-	  E2E test case PK
 
+	/* TestPk.
+
+	   E2E test case PK
+
+	   Format: int64
 	*/
 	TestPk int64
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the put tests e2e enodebd test pk params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PutTestsE2eEnodebdTestPkParams) WithDefaults() *PutTestsE2eEnodebdTestPkParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the put tests e2e enodebd test pk params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PutTestsE2eEnodebdTestPkParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the put tests e2e enodebd test pk params
@@ -142,7 +158,6 @@ func (o *PutTestsE2eEnodebdTestPkParams) WriteToRequest(r runtime.ClientRequest,
 		return err
 	}
 	var res []error
-
 	if o.Test != nil {
 		if err := r.SetBodyParam(o.Test); err != nil {
 			return err

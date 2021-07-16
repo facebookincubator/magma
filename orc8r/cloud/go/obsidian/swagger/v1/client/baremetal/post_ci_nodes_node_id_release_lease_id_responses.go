@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PostCiNodesNodeIDReleaseLeaseIDReader is a Reader for the PostCiNodesNodeIDReleaseLeaseID structure.
@@ -47,7 +46,7 @@ func NewPostCiNodesNodeIDReleaseLeaseIDNoContent() *PostCiNodesNodeIDReleaseLeas
 	return &PostCiNodesNodeIDReleaseLeaseIDNoContent{}
 }
 
-/*PostCiNodesNodeIDReleaseLeaseIDNoContent handles this case with default header values.
+/* PostCiNodesNodeIDReleaseLeaseIDNoContent describes a response with status code 204, with default header values.
 
 Node released successfully
 */
@@ -70,7 +69,7 @@ func NewPostCiNodesNodeIDReleaseLeaseIDDefault(code int) *PostCiNodesNodeIDRelea
 	}
 }
 
-/*PostCiNodesNodeIDReleaseLeaseIDDefault handles this case with default header values.
+/* PostCiNodesNodeIDReleaseLeaseIDDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *PostCiNodesNodeIDReleaseLeaseIDDefault) Code() int {
 func (o *PostCiNodesNodeIDReleaseLeaseIDDefault) Error() string {
 	return fmt.Sprintf("[POST /ci/nodes/{node_id}/release/{lease_id}][%d] PostCiNodesNodeIDReleaseLeaseID default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PostCiNodesNodeIDReleaseLeaseIDDefault) GetPayload() *models.Error {
 	return o.Payload
 }

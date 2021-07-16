@@ -6,39 +6,45 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"encoding/json"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // GatewayEpcConfigs EPC configuration for an LTE gateway
+//
 // swagger:model gateway_epc_configs
 type GatewayEpcConfigs struct {
 
 	// Flag to enable or disable congestion control on MME
+	// Example: true
 	CongestionControlEnabled *bool `json:"congestion_control_enabled,omitempty"`
 
 	// dns primary
+	// Example: 8.8.8.8
 	// Max Length: 45
 	// Min Length: 5
 	DNSPrimary string `json:"dns_primary,omitempty"`
 
 	// dns secondary
+	// Example: 8.8.4.4
 	// Max Length: 45
 	// Min Length: 5
 	DNSSecondary string `json:"dns_secondary,omitempty"`
 
 	// ip block
+	// Example: 192.168.128.0/24
 	// Required: true
 	// Max Length: 49
 	// Min Length: 5
 	IPBlock string `json:"ip_block"`
 
 	// IP address for IPv4 P-CSCF on the AGW
+	// Example: 172.27.23.150
 	// Format: ipv4
 	IPV4pCscfAddr strfmt.IPv4 `json:"ipv4_p_cscf_addr,omitempty"`
 
@@ -48,21 +54,26 @@ type GatewayEpcConfigs struct {
 	IPV4SgwS1uAddr string `json:"ipv4_sgw_s1u_addr,omitempty"`
 
 	// ipv6 block
+	// Example: fdee:5:6c::/48
 	IPV6Block string `json:"ipv6_block,omitempty"`
 
 	// IPv6 DNS Server address on the AGW
+	// Example: 2001:4860:4860:0:0:0:0:8888
 	// Format: ipv6
 	IPV6DNSAddr strfmt.IPv6 `json:"ipv6_dns_addr,omitempty"`
 
 	// IP address for IPv6 P-CSCF on the AGW
+	// Example: 2a12:577:9941:f99c:0002:0001:c731:f114
 	// Format: ipv6
 	IPV6pCscfAddr strfmt.IPv6 `json:"ipv6_p_cscf_addr,omitempty"`
 
 	// ipv6 prefix allocation mode
+	// Example: RANDOM
 	// Enum: [RANDOM HASH]
 	IPV6PrefixAllocationMode string `json:"ipv6_prefix_allocation_mode,omitempty"`
 
 	// nat enabled
+	// Example: true
 	// Required: true
 	NatEnabled *bool `json:"nat_enabled"`
 
@@ -141,16 +152,15 @@ func (m *GatewayEpcConfigs) Validate(formats strfmt.Registry) error {
 }
 
 func (m *GatewayEpcConfigs) validateDNSPrimary(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.DNSPrimary) { // not required
 		return nil
 	}
 
-	if err := validate.MinLength("dns_primary", "body", string(m.DNSPrimary), 5); err != nil {
+	if err := validate.MinLength("dns_primary", "body", m.DNSPrimary, 5); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("dns_primary", "body", string(m.DNSPrimary), 45); err != nil {
+	if err := validate.MaxLength("dns_primary", "body", m.DNSPrimary, 45); err != nil {
 		return err
 	}
 
@@ -158,16 +168,15 @@ func (m *GatewayEpcConfigs) validateDNSPrimary(formats strfmt.Registry) error {
 }
 
 func (m *GatewayEpcConfigs) validateDNSSecondary(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.DNSSecondary) { // not required
 		return nil
 	}
 
-	if err := validate.MinLength("dns_secondary", "body", string(m.DNSSecondary), 5); err != nil {
+	if err := validate.MinLength("dns_secondary", "body", m.DNSSecondary, 5); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("dns_secondary", "body", string(m.DNSSecondary), 45); err != nil {
+	if err := validate.MaxLength("dns_secondary", "body", m.DNSSecondary, 45); err != nil {
 		return err
 	}
 
@@ -176,15 +185,15 @@ func (m *GatewayEpcConfigs) validateDNSSecondary(formats strfmt.Registry) error 
 
 func (m *GatewayEpcConfigs) validateIPBlock(formats strfmt.Registry) error {
 
-	if err := validate.RequiredString("ip_block", "body", string(m.IPBlock)); err != nil {
+	if err := validate.RequiredString("ip_block", "body", m.IPBlock); err != nil {
 		return err
 	}
 
-	if err := validate.MinLength("ip_block", "body", string(m.IPBlock), 5); err != nil {
+	if err := validate.MinLength("ip_block", "body", m.IPBlock, 5); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("ip_block", "body", string(m.IPBlock), 49); err != nil {
+	if err := validate.MaxLength("ip_block", "body", m.IPBlock, 49); err != nil {
 		return err
 	}
 
@@ -192,7 +201,6 @@ func (m *GatewayEpcConfigs) validateIPBlock(formats strfmt.Registry) error {
 }
 
 func (m *GatewayEpcConfigs) validateIPV4pCscfAddr(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.IPV4pCscfAddr) { // not required
 		return nil
 	}
@@ -205,16 +213,15 @@ func (m *GatewayEpcConfigs) validateIPV4pCscfAddr(formats strfmt.Registry) error
 }
 
 func (m *GatewayEpcConfigs) validateIPV4SgwS1uAddr(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.IPV4SgwS1uAddr) { // not required
 		return nil
 	}
 
-	if err := validate.MinLength("ipv4_sgw_s1u_addr", "body", string(m.IPV4SgwS1uAddr), 5); err != nil {
+	if err := validate.MinLength("ipv4_sgw_s1u_addr", "body", m.IPV4SgwS1uAddr, 5); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("ipv4_sgw_s1u_addr", "body", string(m.IPV4SgwS1uAddr), 49); err != nil {
+	if err := validate.MaxLength("ipv4_sgw_s1u_addr", "body", m.IPV4SgwS1uAddr, 49); err != nil {
 		return err
 	}
 
@@ -222,7 +229,6 @@ func (m *GatewayEpcConfigs) validateIPV4SgwS1uAddr(formats strfmt.Registry) erro
 }
 
 func (m *GatewayEpcConfigs) validateIPV6DNSAddr(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.IPV6DNSAddr) { // not required
 		return nil
 	}
@@ -235,7 +241,6 @@ func (m *GatewayEpcConfigs) validateIPV6DNSAddr(formats strfmt.Registry) error {
 }
 
 func (m *GatewayEpcConfigs) validateIPV6pCscfAddr(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.IPV6pCscfAddr) { // not required
 		return nil
 	}
@@ -270,14 +275,13 @@ const (
 
 // prop value enum
 func (m *GatewayEpcConfigs) validateIPV6PrefixAllocationModeEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, gatewayEpcConfigsTypeIPV6PrefixAllocationModePropEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, gatewayEpcConfigsTypeIPV6PrefixAllocationModePropEnum, true); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (m *GatewayEpcConfigs) validateIPV6PrefixAllocationMode(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.IPV6PrefixAllocationMode) { // not required
 		return nil
 	}
@@ -300,16 +304,15 @@ func (m *GatewayEpcConfigs) validateNatEnabled(formats strfmt.Registry) error {
 }
 
 func (m *GatewayEpcConfigs) validateSgiManagementIfaceGw(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SgiManagementIfaceGw) { // not required
 		return nil
 	}
 
-	if err := validate.MinLength("sgi_management_iface_gw", "body", string(m.SgiManagementIfaceGw), 5); err != nil {
+	if err := validate.MinLength("sgi_management_iface_gw", "body", m.SgiManagementIfaceGw, 5); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("sgi_management_iface_gw", "body", string(m.SgiManagementIfaceGw), 49); err != nil {
+	if err := validate.MaxLength("sgi_management_iface_gw", "body", m.SgiManagementIfaceGw, 49); err != nil {
 		return err
 	}
 
@@ -317,16 +320,15 @@ func (m *GatewayEpcConfigs) validateSgiManagementIfaceGw(formats strfmt.Registry
 }
 
 func (m *GatewayEpcConfigs) validateSgiManagementIfaceStaticIP(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SgiManagementIfaceStaticIP) { // not required
 		return nil
 	}
 
-	if err := validate.MinLength("sgi_management_iface_static_ip", "body", string(m.SgiManagementIfaceStaticIP), 5); err != nil {
+	if err := validate.MinLength("sgi_management_iface_static_ip", "body", m.SgiManagementIfaceStaticIP, 5); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("sgi_management_iface_static_ip", "body", string(m.SgiManagementIfaceStaticIP), 49); err != nil {
+	if err := validate.MaxLength("sgi_management_iface_static_ip", "body", m.SgiManagementIfaceStaticIP, 49); err != nil {
 		return err
 	}
 
@@ -334,19 +336,23 @@ func (m *GatewayEpcConfigs) validateSgiManagementIfaceStaticIP(formats strfmt.Re
 }
 
 func (m *GatewayEpcConfigs) validateSgiManagementIfaceVlan(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.SgiManagementIfaceVlan) { // not required
 		return nil
 	}
 
-	if err := validate.MinLength("sgi_management_iface_vlan", "body", string(m.SgiManagementIfaceVlan), 1); err != nil {
+	if err := validate.MinLength("sgi_management_iface_vlan", "body", m.SgiManagementIfaceVlan, 1); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("sgi_management_iface_vlan", "body", string(m.SgiManagementIfaceVlan), 4); err != nil {
+	if err := validate.MaxLength("sgi_management_iface_vlan", "body", m.SgiManagementIfaceVlan, 4); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this gateway epc configs based on context it is used
+func (m *GatewayEpcConfigs) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

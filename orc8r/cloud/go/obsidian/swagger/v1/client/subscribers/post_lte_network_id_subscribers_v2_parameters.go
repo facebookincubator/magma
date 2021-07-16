@@ -13,70 +13,84 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
-// NewPostLTENetworkIDSubscribersV2Params creates a new PostLTENetworkIDSubscribersV2Params object
-// with the default values initialized.
+// NewPostLTENetworkIDSubscribersV2Params creates a new PostLTENetworkIDSubscribersV2Params object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewPostLTENetworkIDSubscribersV2Params() *PostLTENetworkIDSubscribersV2Params {
-	var ()
 	return &PostLTENetworkIDSubscribersV2Params{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewPostLTENetworkIDSubscribersV2ParamsWithTimeout creates a new PostLTENetworkIDSubscribersV2Params object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewPostLTENetworkIDSubscribersV2ParamsWithTimeout(timeout time.Duration) *PostLTENetworkIDSubscribersV2Params {
-	var ()
 	return &PostLTENetworkIDSubscribersV2Params{
-
 		timeout: timeout,
 	}
 }
 
 // NewPostLTENetworkIDSubscribersV2ParamsWithContext creates a new PostLTENetworkIDSubscribersV2Params object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewPostLTENetworkIDSubscribersV2ParamsWithContext(ctx context.Context) *PostLTENetworkIDSubscribersV2Params {
-	var ()
 	return &PostLTENetworkIDSubscribersV2Params{
-
 		Context: ctx,
 	}
 }
 
 // NewPostLTENetworkIDSubscribersV2ParamsWithHTTPClient creates a new PostLTENetworkIDSubscribersV2Params object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewPostLTENetworkIDSubscribersV2ParamsWithHTTPClient(client *http.Client) *PostLTENetworkIDSubscribersV2Params {
-	var ()
 	return &PostLTENetworkIDSubscribersV2Params{
 		HTTPClient: client,
 	}
 }
 
-/*PostLTENetworkIDSubscribersV2Params contains all the parameters to send to the API endpoint
-for the post LTE network ID subscribers v2 operation typically these are written to a http.Request
+/* PostLTENetworkIDSubscribersV2Params contains all the parameters to send to the API endpoint
+   for the post LTE network ID subscribers v2 operation.
+
+   Typically these are written to a http.Request.
 */
 type PostLTENetworkIDSubscribersV2Params struct {
 
-	/*NetworkID
-	  Network ID
+	/* NetworkID.
 
+	   Network ID
 	*/
 	NetworkID string
-	/*Subscribers
-	  Subscribers to add
 
+	/* Subscribers.
+
+	   Subscribers to add
 	*/
 	Subscribers models.MutableSubscribers
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the post LTE network ID subscribers v2 params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PostLTENetworkIDSubscribersV2Params) WithDefaults() *PostLTENetworkIDSubscribersV2Params {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the post LTE network ID subscribers v2 params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PostLTENetworkIDSubscribersV2Params) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the post LTE network ID subscribers v2 params
@@ -146,7 +160,6 @@ func (o *PostLTENetworkIDSubscribersV2Params) WriteToRequest(r runtime.ClientReq
 	if err := r.SetPathParam("network_id", o.NetworkID); err != nil {
 		return err
 	}
-
 	if o.Subscribers != nil {
 		if err := r.SetBodyParam(o.Subscribers); err != nil {
 			return err

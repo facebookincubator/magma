@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetWifiNetworkIDMeshesMeshIDConfigReader is a Reader for the GetWifiNetworkIDMeshesMeshIDConfig structure.
@@ -47,7 +46,7 @@ func NewGetWifiNetworkIDMeshesMeshIDConfigOK() *GetWifiNetworkIDMeshesMeshIDConf
 	return &GetWifiNetworkIDMeshesMeshIDConfigOK{}
 }
 
-/*GetWifiNetworkIDMeshesMeshIDConfigOK handles this case with default header values.
+/* GetWifiNetworkIDMeshesMeshIDConfigOK describes a response with status code 200, with default header values.
 
 List of meshes in the network
 */
@@ -58,7 +57,6 @@ type GetWifiNetworkIDMeshesMeshIDConfigOK struct {
 func (o *GetWifiNetworkIDMeshesMeshIDConfigOK) Error() string {
 	return fmt.Sprintf("[GET /wifi/{network_id}/meshes/{mesh_id}/config][%d] getWifiNetworkIdMeshesMeshIdConfigOK  %+v", 200, o.Payload)
 }
-
 func (o *GetWifiNetworkIDMeshesMeshIDConfigOK) GetPayload() *models.MeshWifiConfigs {
 	return o.Payload
 }
@@ -82,7 +80,7 @@ func NewGetWifiNetworkIDMeshesMeshIDConfigDefault(code int) *GetWifiNetworkIDMes
 	}
 }
 
-/*GetWifiNetworkIDMeshesMeshIDConfigDefault handles this case with default header values.
+/* GetWifiNetworkIDMeshesMeshIDConfigDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -100,7 +98,6 @@ func (o *GetWifiNetworkIDMeshesMeshIDConfigDefault) Code() int {
 func (o *GetWifiNetworkIDMeshesMeshIDConfigDefault) Error() string {
 	return fmt.Sprintf("[GET /wifi/{network_id}/meshes/{mesh_id}/config][%d] GetWifiNetworkIDMeshesMeshIDConfig default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetWifiNetworkIDMeshesMeshIDConfigDefault) GetPayload() *models.Error {
 	return o.Payload
 }

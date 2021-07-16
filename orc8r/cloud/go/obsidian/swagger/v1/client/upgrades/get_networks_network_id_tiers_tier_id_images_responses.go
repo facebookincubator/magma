@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetNetworksNetworkIDTiersTierIDImagesReader is a Reader for the GetNetworksNetworkIDTiersTierIDImages structure.
@@ -47,7 +46,7 @@ func NewGetNetworksNetworkIDTiersTierIDImagesOK() *GetNetworksNetworkIDTiersTier
 	return &GetNetworksNetworkIDTiersTierIDImagesOK{}
 }
 
-/*GetNetworksNetworkIDTiersTierIDImagesOK handles this case with default header values.
+/* GetNetworksNetworkIDTiersTierIDImagesOK describes a response with status code 200, with default header values.
 
 Success
 */
@@ -58,7 +57,6 @@ type GetNetworksNetworkIDTiersTierIDImagesOK struct {
 func (o *GetNetworksNetworkIDTiersTierIDImagesOK) Error() string {
 	return fmt.Sprintf("[GET /networks/{network_id}/tiers/{tier_id}/images][%d] getNetworksNetworkIdTiersTierIdImagesOK  %+v", 200, o.Payload)
 }
-
 func (o *GetNetworksNetworkIDTiersTierIDImagesOK) GetPayload() models.TierImages {
 	return o.Payload
 }
@@ -80,7 +78,7 @@ func NewGetNetworksNetworkIDTiersTierIDImagesDefault(code int) *GetNetworksNetwo
 	}
 }
 
-/*GetNetworksNetworkIDTiersTierIDImagesDefault handles this case with default header values.
+/* GetNetworksNetworkIDTiersTierIDImagesDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -98,7 +96,6 @@ func (o *GetNetworksNetworkIDTiersTierIDImagesDefault) Code() int {
 func (o *GetNetworksNetworkIDTiersTierIDImagesDefault) Error() string {
 	return fmt.Sprintf("[GET /networks/{network_id}/tiers/{tier_id}/images][%d] GetNetworksNetworkIDTiersTierIDImages default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetNetworksNetworkIDTiersTierIDImagesDefault) GetPayload() *models.Error {
 	return o.Payload
 }

@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PutCiNodesNodeIDReader is a Reader for the PutCiNodesNodeID structure.
@@ -47,7 +46,7 @@ func NewPutCiNodesNodeIDNoContent() *PutCiNodesNodeIDNoContent {
 	return &PutCiNodesNodeIDNoContent{}
 }
 
-/*PutCiNodesNodeIDNoContent handles this case with default header values.
+/* PutCiNodesNodeIDNoContent describes a response with status code 204, with default header values.
 
 Updated
 */
@@ -70,7 +69,7 @@ func NewPutCiNodesNodeIDDefault(code int) *PutCiNodesNodeIDDefault {
 	}
 }
 
-/*PutCiNodesNodeIDDefault handles this case with default header values.
+/* PutCiNodesNodeIDDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *PutCiNodesNodeIDDefault) Code() int {
 func (o *PutCiNodesNodeIDDefault) Error() string {
 	return fmt.Sprintf("[PUT /ci/nodes/{node_id}][%d] PutCiNodesNodeID default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PutCiNodesNodeIDDefault) GetPayload() *models.Error {
 	return o.Payload
 }

@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetLTENetworkIDEnodebsReader is a Reader for the GetLTENetworkIDEnodebs structure.
@@ -47,7 +46,7 @@ func NewGetLTENetworkIDEnodebsOK() *GetLTENetworkIDEnodebsOK {
 	return &GetLTENetworkIDEnodebsOK{}
 }
 
-/*GetLTENetworkIDEnodebsOK handles this case with default header values.
+/* GetLTENetworkIDEnodebsOK describes a response with status code 200, with default header values.
 
 All enodeBs registered in the network
 */
@@ -58,7 +57,6 @@ type GetLTENetworkIDEnodebsOK struct {
 func (o *GetLTENetworkIDEnodebsOK) Error() string {
 	return fmt.Sprintf("[GET /lte/{network_id}/enodebs][%d] getLteNetworkIdEnodebsOK  %+v", 200, o.Payload)
 }
-
 func (o *GetLTENetworkIDEnodebsOK) GetPayload() map[string]models.ENODEB {
 	return o.Payload
 }
@@ -80,7 +78,7 @@ func NewGetLTENetworkIDEnodebsDefault(code int) *GetLTENetworkIDEnodebsDefault {
 	}
 }
 
-/*GetLTENetworkIDEnodebsDefault handles this case with default header values.
+/* GetLTENetworkIDEnodebsDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -98,7 +96,6 @@ func (o *GetLTENetworkIDEnodebsDefault) Code() int {
 func (o *GetLTENetworkIDEnodebsDefault) Error() string {
 	return fmt.Sprintf("[GET /lte/{network_id}/enodebs][%d] GetLTENetworkIDEnodebs default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetLTENetworkIDEnodebsDefault) GetPayload() *models.Error {
 	return o.Payload
 }

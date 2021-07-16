@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // DeleteCiNodesNodeIDReader is a Reader for the DeleteCiNodesNodeID structure.
@@ -47,7 +46,7 @@ func NewDeleteCiNodesNodeIDNoContent() *DeleteCiNodesNodeIDNoContent {
 	return &DeleteCiNodesNodeIDNoContent{}
 }
 
-/*DeleteCiNodesNodeIDNoContent handles this case with default header values.
+/* DeleteCiNodesNodeIDNoContent describes a response with status code 204, with default header values.
 
 Success
 */
@@ -70,7 +69,7 @@ func NewDeleteCiNodesNodeIDDefault(code int) *DeleteCiNodesNodeIDDefault {
 	}
 }
 
-/*DeleteCiNodesNodeIDDefault handles this case with default header values.
+/* DeleteCiNodesNodeIDDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *DeleteCiNodesNodeIDDefault) Code() int {
 func (o *DeleteCiNodesNodeIDDefault) Error() string {
 	return fmt.Sprintf("[DELETE /ci/nodes/{node_id}][%d] DeleteCiNodesNodeID default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *DeleteCiNodesNodeIDDefault) GetPayload() *models.Error {
 	return o.Payload
 }

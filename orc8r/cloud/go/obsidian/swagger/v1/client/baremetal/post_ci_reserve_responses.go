@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PostCiReserveReader is a Reader for the PostCiReserve structure.
@@ -47,7 +46,7 @@ func NewPostCiReserveOK() *PostCiReserveOK {
 	return &PostCiReserveOK{}
 }
 
-/*PostCiReserveOK handles this case with default header values.
+/* PostCiReserveOK describes a response with status code 200, with default header values.
 
 Lease information about the reserved node
 */
@@ -58,7 +57,6 @@ type PostCiReserveOK struct {
 func (o *PostCiReserveOK) Error() string {
 	return fmt.Sprintf("[POST /ci/reserve][%d] postCiReserveOK  %+v", 200, o.Payload)
 }
-
 func (o *PostCiReserveOK) GetPayload() *models.NodeLease {
 	return o.Payload
 }
@@ -82,7 +80,7 @@ func NewPostCiReserveDefault(code int) *PostCiReserveDefault {
 	}
 }
 
-/*PostCiReserveDefault handles this case with default header values.
+/* PostCiReserveDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -100,7 +98,6 @@ func (o *PostCiReserveDefault) Code() int {
 func (o *PostCiReserveDefault) Error() string {
 	return fmt.Sprintf("[POST /ci/reserve][%d] PostCiReserve default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PostCiReserveDefault) GetPayload() *models.Error {
 	return o.Payload
 }

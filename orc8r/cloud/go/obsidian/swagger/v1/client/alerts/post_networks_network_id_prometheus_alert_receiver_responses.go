@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PostNetworksNetworkIDPrometheusAlertReceiverReader is a Reader for the PostNetworksNetworkIDPrometheusAlertReceiver structure.
@@ -47,7 +46,7 @@ func NewPostNetworksNetworkIDPrometheusAlertReceiverCreated() *PostNetworksNetwo
 	return &PostNetworksNetworkIDPrometheusAlertReceiverCreated{}
 }
 
-/*PostNetworksNetworkIDPrometheusAlertReceiverCreated handles this case with default header values.
+/* PostNetworksNetworkIDPrometheusAlertReceiverCreated describes a response with status code 201, with default header values.
 
 Created
 */
@@ -70,7 +69,7 @@ func NewPostNetworksNetworkIDPrometheusAlertReceiverDefault(code int) *PostNetwo
 	}
 }
 
-/*PostNetworksNetworkIDPrometheusAlertReceiverDefault handles this case with default header values.
+/* PostNetworksNetworkIDPrometheusAlertReceiverDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *PostNetworksNetworkIDPrometheusAlertReceiverDefault) Code() int {
 func (o *PostNetworksNetworkIDPrometheusAlertReceiverDefault) Error() string {
 	return fmt.Sprintf("[POST /networks/{network_id}/prometheus/alert_receiver][%d] PostNetworksNetworkIDPrometheusAlertReceiver default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PostNetworksNetworkIDPrometheusAlertReceiverDefault) GetPayload() *models.Error {
 	return o.Payload
 }

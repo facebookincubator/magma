@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PostCiNodesReader is a Reader for the PostCiNodes structure.
@@ -47,7 +46,7 @@ func NewPostCiNodesCreated() *PostCiNodesCreated {
 	return &PostCiNodesCreated{}
 }
 
-/*PostCiNodesCreated handles this case with default header values.
+/* PostCiNodesCreated describes a response with status code 201, with default header values.
 
 Created
 */
@@ -70,7 +69,7 @@ func NewPostCiNodesDefault(code int) *PostCiNodesDefault {
 	}
 }
 
-/*PostCiNodesDefault handles this case with default header values.
+/* PostCiNodesDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *PostCiNodesDefault) Code() int {
 func (o *PostCiNodesDefault) Error() string {
 	return fmt.Sprintf("[POST /ci/nodes][%d] PostCiNodes default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PostCiNodesDefault) GetPayload() *models.Error {
 	return o.Payload
 }

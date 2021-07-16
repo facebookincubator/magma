@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetNetworksNetworkIDDescriptionReader is a Reader for the GetNetworksNetworkIDDescription structure.
@@ -47,7 +46,7 @@ func NewGetNetworksNetworkIDDescriptionOK() *GetNetworksNetworkIDDescriptionOK {
 	return &GetNetworksNetworkIDDescriptionOK{}
 }
 
-/*GetNetworksNetworkIDDescriptionOK handles this case with default header values.
+/* GetNetworksNetworkIDDescriptionOK describes a response with status code 200, with default header values.
 
 The description of the network
 */
@@ -58,7 +57,6 @@ type GetNetworksNetworkIDDescriptionOK struct {
 func (o *GetNetworksNetworkIDDescriptionOK) Error() string {
 	return fmt.Sprintf("[GET /networks/{network_id}/description][%d] getNetworksNetworkIdDescriptionOK  %+v", 200, o.Payload)
 }
-
 func (o *GetNetworksNetworkIDDescriptionOK) GetPayload() models.NetworkDescription {
 	return o.Payload
 }
@@ -80,7 +78,7 @@ func NewGetNetworksNetworkIDDescriptionDefault(code int) *GetNetworksNetworkIDDe
 	}
 }
 
-/*GetNetworksNetworkIDDescriptionDefault handles this case with default header values.
+/* GetNetworksNetworkIDDescriptionDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -98,7 +96,6 @@ func (o *GetNetworksNetworkIDDescriptionDefault) Code() int {
 func (o *GetNetworksNetworkIDDescriptionDefault) Error() string {
 	return fmt.Sprintf("[GET /networks/{network_id}/description][%d] GetNetworksNetworkIDDescription default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetNetworksNetworkIDDescriptionDefault) GetPayload() *models.Error {
 	return o.Payload
 }

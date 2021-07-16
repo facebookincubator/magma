@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetTestsE2eReader is a Reader for the GetTestsE2e structure.
@@ -47,7 +46,7 @@ func NewGetTestsE2eOK() *GetTestsE2eOK {
 	return &GetTestsE2eOK{}
 }
 
-/*GetTestsE2eOK handles this case with default header values.
+/* GetTestsE2eOK describes a response with status code 200, with default header values.
 
 List of test configurations
 */
@@ -58,7 +57,6 @@ type GetTestsE2eOK struct {
 func (o *GetTestsE2eOK) Error() string {
 	return fmt.Sprintf("[GET /tests/e2e][%d] getTestsE2eOK  %+v", 200, o.Payload)
 }
-
 func (o *GetTestsE2eOK) GetPayload() []*models.E2eTestCase {
 	return o.Payload
 }
@@ -80,7 +78,7 @@ func NewGetTestsE2eDefault(code int) *GetTestsE2eDefault {
 	}
 }
 
-/*GetTestsE2eDefault handles this case with default header values.
+/* GetTestsE2eDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -98,7 +96,6 @@ func (o *GetTestsE2eDefault) Code() int {
 func (o *GetTestsE2eDefault) Error() string {
 	return fmt.Sprintf("[GET /tests/e2e][%d] GetTestsE2e default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetTestsE2eDefault) GetPayload() *models.Error {
 	return o.Payload
 }

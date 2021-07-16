@@ -13,70 +13,84 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
-// NewPutCiNodesNodeIDParams creates a new PutCiNodesNodeIDParams object
-// with the default values initialized.
+// NewPutCiNodesNodeIDParams creates a new PutCiNodesNodeIDParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewPutCiNodesNodeIDParams() *PutCiNodesNodeIDParams {
-	var ()
 	return &PutCiNodesNodeIDParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewPutCiNodesNodeIDParamsWithTimeout creates a new PutCiNodesNodeIDParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewPutCiNodesNodeIDParamsWithTimeout(timeout time.Duration) *PutCiNodesNodeIDParams {
-	var ()
 	return &PutCiNodesNodeIDParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewPutCiNodesNodeIDParamsWithContext creates a new PutCiNodesNodeIDParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewPutCiNodesNodeIDParamsWithContext(ctx context.Context) *PutCiNodesNodeIDParams {
-	var ()
 	return &PutCiNodesNodeIDParams{
-
 		Context: ctx,
 	}
 }
 
 // NewPutCiNodesNodeIDParamsWithHTTPClient creates a new PutCiNodesNodeIDParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewPutCiNodesNodeIDParamsWithHTTPClient(client *http.Client) *PutCiNodesNodeIDParams {
-	var ()
 	return &PutCiNodesNodeIDParams{
 		HTTPClient: client,
 	}
 }
 
-/*PutCiNodesNodeIDParams contains all the parameters to send to the API endpoint
-for the put ci nodes node ID operation typically these are written to a http.Request
+/* PutCiNodesNodeIDParams contains all the parameters to send to the API endpoint
+   for the put ci nodes node ID operation.
+
+   Typically these are written to a http.Request.
 */
 type PutCiNodesNodeIDParams struct {
 
-	/*CiNode
-	  CI node to create
+	/* CiNode.
 
+	   CI node to create
 	*/
 	CiNode *models.MutableCiNode
-	/*NodeID
-	  CI node ID
 
+	/* NodeID.
+
+	   CI node ID
 	*/
 	NodeID string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the put ci nodes node ID params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PutCiNodesNodeIDParams) WithDefaults() *PutCiNodesNodeIDParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the put ci nodes node ID params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PutCiNodesNodeIDParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the put ci nodes node ID params
@@ -141,7 +155,6 @@ func (o *PutCiNodesNodeIDParams) WriteToRequest(r runtime.ClientRequest, reg str
 		return err
 	}
 	var res []error
-
 	if o.CiNode != nil {
 		if err := r.SetBodyParam(o.CiNode); err != nil {
 			return err

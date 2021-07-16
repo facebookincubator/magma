@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetFegLTENetworkIDFederationReader is a Reader for the GetFegLTENetworkIDFederation structure.
@@ -47,7 +46,7 @@ func NewGetFegLTENetworkIDFederationOK() *GetFegLTENetworkIDFederationOK {
 	return &GetFegLTENetworkIDFederationOK{}
 }
 
-/*GetFegLTENetworkIDFederationOK handles this case with default header values.
+/* GetFegLTENetworkIDFederationOK describes a response with status code 200, with default header values.
 
 Retrieved Network FeG Configs
 */
@@ -58,7 +57,6 @@ type GetFegLTENetworkIDFederationOK struct {
 func (o *GetFegLTENetworkIDFederationOK) Error() string {
 	return fmt.Sprintf("[GET /feg_lte/{network_id}/federation][%d] getFegLteNetworkIdFederationOK  %+v", 200, o.Payload)
 }
-
 func (o *GetFegLTENetworkIDFederationOK) GetPayload() *models.FederatedNetworkConfigs {
 	return o.Payload
 }
@@ -82,7 +80,7 @@ func NewGetFegLTENetworkIDFederationDefault(code int) *GetFegLTENetworkIDFederat
 	}
 }
 
-/*GetFegLTENetworkIDFederationDefault handles this case with default header values.
+/* GetFegLTENetworkIDFederationDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -100,7 +98,6 @@ func (o *GetFegLTENetworkIDFederationDefault) Code() int {
 func (o *GetFegLTENetworkIDFederationDefault) Error() string {
 	return fmt.Sprintf("[GET /feg_lte/{network_id}/federation][%d] GetFegLTENetworkIDFederation default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetFegLTENetworkIDFederationDefault) GetPayload() *models.Error {
 	return o.Payload
 }

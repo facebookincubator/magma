@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PostNetworksNetworkIDDNSRecordsDomainReader is a Reader for the PostNetworksNetworkIDDNSRecordsDomain structure.
@@ -47,7 +46,7 @@ func NewPostNetworksNetworkIDDNSRecordsDomainCreated() *PostNetworksNetworkIDDNS
 	return &PostNetworksNetworkIDDNSRecordsDomainCreated{}
 }
 
-/*PostNetworksNetworkIDDNSRecordsDomainCreated handles this case with default header values.
+/* PostNetworksNetworkIDDNSRecordsDomainCreated describes a response with status code 201, with default header values.
 
 Success
 */
@@ -70,7 +69,7 @@ func NewPostNetworksNetworkIDDNSRecordsDomainDefault(code int) *PostNetworksNetw
 	}
 }
 
-/*PostNetworksNetworkIDDNSRecordsDomainDefault handles this case with default header values.
+/* PostNetworksNetworkIDDNSRecordsDomainDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *PostNetworksNetworkIDDNSRecordsDomainDefault) Code() int {
 func (o *PostNetworksNetworkIDDNSRecordsDomainDefault) Error() string {
 	return fmt.Sprintf("[POST /networks/{network_id}/dns/records/{domain}][%d] PostNetworksNetworkIDDNSRecordsDomain default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PostNetworksNetworkIDDNSRecordsDomainDefault) GetPayload() *models.Error {
 	return o.Payload
 }

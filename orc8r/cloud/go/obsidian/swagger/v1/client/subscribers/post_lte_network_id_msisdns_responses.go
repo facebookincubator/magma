@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PostLTENetworkIDMsisdnsReader is a Reader for the PostLTENetworkIDMsisdns structure.
@@ -47,7 +46,7 @@ func NewPostLTENetworkIDMsisdnsCreated() *PostLTENetworkIDMsisdnsCreated {
 	return &PostLTENetworkIDMsisdnsCreated{}
 }
 
-/*PostLTENetworkIDMsisdnsCreated handles this case with default header values.
+/* PostLTENetworkIDMsisdnsCreated describes a response with status code 201, with default header values.
 
 Success
 */
@@ -70,7 +69,7 @@ func NewPostLTENetworkIDMsisdnsDefault(code int) *PostLTENetworkIDMsisdnsDefault
 	}
 }
 
-/*PostLTENetworkIDMsisdnsDefault handles this case with default header values.
+/* PostLTENetworkIDMsisdnsDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *PostLTENetworkIDMsisdnsDefault) Code() int {
 func (o *PostLTENetworkIDMsisdnsDefault) Error() string {
 	return fmt.Sprintf("[POST /lte/{network_id}/msisdns][%d] PostLTENetworkIDMsisdns default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PostLTENetworkIDMsisdnsDefault) GetPayload() *models.Error {
 	return o.Payload
 }

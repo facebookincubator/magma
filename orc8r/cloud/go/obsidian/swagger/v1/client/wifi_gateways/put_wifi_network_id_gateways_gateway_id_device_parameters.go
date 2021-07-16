@@ -13,75 +13,90 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
-// NewPutWifiNetworkIDGatewaysGatewayIDDeviceParams creates a new PutWifiNetworkIDGatewaysGatewayIDDeviceParams object
-// with the default values initialized.
+// NewPutWifiNetworkIDGatewaysGatewayIDDeviceParams creates a new PutWifiNetworkIDGatewaysGatewayIDDeviceParams object,
+// with the default timeout for this client.
+//
+// Default values are not hydrated, since defaults are normally applied by the API server side.
+//
+// To enforce default values in parameter, use SetDefaults or WithDefaults.
 func NewPutWifiNetworkIDGatewaysGatewayIDDeviceParams() *PutWifiNetworkIDGatewaysGatewayIDDeviceParams {
-	var ()
 	return &PutWifiNetworkIDGatewaysGatewayIDDeviceParams{
-
 		timeout: cr.DefaultTimeout,
 	}
 }
 
 // NewPutWifiNetworkIDGatewaysGatewayIDDeviceParamsWithTimeout creates a new PutWifiNetworkIDGatewaysGatewayIDDeviceParams object
-// with the default values initialized, and the ability to set a timeout on a request
+// with the ability to set a timeout on a request.
 func NewPutWifiNetworkIDGatewaysGatewayIDDeviceParamsWithTimeout(timeout time.Duration) *PutWifiNetworkIDGatewaysGatewayIDDeviceParams {
-	var ()
 	return &PutWifiNetworkIDGatewaysGatewayIDDeviceParams{
-
 		timeout: timeout,
 	}
 }
 
 // NewPutWifiNetworkIDGatewaysGatewayIDDeviceParamsWithContext creates a new PutWifiNetworkIDGatewaysGatewayIDDeviceParams object
-// with the default values initialized, and the ability to set a context for a request
+// with the ability to set a context for a request.
 func NewPutWifiNetworkIDGatewaysGatewayIDDeviceParamsWithContext(ctx context.Context) *PutWifiNetworkIDGatewaysGatewayIDDeviceParams {
-	var ()
 	return &PutWifiNetworkIDGatewaysGatewayIDDeviceParams{
-
 		Context: ctx,
 	}
 }
 
 // NewPutWifiNetworkIDGatewaysGatewayIDDeviceParamsWithHTTPClient creates a new PutWifiNetworkIDGatewaysGatewayIDDeviceParams object
-// with the default values initialized, and the ability to set a custom HTTPClient for a request
+// with the ability to set a custom HTTPClient for a request.
 func NewPutWifiNetworkIDGatewaysGatewayIDDeviceParamsWithHTTPClient(client *http.Client) *PutWifiNetworkIDGatewaysGatewayIDDeviceParams {
-	var ()
 	return &PutWifiNetworkIDGatewaysGatewayIDDeviceParams{
 		HTTPClient: client,
 	}
 }
 
-/*PutWifiNetworkIDGatewaysGatewayIDDeviceParams contains all the parameters to send to the API endpoint
-for the put wifi network ID gateways gateway ID device operation typically these are written to a http.Request
+/* PutWifiNetworkIDGatewaysGatewayIDDeviceParams contains all the parameters to send to the API endpoint
+   for the put wifi network ID gateways gateway ID device operation.
+
+   Typically these are written to a http.Request.
 */
 type PutWifiNetworkIDGatewaysGatewayIDDeviceParams struct {
 
-	/*Device
-	  New device for the Wifi gateway
+	/* Device.
 
+	   New device for the Wifi gateway
 	*/
 	Device *models.GatewayDevice
-	/*GatewayID
-	  Gateway ID
 
+	/* GatewayID.
+
+	   Gateway ID
 	*/
 	GatewayID string
-	/*NetworkID
-	  Network ID
 
+	/* NetworkID.
+
+	   Network ID
 	*/
 	NetworkID string
 
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
+}
+
+// WithDefaults hydrates default values in the put wifi network ID gateways gateway ID device params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PutWifiNetworkIDGatewaysGatewayIDDeviceParams) WithDefaults() *PutWifiNetworkIDGatewaysGatewayIDDeviceParams {
+	o.SetDefaults()
+	return o
+}
+
+// SetDefaults hydrates default values in the put wifi network ID gateways gateway ID device params (not the query body).
+//
+// All values with no default are reset to their zero value.
+func (o *PutWifiNetworkIDGatewaysGatewayIDDeviceParams) SetDefaults() {
+	// no default values defined for this parameter
 }
 
 // WithTimeout adds the timeout to the put wifi network ID gateways gateway ID device params
@@ -157,7 +172,6 @@ func (o *PutWifiNetworkIDGatewaysGatewayIDDeviceParams) WriteToRequest(r runtime
 		return err
 	}
 	var res []error
-
 	if o.Device != nil {
 		if err := r.SetBodyParam(o.Device); err != nil {
 			return err

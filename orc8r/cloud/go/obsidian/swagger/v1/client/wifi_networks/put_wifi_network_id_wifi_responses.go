@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PutWifiNetworkIDWifiReader is a Reader for the PutWifiNetworkIDWifi structure.
@@ -47,7 +46,7 @@ func NewPutWifiNetworkIDWifiNoContent() *PutWifiNetworkIDWifiNoContent {
 	return &PutWifiNetworkIDWifiNoContent{}
 }
 
-/*PutWifiNetworkIDWifiNoContent handles this case with default header values.
+/* PutWifiNetworkIDWifiNoContent describes a response with status code 204, with default header values.
 
 Success
 */
@@ -70,7 +69,7 @@ func NewPutWifiNetworkIDWifiDefault(code int) *PutWifiNetworkIDWifiDefault {
 	}
 }
 
-/*PutWifiNetworkIDWifiDefault handles this case with default header values.
+/* PutWifiNetworkIDWifiDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *PutWifiNetworkIDWifiDefault) Code() int {
 func (o *PutWifiNetworkIDWifiDefault) Error() string {
 	return fmt.Sprintf("[PUT /wifi/{network_id}/wifi][%d] PutWifiNetworkIDWifi default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PutWifiNetworkIDWifiDefault) GetPayload() *models.Error {
 	return o.Payload
 }

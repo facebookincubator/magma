@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PostWifiNetworkIDGatewaysReader is a Reader for the PostWifiNetworkIDGateways structure.
@@ -47,7 +46,7 @@ func NewPostWifiNetworkIDGatewaysCreated() *PostWifiNetworkIDGatewaysCreated {
 	return &PostWifiNetworkIDGatewaysCreated{}
 }
 
-/*PostWifiNetworkIDGatewaysCreated handles this case with default header values.
+/* PostWifiNetworkIDGatewaysCreated describes a response with status code 201, with default header values.
 
 Success
 */
@@ -70,7 +69,7 @@ func NewPostWifiNetworkIDGatewaysDefault(code int) *PostWifiNetworkIDGatewaysDef
 	}
 }
 
-/*PostWifiNetworkIDGatewaysDefault handles this case with default header values.
+/* PostWifiNetworkIDGatewaysDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *PostWifiNetworkIDGatewaysDefault) Code() int {
 func (o *PostWifiNetworkIDGatewaysDefault) Error() string {
 	return fmt.Sprintf("[POST /wifi/{network_id}/gateways][%d] PostWifiNetworkIDGateways default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PostWifiNetworkIDGatewaysDefault) GetPayload() *models.Error {
 	return o.Payload
 }

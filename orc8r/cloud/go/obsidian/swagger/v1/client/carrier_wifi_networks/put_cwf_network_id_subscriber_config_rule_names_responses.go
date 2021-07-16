@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PutCwfNetworkIDSubscriberConfigRuleNamesReader is a Reader for the PutCwfNetworkIDSubscriberConfigRuleNames structure.
@@ -47,7 +46,7 @@ func NewPutCwfNetworkIDSubscriberConfigRuleNamesNoContent() *PutCwfNetworkIDSubs
 	return &PutCwfNetworkIDSubscriberConfigRuleNamesNoContent{}
 }
 
-/*PutCwfNetworkIDSubscriberConfigRuleNamesNoContent handles this case with default header values.
+/* PutCwfNetworkIDSubscriberConfigRuleNamesNoContent describes a response with status code 204, with default header values.
 
 Success
 */
@@ -70,7 +69,7 @@ func NewPutCwfNetworkIDSubscriberConfigRuleNamesDefault(code int) *PutCwfNetwork
 	}
 }
 
-/*PutCwfNetworkIDSubscriberConfigRuleNamesDefault handles this case with default header values.
+/* PutCwfNetworkIDSubscriberConfigRuleNamesDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *PutCwfNetworkIDSubscriberConfigRuleNamesDefault) Code() int {
 func (o *PutCwfNetworkIDSubscriberConfigRuleNamesDefault) Error() string {
 	return fmt.Sprintf("[PUT /cwf/{network_id}/subscriber_config/rule_names][%d] PutCwfNetworkIDSubscriberConfigRuleNames default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PutCwfNetworkIDSubscriberConfigRuleNamesDefault) GetPayload() *models.Error {
 	return o.Payload
 }

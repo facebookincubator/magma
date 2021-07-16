@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetWifiNetworkIDGatewaysGatewayIDTierReader is a Reader for the GetWifiNetworkIDGatewaysGatewayIDTier structure.
@@ -47,7 +46,7 @@ func NewGetWifiNetworkIDGatewaysGatewayIDTierOK() *GetWifiNetworkIDGatewaysGatew
 	return &GetWifiNetworkIDGatewaysGatewayIDTierOK{}
 }
 
-/*GetWifiNetworkIDGatewaysGatewayIDTierOK handles this case with default header values.
+/* GetWifiNetworkIDGatewaysGatewayIDTierOK describes a response with status code 200, with default header values.
 
 The ID of the upgrade tier
 */
@@ -58,7 +57,6 @@ type GetWifiNetworkIDGatewaysGatewayIDTierOK struct {
 func (o *GetWifiNetworkIDGatewaysGatewayIDTierOK) Error() string {
 	return fmt.Sprintf("[GET /wifi/{network_id}/gateways/{gateway_id}/tier][%d] getWifiNetworkIdGatewaysGatewayIdTierOK  %+v", 200, o.Payload)
 }
-
 func (o *GetWifiNetworkIDGatewaysGatewayIDTierOK) GetPayload() models.TierID {
 	return o.Payload
 }
@@ -80,7 +78,7 @@ func NewGetWifiNetworkIDGatewaysGatewayIDTierDefault(code int) *GetWifiNetworkID
 	}
 }
 
-/*GetWifiNetworkIDGatewaysGatewayIDTierDefault handles this case with default header values.
+/* GetWifiNetworkIDGatewaysGatewayIDTierDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -98,7 +96,6 @@ func (o *GetWifiNetworkIDGatewaysGatewayIDTierDefault) Code() int {
 func (o *GetWifiNetworkIDGatewaysGatewayIDTierDefault) Error() string {
 	return fmt.Sprintf("[GET /wifi/{network_id}/gateways/{gateway_id}/tier][%d] GetWifiNetworkIDGatewaysGatewayIDTier default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetWifiNetworkIDGatewaysGatewayIDTierDefault) GetPayload() *models.Error {
 	return o.Payload
 }

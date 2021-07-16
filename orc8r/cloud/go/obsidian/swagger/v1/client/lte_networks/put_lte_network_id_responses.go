@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PutLTENetworkIDReader is a Reader for the PutLTENetworkID structure.
@@ -47,7 +46,7 @@ func NewPutLTENetworkIDNoContent() *PutLTENetworkIDNoContent {
 	return &PutLTENetworkIDNoContent{}
 }
 
-/*PutLTENetworkIDNoContent handles this case with default header values.
+/* PutLTENetworkIDNoContent describes a response with status code 204, with default header values.
 
 Success
 */
@@ -70,7 +69,7 @@ func NewPutLTENetworkIDDefault(code int) *PutLTENetworkIDDefault {
 	}
 }
 
-/*PutLTENetworkIDDefault handles this case with default header values.
+/* PutLTENetworkIDDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *PutLTENetworkIDDefault) Code() int {
 func (o *PutLTENetworkIDDefault) Error() string {
 	return fmt.Sprintf("[PUT /lte/{network_id}][%d] PutLTENetworkID default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PutLTENetworkIDDefault) GetPayload() *models.Error {
 	return o.Payload
 }

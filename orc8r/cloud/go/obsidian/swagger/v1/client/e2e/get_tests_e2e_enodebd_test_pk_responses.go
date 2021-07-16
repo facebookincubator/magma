@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetTestsE2eEnodebdTestPkReader is a Reader for the GetTestsE2eEnodebdTestPk structure.
@@ -47,7 +46,7 @@ func NewGetTestsE2eEnodebdTestPkOK() *GetTestsE2eEnodebdTestPkOK {
 	return &GetTestsE2eEnodebdTestPkOK{}
 }
 
-/*GetTestsE2eEnodebdTestPkOK handles this case with default header values.
+/* GetTestsE2eEnodebdTestPkOK describes a response with status code 200, with default header values.
 
 Requested enodebd test case
 */
@@ -58,7 +57,6 @@ type GetTestsE2eEnodebdTestPkOK struct {
 func (o *GetTestsE2eEnodebdTestPkOK) Error() string {
 	return fmt.Sprintf("[GET /tests/e2e/enodebd/{test_pk}][%d] getTestsE2eEnodebdTestPkOK  %+v", 200, o.Payload)
 }
-
 func (o *GetTestsE2eEnodebdTestPkOK) GetPayload() *models.EnodebdTestConfig {
 	return o.Payload
 }
@@ -82,7 +80,7 @@ func NewGetTestsE2eEnodebdTestPkDefault(code int) *GetTestsE2eEnodebdTestPkDefau
 	}
 }
 
-/*GetTestsE2eEnodebdTestPkDefault handles this case with default header values.
+/* GetTestsE2eEnodebdTestPkDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -100,7 +98,6 @@ func (o *GetTestsE2eEnodebdTestPkDefault) Code() int {
 func (o *GetTestsE2eEnodebdTestPkDefault) Error() string {
 	return fmt.Sprintf("[GET /tests/e2e/enodebd/{test_pk}][%d] GetTestsE2eEnodebdTestPk default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetTestsE2eEnodebdTestPkDefault) GetPayload() *models.Error {
 	return o.Payload
 }

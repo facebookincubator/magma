@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetWifiNetworkIDGatewaysGatewayIDDescriptionReader is a Reader for the GetWifiNetworkIDGatewaysGatewayIDDescription structure.
@@ -47,7 +46,7 @@ func NewGetWifiNetworkIDGatewaysGatewayIDDescriptionOK() *GetWifiNetworkIDGatewa
 	return &GetWifiNetworkIDGatewaysGatewayIDDescriptionOK{}
 }
 
-/*GetWifiNetworkIDGatewaysGatewayIDDescriptionOK handles this case with default header values.
+/* GetWifiNetworkIDGatewaysGatewayIDDescriptionOK describes a response with status code 200, with default header values.
 
 The description of the gateway
 */
@@ -58,7 +57,6 @@ type GetWifiNetworkIDGatewaysGatewayIDDescriptionOK struct {
 func (o *GetWifiNetworkIDGatewaysGatewayIDDescriptionOK) Error() string {
 	return fmt.Sprintf("[GET /wifi/{network_id}/gateways/{gateway_id}/description][%d] getWifiNetworkIdGatewaysGatewayIdDescriptionOK  %+v", 200, o.Payload)
 }
-
 func (o *GetWifiNetworkIDGatewaysGatewayIDDescriptionOK) GetPayload() models.GatewayDescription {
 	return o.Payload
 }
@@ -80,7 +78,7 @@ func NewGetWifiNetworkIDGatewaysGatewayIDDescriptionDefault(code int) *GetWifiNe
 	}
 }
 
-/*GetWifiNetworkIDGatewaysGatewayIDDescriptionDefault handles this case with default header values.
+/* GetWifiNetworkIDGatewaysGatewayIDDescriptionDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -98,7 +96,6 @@ func (o *GetWifiNetworkIDGatewaysGatewayIDDescriptionDefault) Code() int {
 func (o *GetWifiNetworkIDGatewaysGatewayIDDescriptionDefault) Error() string {
 	return fmt.Sprintf("[GET /wifi/{network_id}/gateways/{gateway_id}/description][%d] GetWifiNetworkIDGatewaysGatewayIDDescription default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetWifiNetworkIDGatewaysGatewayIDDescriptionDefault) GetPayload() *models.Error {
 	return o.Payload
 }

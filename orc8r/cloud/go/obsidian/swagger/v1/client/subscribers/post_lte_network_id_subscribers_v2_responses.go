@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PostLTENetworkIDSubscribersV2Reader is a Reader for the PostLTENetworkIDSubscribersV2 structure.
@@ -47,7 +46,7 @@ func NewPostLTENetworkIDSubscribersV2Created() *PostLTENetworkIDSubscribersV2Cre
 	return &PostLTENetworkIDSubscribersV2Created{}
 }
 
-/*PostLTENetworkIDSubscribersV2Created handles this case with default header values.
+/* PostLTENetworkIDSubscribersV2Created describes a response with status code 201, with default header values.
 
 Success
 */
@@ -70,7 +69,7 @@ func NewPostLTENetworkIDSubscribersV2Default(code int) *PostLTENetworkIDSubscrib
 	}
 }
 
-/*PostLTENetworkIDSubscribersV2Default handles this case with default header values.
+/* PostLTENetworkIDSubscribersV2Default describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *PostLTENetworkIDSubscribersV2Default) Code() int {
 func (o *PostLTENetworkIDSubscribersV2Default) Error() string {
 	return fmt.Sprintf("[POST /lte/{network_id}/subscribers_v2][%d] PostLTENetworkIDSubscribersV2 default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PostLTENetworkIDSubscribersV2Default) GetPayload() *models.Error {
 	return o.Payload
 }

@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // DeleteCwfNetworkIDReader is a Reader for the DeleteCwfNetworkID structure.
@@ -47,7 +46,7 @@ func NewDeleteCwfNetworkIDNoContent() *DeleteCwfNetworkIDNoContent {
 	return &DeleteCwfNetworkIDNoContent{}
 }
 
-/*DeleteCwfNetworkIDNoContent handles this case with default header values.
+/* DeleteCwfNetworkIDNoContent describes a response with status code 204, with default header values.
 
 Success
 */
@@ -70,7 +69,7 @@ func NewDeleteCwfNetworkIDDefault(code int) *DeleteCwfNetworkIDDefault {
 	}
 }
 
-/*DeleteCwfNetworkIDDefault handles this case with default header values.
+/* DeleteCwfNetworkIDDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *DeleteCwfNetworkIDDefault) Code() int {
 func (o *DeleteCwfNetworkIDDefault) Error() string {
 	return fmt.Sprintf("[DELETE /cwf/{network_id}][%d] DeleteCwfNetworkID default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *DeleteCwfNetworkIDDefault) GetPayload() *models.Error {
 	return o.Payload
 }

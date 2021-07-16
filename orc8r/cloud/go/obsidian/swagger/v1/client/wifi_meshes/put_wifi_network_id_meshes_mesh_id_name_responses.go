@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PutWifiNetworkIDMeshesMeshIDNameReader is a Reader for the PutWifiNetworkIDMeshesMeshIDName structure.
@@ -47,7 +46,7 @@ func NewPutWifiNetworkIDMeshesMeshIDNameNoContent() *PutWifiNetworkIDMeshesMeshI
 	return &PutWifiNetworkIDMeshesMeshIDNameNoContent{}
 }
 
-/*PutWifiNetworkIDMeshesMeshIDNameNoContent handles this case with default header values.
+/* PutWifiNetworkIDMeshesMeshIDNameNoContent describes a response with status code 204, with default header values.
 
 Success
 */
@@ -70,7 +69,7 @@ func NewPutWifiNetworkIDMeshesMeshIDNameDefault(code int) *PutWifiNetworkIDMeshe
 	}
 }
 
-/*PutWifiNetworkIDMeshesMeshIDNameDefault handles this case with default header values.
+/* PutWifiNetworkIDMeshesMeshIDNameDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *PutWifiNetworkIDMeshesMeshIDNameDefault) Code() int {
 func (o *PutWifiNetworkIDMeshesMeshIDNameDefault) Error() string {
 	return fmt.Sprintf("[PUT /wifi/{network_id}/meshes/{mesh_id}/name][%d] PutWifiNetworkIDMeshesMeshIDName default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PutWifiNetworkIDMeshesMeshIDNameDefault) GetPayload() *models.Error {
 	return o.Payload
 }

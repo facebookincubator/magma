@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // GetNetworksNetworkIDSentryReader is a Reader for the GetNetworksNetworkIDSentry structure.
@@ -47,7 +46,7 @@ func NewGetNetworksNetworkIDSentryOK() *GetNetworksNetworkIDSentryOK {
 	return &GetNetworksNetworkIDSentryOK{}
 }
 
-/*GetNetworksNetworkIDSentryOK handles this case with default header values.
+/* GetNetworksNetworkIDSentryOK describes a response with status code 200, with default header values.
 
 Network-wide Sentry.io configuration
 */
@@ -58,7 +57,6 @@ type GetNetworksNetworkIDSentryOK struct {
 func (o *GetNetworksNetworkIDSentryOK) Error() string {
 	return fmt.Sprintf("[GET /networks/{network_id}/sentry][%d] getNetworksNetworkIdSentryOK  %+v", 200, o.Payload)
 }
-
 func (o *GetNetworksNetworkIDSentryOK) GetPayload() *models.NetworkSentryConfig {
 	return o.Payload
 }
@@ -82,7 +80,7 @@ func NewGetNetworksNetworkIDSentryDefault(code int) *GetNetworksNetworkIDSentryD
 	}
 }
 
-/*GetNetworksNetworkIDSentryDefault handles this case with default header values.
+/* GetNetworksNetworkIDSentryDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -100,7 +98,6 @@ func (o *GetNetworksNetworkIDSentryDefault) Code() int {
 func (o *GetNetworksNetworkIDSentryDefault) Error() string {
 	return fmt.Sprintf("[GET /networks/{network_id}/sentry][%d] GetNetworksNetworkIDSentry default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *GetNetworksNetworkIDSentryDefault) GetPayload() *models.Error {
 	return o.Payload
 }

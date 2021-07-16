@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // PutLTENetworkIDGatewaysGatewayIDCellularDNSReader is a Reader for the PutLTENetworkIDGatewaysGatewayIDCellularDNS structure.
@@ -47,7 +46,7 @@ func NewPutLTENetworkIDGatewaysGatewayIDCellularDNSNoContent() *PutLTENetworkIDG
 	return &PutLTENetworkIDGatewaysGatewayIDCellularDNSNoContent{}
 }
 
-/*PutLTENetworkIDGatewaysGatewayIDCellularDNSNoContent handles this case with default header values.
+/* PutLTENetworkIDGatewaysGatewayIDCellularDNSNoContent describes a response with status code 204, with default header values.
 
 Success
 */
@@ -70,7 +69,7 @@ func NewPutLTENetworkIDGatewaysGatewayIDCellularDNSDefault(code int) *PutLTENetw
 	}
 }
 
-/*PutLTENetworkIDGatewaysGatewayIDCellularDNSDefault handles this case with default header values.
+/* PutLTENetworkIDGatewaysGatewayIDCellularDNSDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *PutLTENetworkIDGatewaysGatewayIDCellularDNSDefault) Code() int {
 func (o *PutLTENetworkIDGatewaysGatewayIDCellularDNSDefault) Error() string {
 	return fmt.Sprintf("[PUT /lte/{network_id}/gateways/{gateway_id}/cellular/dns][%d] PutLTENetworkIDGatewaysGatewayIDCellularDNS default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *PutLTENetworkIDGatewaysGatewayIDCellularDNSDefault) GetPayload() *models.Error {
 	return o.Payload
 }

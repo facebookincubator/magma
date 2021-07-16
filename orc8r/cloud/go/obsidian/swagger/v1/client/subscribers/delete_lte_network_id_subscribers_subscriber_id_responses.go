@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "magma/orc8r/cloud/go/obsidian/swagger/v1/models"
+	"magma/orc8r/cloud/go/obsidian/swagger/v1/models"
 )
 
 // DeleteLTENetworkIDSubscribersSubscriberIDReader is a Reader for the DeleteLTENetworkIDSubscribersSubscriberID structure.
@@ -47,7 +46,7 @@ func NewDeleteLTENetworkIDSubscribersSubscriberIDNoContent() *DeleteLTENetworkID
 	return &DeleteLTENetworkIDSubscribersSubscriberIDNoContent{}
 }
 
-/*DeleteLTENetworkIDSubscribersSubscriberIDNoContent handles this case with default header values.
+/* DeleteLTENetworkIDSubscribersSubscriberIDNoContent describes a response with status code 204, with default header values.
 
 Success
 */
@@ -70,7 +69,7 @@ func NewDeleteLTENetworkIDSubscribersSubscriberIDDefault(code int) *DeleteLTENet
 	}
 }
 
-/*DeleteLTENetworkIDSubscribersSubscriberIDDefault handles this case with default header values.
+/* DeleteLTENetworkIDSubscribersSubscriberIDDefault describes a response with status code -1, with default header values.
 
 Unexpected Error
 */
@@ -88,7 +87,6 @@ func (o *DeleteLTENetworkIDSubscribersSubscriberIDDefault) Code() int {
 func (o *DeleteLTENetworkIDSubscribersSubscriberIDDefault) Error() string {
 	return fmt.Sprintf("[DELETE /lte/{network_id}/subscribers/{subscriber_id}][%d] DeleteLTENetworkIDSubscribersSubscriberID default  %+v", o._statusCode, o.Payload)
 }
-
 func (o *DeleteLTENetworkIDSubscribersSubscriberIDDefault) GetPayload() *models.Error {
 	return o.Payload
 }
