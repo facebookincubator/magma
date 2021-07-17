@@ -1,0 +1,43 @@
+---
+# Copyright 2021 The Magma Authors.
+
+# This source code is licensed under the BSD-style license found in the
+# LICENSE file in the root directory of this source tree.
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+packages:
+  - graphviz
+  - debhelper
+  - dh-autoreconf
+  - python-all
+  - python-twisted-conch
+  - module-assistant
+  - openssl
+  - pkg-config
+  - libssl-dev
+  - build-essential
+  - libcap-ng-dev
+  - git
+  - ruby-dev
+
+# ovs version on github default v2.8.1
+ovs_version: "v2.8.10"
+# ovs version short in order to retreive patches if any
+ovs_version_short: "2.8.10"
+# patches relative location
+gtp_patch_path: "third_party/gtp_ovs/kernel-4.9/"
+# Working directory where ovs will be clone and patch applied
+build_folder: "/tmp/build-ovs"
+# Patches you want to apply
+patches:
+  - "0001-datapath-add-vport-gtp-for-GPRS-Tunneling-Protocol.patch"
+  - "0002-userspace-Add-L3-tunnel-type-GTP.patch"
+  - "0003-Build-symbols-for-gtp-vport-linux-4.9-module-require.patch"
+# VLAN OVS patch to cherry pick
+vlan_fix_hash: "3cf2b424bb"

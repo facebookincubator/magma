@@ -11,124 +11,107 @@
 # limitations under the License.
 #
 
-- fail: msg="MAGMA_ROOT and OUTPUT_DIR are required"
-  when:
-    - MAGMA_ROOT is not defined or OUTPUT_DIR is not defined
+- name: validate MAGMA_ROOT env variable.
+  fail:
+    msg: MAGMA_ROOT is required
+  when: MAGMA_ROOT is not defined
 
-- name: Get Kernel version
-  shell: uname -r
-  register: KVERS
+- name: Validate kernel version supported
+  fail:
+    msg: Kernel {{ ansible_kernel  }} not supported please use 4.9.0-9-amd64
+  when: ansible_kernel != '4.9.0-9-amd64'
 
-- fail: msg="Kernel Version {{ KVERS.stdout  }} not supported please use 4.9.0-9-amd64"
-  when:
-    - KVERS.stdout != '4.9.0-9-amd64'
-
-- name: Include vars of all.yaml
-  include_vars:
-    file: all.yaml
-    name: all_vars
-
-- name: Converting WORK_DIR to absolute path
-  shell: realpath {{ all_vars.WORK_DIR }}
-  register: WORK_DIR_ABSOLUTE
-
-- name: Converting OUTPUT_DIR to absolute path
-  shell: realpath {{ OUTPUT_DIR }}
-  register: OUTPUT_DIR_ABSOLUTE
-
-- name: Removing "{{ WORK_DIR_ABSOLUTE.stdout }}".
-  become: yes
+- name: Creating "{{ build_folder }}"
   file:
-    path: "{{ WORK_DIR_ABSOLUTE.stdout }}"
-    state: absent
-    force: yes
-
-- name: Creating "{{ all_vars.WORK_DIR }}"
-  file:
-    path: "{{ all_vars.WORK_DIR }}"
+    path: "{{ build_folder | realpath }}"
     state: directory
     mode: 0755
   register: GIT_HOME
 
 - name: Update and upgrade apt packages
-  become: yes
+  become: true
   apt:
-    update_cache: yes
-    upgrade: "yes"
+    update_cache: true
+    cache_valid_time: 3600
+  changed_when: false
+  when: ansible_os_family == 'Debian'
 
 - name: Install build dependencies.
-  become: yes
-  apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
-      - graphviz
-      - debhelper
-      - dh-autoreconf
-      - python-all
-      - python-twisted-conch
-      - module-assistant
-      - openssl
-      - pkg-config
-      - libssl-dev
-      - build-essential
-      - libcap-ng-dev
-      - git
-      - ruby-dev
+  become: true
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ packages }}"
 
 - name: Ensure correct kernel headers are installed.
-  shell: "apt -y install linux-headers-$(uname -r)"
-  become: yes
+  become: true
+  package:
+    name: "linux-headers-{{ ansible_kernel }}"
+    state: present
+  when: ansible_os_family == 'Debian'
 
 - name: Copy ssh keepAlive configs
-  copy: src={{ item.src }} dest={{ item.dest }}
-  become: yes
-  with_items:
-    - {src: 'sshd_config', dest: '/etc/ssh/sshd_config'}
-
-- name: Restart service ssh
-  become: yes
-  service:
-    name: ssh
-    state: restarted
+  copy:
+    mode: preserve
+    src: sshd_config
+    dest: /etc/ssh/sshd_config
+  become: true
+  notify:
+    - Restart service ssh
 
 - name: Install FPM
-  become: yes
-  gem: name=fpm
-       user_install=no
-       state=present
+  become: true
+  gem:
+    name: fpm
+    user_install: false
+    state: present
 
-- name: Cloning the ovs "{{ all_vars.ovs_version }}".
-  git:
-    repo: https://github.com/openvswitch/ovs.git
-    dest: "{{ GIT_HOME.path }}/ovs"
-    version: "{{ all_vars.ovs_version }}"
+- name: Check that ovs source code folder exists
+  stat:
+    path: "{{ GIT_HOME.path }}/ovs"
+  register: ovs_dest_stat
 
-- name: Uploading gtp backport patch to remote.
-  synchronize:
-    src: "{{ MAGMA_ROOT }}/{{ all_vars.gtp_patch_path }}/gtp-v4.9-backport/"
-    dest: "{{ GIT_HOME.path }}/ovs/flow-based-gtp-linux-v4.9"
+- name: Prepare the ovs source code
+  block:
+    - name: Cloning the ovs "{{ ovs_version }}".
+      git:
+        repo: https://github.com/openvswitch/ovs.git
+        dest: "{{ GIT_HOME.path }}/ovs"
+        version: "{{ ovs_version }}"
 
-- name: Uploading gtp patches to remote.
-  synchronize:
-    src: "{{ MAGMA_ROOT }}/{{ all_vars.gtp_patch_path }}/{{ all_vars.ovs_version_short }}/"
-    dest: "{{ GIT_HOME.path }}/ovs/"
-  with_items:
-    - "{{ all_vars.patches }}"
+    - name: Uploading gtp backport patch to remote.
+      synchronize:
+        src: "{{ MAGMA_ROOT }}/{{ gtp_patch_path }}/gtp-v4.9-backport/"
+        dest: "{{ GIT_HOME.path }}/ovs/flow-based-gtp-linux-v4.9"
 
-- name: Patch ovs
-  command: git apply "{{ item }}"
-  args:
-    chdir: "{{ GIT_HOME.path }}/ovs"
-  with_items:
-      - "{{ all_vars.patches }}"
+    - name: Uploading gtp patches to remote.
+      synchronize:
+        src: "{{ MAGMA_ROOT }}/{{ gtp_patch_path }}/{{ ovs_version_short }}/"
+        dest: "{{ GIT_HOME.path }}/ovs/"
+      with_items: "{{ patches }}"
 
-- name: Cherry pick vlan patch
-  command: bash -c 'git show "{{ all_vars.vlan_fix_hash }}" | git apply -3 -'
-  args:
-    chdir: "{{ GIT_HOME.path }}/ovs"
+    - name: Patch ovs
+      command: git apply "{{ item }}"  # noqa 303
+      args:
+        chdir: "{{ GIT_HOME.path }}/ovs"
+      with_items: "{{ patches }}"
+
+    - name: Cherry pick vlan patch
+      shell: |
+        set -o pipefail
+        git show "{{ vlan_fix_hash }}" | git apply -3 -
+      args:
+        executable: /bin/bash
+        chdir: "{{ GIT_HOME.path }}/ovs"
+  when: not ovs_dest_stat.stat.exists
+
+- name: Check that ovs depcomp file exists
+  stat:
+    path: "{{ GIT_HOME.path }}/ovs/build-aux/depcomp"
+  register: ovs_depcomp
 
 - name: Execute the boot.sh script.
-  command: sh boot.sh
+  command: sh boot.sh  # noqa 301
   args:
     chdir: "{{ GIT_HOME.path }}/ovs"
+  when: not ovs_depcomp.stat.exists
