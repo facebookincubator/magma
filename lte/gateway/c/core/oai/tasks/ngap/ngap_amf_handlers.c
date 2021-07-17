@@ -167,7 +167,7 @@ status_code_e ngap_amf_handle_message(
         "[SCTP %d] Either procedureCode %d or direction %d exceed expected\n",
         assoc_id, (int) pdu->choice.initiatingMessage.procedureCode,
         (int) pdu->present);
-    return -1;
+    return RETURNerror;
   }
 
   ngap_message_handler_t handler =
@@ -180,7 +180,7 @@ status_code_e ngap_amf_handle_message(
         LOG_NGAP, "[SCTP %d] No handler for procedureCode %d in %s\n", assoc_id,
         (int) pdu->choice.initiatingMessage.procedureCode,
         ngap_direction2str(pdu->present));
-    return -2;
+    return RETURNerror;
   }
 
   return handler(state, assoc_id, stream, pdu);
@@ -215,10 +215,10 @@ status_code_e ngap_amf_set_cause(
       break;
 
     default:
-      return -1;
+      return RETURNerror;
   }
 
-  return 0;
+  return RETURNok;
 }
 
 //------------------------------------------------------------------------------

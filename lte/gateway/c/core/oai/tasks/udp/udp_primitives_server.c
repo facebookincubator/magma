@@ -195,7 +195,7 @@ static int udp_socket_handler(zloop_t* loop, zmq_pollitem_t* item, void* arg) {
 }
 
 //------------------------------------------------------------------------------
-static int udp_server_create_socket_v4(
+static status_or_int_t udp_server_create_socket_v4(
     uint16_t port, struct in_addr* address, task_id_t task_id) {
   struct sockaddr_in addr;
   int sd;
@@ -211,7 +211,7 @@ static int udp_server_create_socket_v4(
      */
     OAILOG_ERROR(
         LOG_UDP, "IPv4 socket creation failed (%s)\n", strerror(errno));
-    return sd;
+    return (struct status_or_int_t){RETURNerror, 0};
   }
 
   memset(&addr, 0, sizeof(struct sockaddr_in));
@@ -235,7 +235,7 @@ static int udp_server_create_socket_v4(
         "Socket bind failed (%s) for IPv4 address %s and port %" PRIu16 "\n",
         strerror(errno), ipv4, port);
     close(sd);
-    return -1;
+    return (struct status_or_int_t){RETURNerror, 0};
   }
   struct sockaddr_in addr_check;
   socklen_t len = sizeof(addr_check);
@@ -255,7 +255,7 @@ static int udp_server_create_socket_v4(
         LOG_UDP, "fcntl F_SETFL O_NONBLOCK failed for IPv4: %s\n",
         strerror(errno));
     close(sd);
-    return -1;
+    return (struct status_or_int_t){RETURNerror, 0};
   }
 
   socket_desc_p = calloc(1, sizeof(struct udp_socket_desc_s));
@@ -275,11 +275,11 @@ static int udp_server_create_socket_v4(
   zmq_pollitem_t item = {0, sd, ZMQ_POLLIN, 0};
   zloop_poller(udp_task_zmq_ctx.event_loop, &item, udp_socket_handler, NULL);
 
-  return sd;
+  return (struct status_or_int_t){RETURNok, sd};
 }
 
 //------------------------------------------------------------------------------
-static int udp_server_create_socket_v6(
+static status_or_int_t udp_server_create_socket_v6(
     uint16_t port, struct in6_addr* address, task_id_t task_id) {
   struct sockaddr_in6 addr;
   int sd;
@@ -294,7 +294,7 @@ static int udp_server_create_socket_v6(
      */
     OAILOG_ERROR(
         LOG_UDP, "IPv6 socket creation failed (%s)\n", strerror(errno));
-    return sd;
+    return (struct status_or_int_t){RETURNerror, sd};
   }
 
   memset(&addr, 0, sizeof(struct sockaddr_in6));
@@ -316,7 +316,7 @@ static int udp_server_create_socket_v6(
     //    OAILOG_ERROR (LOG_UDP, "Socket bind failed (%s) for address %s and
     //    port %" PRIu16 "\n", strerror (errno), ipv4, port);
     close(sd);
-    return -1;
+    return (struct status_or_int_t){RETURNerror, 0};
   }
   struct sockaddr_in addr_check;
   socklen_t len = sizeof(addr_check);
@@ -335,7 +335,7 @@ static int udp_server_create_socket_v6(
     OAILOG_ERROR(
         LOG_UDP, "fcntl F_SETFL O_NONBLOCK failed: %s\n", strerror(errno));
     close(sd);
-    return -1;
+    return (struct status_or_int_t){RETURNerror, 0};
   }
 
   socket_desc_p = calloc(1, sizeof(struct udp_socket_desc_s));
@@ -357,7 +357,7 @@ static int udp_server_create_socket_v6(
   zmq_pollitem_t item = {0, sd, ZMQ_POLLIN, 0};
   zloop_poller(udp_task_zmq_ctx.event_loop, &item, udp_socket_handler, NULL);
 
-  return sd;
+  return (struct status_or_int_t){RETURNok, sd};
 }
 
 static int handle_message(zloop_t* loop, zsock_t* reader, void* arg) {
@@ -514,17 +514,17 @@ static void* udp_thread(void* args) {
 }
 
 //------------------------------------------------------------------------------
-int udp_init(void) {
+status_code_e udp_init(void) {
   OAILOG_DEBUG(LOG_UDP, "Initializing UDP task interface\n");
   STAILQ_INIT(&udp_socket_list);
 
   if (itti_create_task(TASK_UDP, &udp_thread, NULL) < 0) {
     OAILOG_ERROR(LOG_UDP, "udp pthread_create (%s)\n", strerror(errno));
-    return -1;
+    return RETURNerror;
   }
 
   OAILOG_DEBUG(LOG_UDP, "Initializing UDP task interface: DONE\n");
-  return 0;
+  return RETURNok;
 }
 
 //------------------------------------------------------------------------------
