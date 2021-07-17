@@ -236,6 +236,12 @@ function EnodebManagedRanConfig({
     ],
     [
       {
+        category: 'MME IP',
+        value: enbInfo.enb.enodeb_config?.managed_config?.mme_ip ?? '-',
+      },
+    ],
+    [
+      {
         category: 'Transmit',
         value: enbInfo.enb.enodeb_config?.managed_config?.transmit_enabled
           ? 'Enabled'
