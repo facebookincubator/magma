@@ -238,6 +238,28 @@ def _get_congestion_control_config(service_mconfig):
     return True
 
 
+def _get_converged_core_config(service_mconfig):
+    """
+    Retrieves enable_converged_core config value, it it does not exist
+    it defaults to True.
+    Args:
+        service_mconfig:
+
+    Returns: converged core flag
+    """
+    enable_converged_core = get_service_config_value(
+        'mme', 'enable_converged_core', None,
+    )
+
+    if enable_converged_core is not None:
+        return enable_converged_core
+
+    if service_mconfig.enable_converged_core is not None:
+        return service_mconfig.enable_converged_core
+
+    return True
+
+
 def _get_context():
     """
     Create the context which has the interface IP and the OAI log level to use.
@@ -282,6 +304,7 @@ def _get_context():
             mme_service_config,
         ),
         "service_area_map": _get_service_area_maps(mme_service_config),
+        "enable_converged_core": _get_converged_core_config(mme_service_config),
     }
 
     context["s1u_ip"] = mme_service_config.ipv4_sgw_s1u_addr or _get_iface_ip(

@@ -8546,6 +8546,11 @@ definitions:
         maxLength: 45
         minLength: 5
         type: string
+      enable_converged_core:
+        default: true
+        description: True if 5G Standalone(SA) should be enable
+        example: true
+        type: boolean
       ip_block:
         example: 192.168.128.0/24
         maxLength: 49
@@ -9933,6 +9938,11 @@ definitions:
       default_rule_id:
         example: default_rule_1
         type: string
+      enable_converged_core:
+        default: true
+        description: True if 5G Standalone(SA) should be enable
+        example: true
+        type: boolean
       gx_gy_relay_enabled:
         example: false
         type: boolean

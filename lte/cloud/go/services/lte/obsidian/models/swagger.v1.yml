@@ -1754,6 +1754,11 @@ definitions:
       cloud_subscriberdb_enabled:
         type: boolean
         example: false
+      enable_converged_core:
+        description: True if 5G Standalone(SA) should be enable
+        type: boolean
+        example: true
+        default: true
       congestion_control_enabled:
         description: Network configuration flag for congestion control on EPC
         type: boolean
@@ -1956,6 +1961,11 @@ definitions:
       nat_enabled:
         type: boolean
         example: true
+      enable_converged_core:
+        description: True if 5G Standalone(SA) should be enable
+        type: boolean
+        example: true
+        default: true
       ip_block:
         type: string
         minLength: 5
