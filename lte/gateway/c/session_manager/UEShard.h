@@ -10,21 +10,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <stdint.h>
-#include <atomic>
-#include <memory>
-#include "LocalEnforcer.h"
+
+#include <string>
+#include <utility>
+#include <vector>
+#include <map>
+
 namespace magma {
 
-class StatsPoller {
- public:
-  /**
-   * start_loop is the main function to call to initiate a loop. Based
-   * on the given loop interval length, this function will poll stats from
-   * Pipelined every loop_interval_seconds
-   */
-  void start_loop(
-      std::shared_ptr<LocalEnforcer> local_enforcer,
-      uint32_t loop_interval_seconds);
+// Shards represent groups of UEs placed into buckets of
+// a certain size, to make polling more manageable
+class UEShard {
+  UEShard();
+
+  // add UE to shards based on availability
+  int add_ue();
+
+  // remove UE from shard
+  void remove_ue(int shard_id);
+
+ private:
+  std::vector<int> shards;
+  int max_shard_size;
+  int number_of_shards;
 };
+
 }  // namespace magma
