@@ -134,6 +134,8 @@ void convert_proto_msg_to_itti_s6a_update_location_ans(
     itti_msg->subscription_data.access_mode = NAM_ONLY_PACKET;
   }
 
+  itti_msg->supported_features.nr_as_secondary_rat =
+      msg.feature_list_id_2().nr_as_secondary_rat();
   // Regional subscription zone codes
   itti_msg->subscription_data.num_zcs =
       ((msg.regional_subscription_zone_code_size() > MAX_REGIONAL_SUB) ?
@@ -207,6 +209,7 @@ void convert_proto_msg_to_itti_s6a_update_location_ans(
         (pre_emption_capability_t) apn.qos_profile().preemption_capability();
 
     // apn ambr
+
     itti_msg_apn->ambr.br_ul   = apn.ambr().max_bandwidth_ul();
     itti_msg_apn->ambr.br_dl   = apn.ambr().max_bandwidth_dl();
     itti_msg_apn->ambr.br_unit = (apn_ambr_bitrate_unit_t) apn.ambr().unit();

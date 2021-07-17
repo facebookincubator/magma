@@ -88,6 +88,20 @@ status_code_e decode_eps_quality_of_service(
     epsqualityofservice->bitRatesExtPresent = 0;
   }
 
+  if (ielen > 10 + (iei > 0) ? 1 : 0) {
+    /*
+     * bitRatesExt2 is present
+     */
+    epsqualityofservice->bitRatesExt2Present = 1;
+    decoded += decode_eps_qos_bit_rates(
+        &epsqualityofservice->bitRatesExt2, buffer + decoded);
+  } else {
+    /*
+     * bitRatesExt2 is not present
+     */
+    epsqualityofservice->bitRatesExt2Present = 0;
+  }
+
   return decoded;
 }
 
@@ -140,11 +154,16 @@ status_code_e encode_eps_quality_of_service(
         &epsqualityofservice->bitRatesExt, buffer + encoded);
   }
 
+  if (epsqualityofservice->bitRatesExt2Present) {
+    encoded += encode_eps_qos_bit_rates(
+        &epsqualityofservice->bitRatesExt2, buffer + encoded);
+  }
+
   *lenPtr = encoded - 1 - ((iei > 0) ? 1 : 0);
   return encoded;
 }
 
-#define EPS_QOS_BIT_RATE_MAX 262144  // 256 Mbps
+#define EPS_QOS_BIT_RATE_MAX 10240000  // 10 Gbps
 //------------------------------------------------------------------------------
 status_code_e eps_qos_bit_rate_value(uint8_t br) {
   if (br < 0b00000001) {
@@ -168,6 +187,19 @@ status_code_e eps_qos_bit_rate_ext_value(uint8_t br) {
     return (16384 + (br - 0b01001010) * 1024);
   } else if ((br > 0b10111010) && (br < 0b11111011)) {
     return (131072 + (br - 0b10111010) * 2048);
+  } else {
+    return (-1);
+  }
+}
+
+//------------------------------------------------------------------------------
+status_code_e eps_qos_bit_rate_ext2_value(uint8_t br) {
+  if ((br > 0b00000000) && (br < 0b00111110)) {
+    return (262144 + br * 4096);
+  } else if ((br > 0b00111101) && (br < 0b10100010)) {
+    return (512000 + (br - 0b00111101) * 10240);
+  } else if ((br > 0b10100001) && (br < 0b11110111)) {
+    return (1536000 + (br - 0b10111010) * 102400);
   } else {
     return (-1);
   }
@@ -208,7 +240,21 @@ status_code_e qos_params_to_eps_qos(
           eps_qos->bitRatesExt.maxBitRateForUL =
               ((mbr_ul_kbps - 128000) / 2000) + 186;
         }
+      } else if (mbr_ul_kbps > 256000) {
+        eps_qos->bitRates.maxBitRateForUL    = 0xfe;
+        eps_qos->bitRatesExt.maxBitRateForUL = 0xfa;
+        eps_qos->bitRatesExt2Present         = 1;
+        if ((mbr_ul_kbps >= 260000) && (mbr_ul_kbps <= 500000)) {
+          eps_qos->bitRatesExt2.maxBitRateForUL = (mbr_ul_kbps - 256000) / 4000;
+        } else if ((mbr_ul_kbps > 510000) && (mbr_ul_kbps <= 1500000)) {
+          eps_qos->bitRatesExt2.maxBitRateForUL =
+              ((mbr_ul_kbps - 150000) / 10000) + 61;
+        } else if ((mbr_ul_kbps > 1600000) && (mbr_ul_kbps <= 10000000)) {
+          eps_qos->bitRatesExt2.maxBitRateForUL =
+              ((mbr_ul_kbps - 1500000) / 100000) + 161;
+        }
       }
+
       if (mbr_dl_kbps == 0) {
         eps_qos->bitRates.maxBitRateForDL = 0xff;
       } else if ((mbr_dl_kbps > 0) && (mbr_dl_kbps <= 63)) {
@@ -229,7 +275,27 @@ status_code_e qos_params_to_eps_qos(
           eps_qos->bitRatesExt.maxBitRateForDL =
               ((mbr_dl_kbps - 128000) / 2000) + 186;
         }
+      } else if (mbr_dl_kbps > 256000) {
+        eps_qos->bitRates.maxBitRateForDL    = 0xfe;
+        eps_qos->bitRatesExt.maxBitRateForDL = 0xfa;
+        eps_qos->bitRatesExt2Present         = 1;
+        if ((mbr_dl_kbps >= 260000) && (mbr_dl_kbps <= 500000)) {
+          eps_qos->bitRatesExt2.maxBitRateForDL = (mbr_dl_kbps - 256000) / 4000;
+          OAILOG_DEBUG(
+              LOG_NAS_EMM, "EPS QoS AMBR extended2 value for %d\n",
+              mbr_dl_kbps);
+          OAILOG_DEBUG(
+              LOG_NAS_EMM, "EPS QoS AMBR extended2 value9 for %d\n",
+              eps_qos->bitRatesExt2.maxBitRateForDL);
+        } else if ((mbr_dl_kbps > 510000) && (mbr_dl_kbps <= 1500000)) {
+          eps_qos->bitRatesExt2.maxBitRateForDL =
+              ((mbr_dl_kbps - 150000) / 10000) + 61;
+        } else if ((mbr_dl_kbps > 1600000) && (mbr_dl_kbps <= 10000000)) {
+          eps_qos->bitRatesExt2.maxBitRateForDL =
+              ((mbr_dl_kbps - 1500000) / 100000) + 161;
+        }
       }
+
       if (gbr_ul_kbps == 0) {
         eps_qos->bitRates.guarBitRateForUL = 0xff;
       } else if ((gbr_ul_kbps > 0) && (gbr_ul_kbps <= 63)) {
