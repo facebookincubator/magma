@@ -1121,7 +1121,7 @@ jobs:
 
   lte-test:
     machine:
-      image: ubuntu-1604:201903-01
+      image: ubuntu-2004:202104-01
     environment:
       MAGMA_ROOT: /home/circleci/project
       PYTHON_BUILD: ${MAGMA_ROOT}/build
@@ -1132,7 +1132,9 @@ jobs:
       SWAGGER_CODEGEN_JAR: /home/circleci/project/.codegen/swagger-codegen-cli.jar
     steps:
       - checkout
-      - python/set_version
+      - run: pyenv install 3.8.5
+      - python/set_version:
+          python_version: "3.8.5"
       - build/determinator:
           <<: *lte_build_verify
       - run: mkdir -p /var/tmp/test_results
