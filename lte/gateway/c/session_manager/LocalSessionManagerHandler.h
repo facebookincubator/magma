@@ -39,7 +39,9 @@ struct SessionActionOrStatus {
   // if this value is set, we should respond back to access immediately
   optional<grpc::Status> status_back_to_access;
   SessionActionOrStatus()
-      : create_new_session(false), end_existing_session(false) {}
+      : create_new_session(false),
+        end_existing_session(false),
+        status_back_to_access({}) {}
   static SessionActionOrStatus create_new_session_action(
       const std::string session_id) {
     SessionActionOrStatus action;
@@ -302,6 +304,10 @@ class LocalSessionManagerHandlerImpl : public LocalSessionManagerHandler {
    * @return status::OK if SessionD is ready to accept requests
    */
   grpc::Status check_sessiond_is_ready();
+
+  bool initialize_session(
+      SessionMap& session_map, const std::string& session_id,
+      const SessionConfig& cfg);
 };
 
 }  // namespace magma
