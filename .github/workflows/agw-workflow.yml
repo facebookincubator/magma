@@ -1,0 +1,77 @@
+---
+name: agw-workflow
+
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches:
+      - master
+    paths:
+      - 'orc8r/**'
+      - 'lte/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'orc8r/**'
+      - 'lte/**'
+jobs:
+  lte-test:
+    runs-on: ubuntu-latest
+    env:
+      MAGMA_ROOT: "${{ github.workspace }}"
+      PYTHON_BUILD: "${MAGMA_ROOT}/build"
+      PIP_CACHE_HOME: "${MAGMA_ROOT}/.pipcache"
+      MAGMA_DEV_MODE: 1
+      SKIP_SUDO_TESTS: 1
+      CODEGEN_ROOT: "${MAGMA_ROOT}/.codegen"
+      SWAGGER_CODEGEN_JAR: "${MAGMA_ROOT}/.codegen/swagger-codegen-cli.jar"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.6'
+      - name: Install libraries
+        run: |
+            mkdir -p /var/tmp/test_results
+            sudo apt-get update -y
+            sudo apt-get install -y libsystemd-dev pkg-config curl zip unzip
+            sudo apt-get install -y virtualenv python-babel python-dev build-essential python3-setuptools python-setuptools autogen autoconf libtool python3-apt python3-requests python3-pip python-protobuf
+            sudo curl -Lfs https://github.com/google/protobuf/releases/download/v3.1.0/protoc-3.1.0-linux-x86_64.zip -o protoc3.zip
+            sudo unzip protoc3.zip -d protoc3
+            sudo mv protoc3/bin/protoc /bin/protoc
+            sudo chmod a+rx /bin/protoc
+            sudo mv protoc3/include/google /usr/include/
+            sudo chmod -R a+Xr /usr/include/google
+            sudo rm -rf protoc3.zip protoc3
+            sudo mkdir ${CODEGEN_ROOT}
+            sudo wget https://repo1.maven.org/maven2/io/swagger/swagger-codegen-cli/2.2.3/swagger-codegen-cli-2.2.3.jar -O $SWAGGER_CODEGEN_JAR
+            sudo chmod -R 755 $CODEGEN_ROOT
+      - name: Run test_all
+        run: |
+            sudo make -C $MAGMA_ROOT/lte/gateway/python test_all
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: /var/tmp/test_results
+      # Notify ci channel when failing
+      # Plugin info: https://github.com/marketplace/actions/slack-notify
+      - name: Notify failure to slack
+        if: failure() && github.ref == 'refs/heads/master'
+        uses: rtCamp/action-slack-notify@v2.0.2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_CI }}
+          SLACK_TITLE: "Github action lte-test update failed"
+          SLACK_USERNAME: "AGW workflow"
+          SLACK_ICON_EMOJI: ":boom:"
+          SLACK_COLOR: "#FF0000"
+      # Notify ci channel when push succeeds
+      - name: Notify success to slack
+        if: success() && github.ref == 'refs/heads/master'
+        uses: rtCamp/action-slack-notify@v2.0.2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_CI }}
+          SLACK_TITLE: "Github action lte-test succeed"
+          SLACK_USERNAME: "AGW workflow"
+          SLACK_ICON_EMOJI: ":heavy_check_mark:"
+          SLACK_COLOR: "#FF0000"
